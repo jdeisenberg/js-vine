@@ -3,6 +3,7 @@
 	to be pre-loaded.
 */
 var preload = [
+  "hills1.jpg", "hills2.jpg",
   "amazed1.png", "amazed2.png",
   "cool1.png", "cool2.png",
   "hand_waving1.png", "hand_waving2.png",
