@@ -16,3 +16,6 @@ Although the engine was inspired by Ren'py, it is not a copy. Just as
 Ren'py is written in Python and “plays well” with that language, this
 engine was written to work in an HTML/CSS/JavaScript environment, and its
 notation is closely linked to that environment. 
+
+[0] http://www.renpy.org/
+[1] http://www.sofastatistics.com/
