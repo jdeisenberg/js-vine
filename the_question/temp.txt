@@ -1,0 +1,16 @@
+<body onload="initNovel(800, 600);">
+<div id="novelDiv" onclick="playNovel()">
+	<div style="position: absolute;
+		left:0; top: 0; z-index:-1">
+		<img id="background0" src="images/empty.png">
+	</div>
+	<div style="position: absolute;
+		left:0; top: 0; z-index:-1">
+		<img id="background1" src="images/empty.png">
+	</div>
+	<div id="dialogDiv" onclick="playNovel()" style="z-index:100">
+	</div>
+</div>
+<div style="text-align:center; margin-top: 0.5em;"><input type="button"
+	value="Back to Beginning" onclick="clearTableau(); initNovel(800, 450)"/></div>
+

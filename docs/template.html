@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;
+       charset=utf-8" />
+<title>Visual Novel Template</title>
+<style type="text/css">
+body {
+	text-align: center;
+}
+
+#novelDiv {
+	width: 800px;
+	height: 450px;
+	border: 1px solid black;
+	border-bottom: none;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	text-align: center;
+}
+
+#dialogDiv {
+	font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
+	font-size: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 790px;
+	height: 140px;
+	padding: 5px;
+	border: 1px solid black;
+	border-top: none;
+	background-color: #3d372c;
+	color: white;
+	text-align: left;
+}
+
+.menuItem {
+	width: 75%;
+	margin: 0.5em auto;
+	padding: 0.5em 3em;
+	background-color: #0050a0;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	text-align: center;
+	color: white;
+	font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
+	font-size: 18px;
+	
+}
+
+.menuItem:hover {
+	background-color: #00a0ff;
+}
+</style>
+
+<script type="text/javascript" src="../visual_novel.js"></script>
+<script type="text/javascript" src="template.js"></script>
+</head>
+
+<body onload="initNovel(800, 450);">
+
+<div id="novelDiv" onclick="playNovel()">
+	<div style="position: absolute;
+	left:0; top: 0; z-index:-1">
+		<img id="background" src="images/empty.png">
+	</div>
+</div>
+<div id="dialogDiv" onclick="playNovel()"></div>
+
+<p style="text-align:center">
+	<input type="button" value="Restart the Novel"
+		onclick="initNovel(800, 450)"/>
+</p>
+
+</body>
+</html>

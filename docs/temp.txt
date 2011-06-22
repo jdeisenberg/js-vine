@@ -1,0 +1,7 @@
+<span class="line"> 1</span>	label, "wild",
+<span class="line"> 2</span>	scene, "hills2.jpg",
+<span class="line"> 3</span>	tyler, {position: leftSide},
+<span class="line"> 4</span>	gavin, {position: rightSide},
+<span class="line"> 5</span>	photo, {image: "coyote.jpg", position: upperCenter},
+<span class="line"> 6</span>	gavin, "There&amp;rsquo;s a reason this area is called Coyote Valley.",
+<span class="line"> 7</span>

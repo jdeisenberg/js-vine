@@ -1,0 +1,307 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;
+       charset=utf-8" />
+<style type="text/css">
+body {
+	text-align: center;
+}
+#novelDiv {
+	width: 800px;
+	height: 600px;
+	border: 1px solid black;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	text-align: center;
+}
+
+.menuItem {
+	width: 75%;
+	margin: 0.5em auto;
+	padding: 0.5em 3em;
+	background-color: #0050a0;
+	position: relative;
+	text-align: center;
+	color: white;
+	font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
+	font-size: 18px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+}
+
+div.menuItem:hover {
+	background-color: #00a0ff;
+}
+
+#dialogDiv {
+	font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
+	font-size: 20px;
+	position: absolute;
+	width: 790px;
+	height: 140px;
+	background-color: #3d372c;
+	color: white;
+	top: 450px;
+	left: 0;
+	padding: 5px;
+	text-align: left;
+	filter: alpha(opacity=75);
+	opacity: 0.75;
+}
+
+</style>
+
+<script type="text/javascript" src="../js-vine.js"></script>
+<script type="text/javascript">
+// <![CDATA[
+imgPath = "images/";
+audioPath = "audio/";
+
+var preload = [
+"sylvie_normal.png",
+"sylvie_giggle.png",
+"sylvie_smile.png",
+"sylvie_surprised.png",
+"sylvie2_normal.png",
+"sylvie2_giggle.png",
+"sylvie2_smile.png",
+"sylvie2_surprised.png"
+];
+
+var preloadObj = new Array(preload.length);
+for (var i = 0; i < preload.length; i++)
+{
+	preloadObj[i] = new Image();
+	preloadObj[i].src = imgPath + preload[i];
+}
+
+var s;
+var m;
+var narrator;
+var diagram;
+var male;
+var female;
+var textArea;
+var leftSide;
+var rightSide;
+var nearTop;
+var center;
+var textCenter;
+var textTop;
+var bigFont;
+var script;
+
+function prepareNovel()
+{
+	novel.imagePath = "images/";
+	novel.audioPath = "audio/";
+	s = new Character('Eileen', {color: "#c8ffc8"});
+	m = new Character('Me', {color: "#c8c8ff"});
+	narrator = new Character('');
+	center = new Position(0.5, 0, 0.5, 0);
+
+	script = [
+
+	label, "start",
+	clearTableau, "",
+	showDialog, "visible",
+	audio, "illurock.ogg",
+	scene, "lecturehall.jpg",
+    narrator, "Well, the professor&rsquo;s lecture was interesting.",
+    narrator, "But to be honest, I couldn&rsquo;t concentrate on it very much.",
+    narrator, "I had a lot of other thoughts on my mind.",
+    narrator, "And they all ended up with a question; a question I&rsquo;ve been meaning to ask someone.",
+
+	scene, {image: "uni.jpg", effect: "dissolve"},
+	narrator, "When we came out of the university, I saw her.",
+
+	s, {image: "sylvie_normal.png", position: center},
+    narrator, "She was a wonderful person.",
+    narrator, "I&rsquo;ve known her ever since we were children, and she&rsquo;s always been a good friend.",
+    narrator, "But recently, I think...",
+    narrator, "... that I wanted more.",
+    narrator, "More than just talking... more than just walking home together when our classes ended.",
+    narrator, "And I decided...",
+
+	label, "choice1",
+	menu, [
+		"",
+		"...to ask her right away.", [jump, "rightaway"],
+		"...to ask her later.", [jump, "later"]
+	],
+
+	label, "rightaway",
+	scene, "uni.jpg",
+	s, {image: "sylvie_smile.png", position: center},
+	s, "Oh, hi, do we walk home together?",
+	m, "Yes...",
+	narrator, "I said and my voice was already shaking.",
+
+	scene, {image: "meadow.jpg", effect: "dissolve"},
+	narrator, "We reached the meadows just outside our hometown.",
+    narrator, "Autumn was so beautiful here.",
+    narrator, "When we were children, we often played here.",
+    m, "Hey... ummm...",
+	s, {image: "sylvie_smile.png"},
+    narrator, "She turned to me and smiled.",
+    narrator, "I&rsquo;ll ask her...",
+    m, "Ummm... will you...",
+    m, "Will you be my artist for a visual novel?",
+
+	s, {image: "sylvie_surprised.png"},
+    narrator, "Silence.",
+    narrator, "She is shocked. And then...",
+
+ 	s, {image: "sylvie_smile.png"},
+
+    s, "Sure, but what is a \"visual novel?\"",
+
+	label, "choice2",
+	menu, [ "",
+		"It&rsquo;s a story with pictures.", [jump, "vn"],
+         "It&rsquo;s a hentai game.", [jump, "hentai"]
+	],
+
+	label, "vn",
+
+    m, "It&rsquo;s a story with pictures and music.",
+    m, "And you&rsquo;ll be able to make choices that influence the outcome of the story.",
+    s, "So it&rsquo;s like those choose-your-adventure books?",
+    m, "Exactly! I plan on making a small romantic story.",
+    m, "And I figured you could help me... since I know how you like to draw.",
+
+    s, {image: "sylvie_normal.png"},
+
+    s, "Well, I can try. I hope I don&rsquo;t disappoint you.",
+    m, "You can&rsquo;t disappoint me, you know that.",
+	jump, "marry",
+
+	label, "hentai",
+
+    setVars, "novel.userVar.bl_game = true",
+
+    m, "Why it&rsquo;s a game with lots of sex.",
+    s, "You mean, like a boy&rsquo;s love game?",
+    s, "I&rsquo;ve always wanted to make one of those.",
+    s, "I&rsquo;ll get right on it!",
+
+	s, {visibility: "hidden"},
+	narrator, "...",
+	m, "That wasn&rsquo;t what I meant!",
+
+    jump, "marry",
+
+	label, "marry",
+	scene, {image: "black.png", effect: "dissolve"},
+    narrator, "--- years later ---",
+	scene, {image: "club.jpg", effect: "dissolve"},
+    narrator, "And so, we became a visual novel creating team.",
+    narrator, "We made games and had a lot of fun making them.",
+
+    ifStatement, {condition: "novel.userVar.bl_game == true",
+		ifPart: [
+        narrator, "Well, apart from that Boy&rsquo;s Love game she insisted on making."]
+	},
+
+	narrator, "And one day...",
+
+    s, {image: "sylvie2_normal.png", position: center, visibility: "visible"},
+
+    s, "Hey..."    ,
+    m, "Yes?",
+
+    s, {image: "sylvie2_giggle.png"},
+
+    s, "Marry me!",
+    m, "What???",
+
+    s, {image: "sylvie2_surprised.png"},
+
+    s, "Well, don&rsquo;t you love me?",
+    m, "I do, actually.",
+
+    s, {image: "sylvie2_smile.png"},
+
+    s, "See? We&rsquo;ve been making romantic visual novels, spending time together, helping each other....",
+    s, "... and when you give love to others, love will come to you.",
+    m, "Hmmm, that&rsquo;s a nice thought.",
+
+    s, {image: "sylvie2_giggle.png"},
+
+    s, "I just made that up.",
+    m, "But it&rsquo;s good.",
+
+    s, {image: "sylvie2_normal.png"},
+
+	s, "I know. So, will you marry me?",
+    m, "Ummm, of course I will. I&rsquo;ve actually been meaning to ask you, but since you brought it up...",
+    s, "I know, but you are so indecisive, that I thought I&rsquo;d take the initiative. ",
+    m, "I guess... It&rsquo;s all about asking the right question... at the right time.",
+
+    s, {image: "sylvie2_giggle.png"},
+
+    s, "It is. But now, stop being theoretical, and give me a kiss!",
+
+    scene, {image: "black.png", effect: "dissolve"},
+
+    narrator, "And we got married shortly after that.",
+    narrator, "In fact, we made many more visual novels.",
+    narrator, "And together, we lived happily ever after.",
+
+    narrator, ".:. Good Ending.",
+
+	jump, "the_end",
+
+	label, "later",
+
+    scene, {image: "black.png", effect: "dissolve"},
+
+    narrator, "And so I decided to ask her later.",
+    narrator, "But I was indecisive.",
+    narrator, "I couldn&rsquo;t ask her that day, and I couldn&rsquo;t ask her later.",
+    narrator, "I guess I will never know now.",
+
+    narrator, ".:. Bad Ending.",
+
+	label, "the_end",
+	scene, "menu.jpg",
+	showDialog, "hidden",
+	menu, [
+		"You may close the window, or start over again.",
+		"Replay the story", [jump, "start"]
+	]
+	];
+}
+// ]]>
+</script>
+</head>
+<body onload="initNovel(800, 600);">
+<div id="debug"></div>
+<div id="novelDiv" onclick="playNovel()">
+	<div style="position: absolute;
+		left:0; top: 0; z-index:-1">
+		<img id="background0" src="images/empty.png">
+	</div>
+	<div style="position: absolute;
+		left:0; top: 0; z-index:-1">
+		<img id="background1" src="images/empty.png">
+	</div>
+	<div id="dialogDiv" onclick="playNovel()" style="z-index:100">
+	</div>
+</div>
+
+<div style="text-align:center; margin-top: 0.5em;"><input type="button"
+	value="Back to Beginning" onclick="clearTableau(); initNovel(800, 450)"/></div>
+
+<div style="font-size: small">
+&#8220;The Question,&#8221; a visual novel that comes with the
+<a href="http://renpy.org/">Ren'py</a> Visual Novel engine, was the
+source for the images and script. Adapted to Javascript by J David
+Eisenberg.
+</div>
+
+</body>
+</html>

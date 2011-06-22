@@ -1,0 +1,18 @@
+In March of 2010, I wrote a visual novel (VN) to explain hypothesis
+testing to my Psychology Research Methods class. I used the Ren'py [0]
+visual novel engine, and it worked great. Grant Paton-Simpson, the
+author of SOFA - Statistics Open For All [1] liked the content, but said
+he would prefer if it were web-based instead of having to download
+an executable file.
+
+After some experimentation, I have come up with a visual novel engine
+written in JavaScript. It is not meant as a replacement for Ren'py,
+nor is it intended to do everything that Ren'py does. I have tried to
+make it general enough to do a variety of simple VNs, but my main purpose
+was to adapt a single visual novel to the web. If it serves your
+purposes too, that’s great.
+
+Although the engine was inspired by Ren'py, it is not a copy. Just as
+Ren'py is written in Python and “plays well” with that language, this
+engine was written to work in an HTML/CSS/JavaScript environment, and its
+notation is closely linked to that environment. 

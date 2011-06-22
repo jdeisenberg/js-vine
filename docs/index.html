@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;
+       charset=utf-8" />
+<title>JavaScript Visual Novel Engine Documentation</title>
+<style type="text/css">
+h1 {
+    font-size: 125%;
+}
+
+h2 {
+    font-size: 110%;
+}
+
+h3 {
+    font-size: 105%;
+}
+
+body {
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+dfn {
+    font-style: normal;
+    color: #006600;
+    font-weight: bold;
+}
+
+.lettered {
+    list-style-type: lower-alpha;
+}
+
+.insert {
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
+.bordered {
+    border: 1px solid gray;
+    padding: 0.25em 0.5em;
+}
+
+.line {
+    color: #999;
+}
+
+div.warning {
+	background-color: #ffc;
+	border-color: red;
+}
+
+span.warning {
+	color: #f00;
+}
+
+.cont {
+	color: #f00;
+}
+</style>
+</head>
+
+<body>
+<h1>JavaScript Visual Novel Engine</h1>
+
+<ol>
+<li><a href="#about">About the Engine</a></li>
+<li><a href="#bigPicture">The Big Picture</a></li>
+<li><a href="#htmlFile">The HTML file</a>
+    <ul class="lettered">
+        <li><a href="#body">Setting up the <code>&lt;body&gt;</code></a></li>
+        <li><a href="#styling">Styling the novel</a></li>
+    </ul>
+</li>
+<li><a href="#jsFile">The novel file</a>
+    <ul class="lettered">
+        <li><a href="#preload">Preloading Images</a></li>
+        <li><a href="#declare">Declaring Variables</a></li>
+        <li><a href="#prepare">Preparing the Novel</a></li>
+        <li><a href="#positions">Specifying Positions</a></li>
+		<li><a href="#theScript">The Script</a></li>
+		<li><a href="#menu">Choosing from a Menu</a></li>
+    </ul>
+</li>
+</ol>
+
+<h2><a id="about">About the Engine</a></h2>
+<p>
+In March of 2010, I wrote a 
+<a href="http://en.wikipedia.org/wiki/Visual_novel">visual novel</a> (VN) to
+explain hypothesis testing to my Psychology
+Research Methods class. I used the <a href="http://www.renpy.org/">Ren'py</a>
+visual novel engine, and it worked great.
+Grant Paton-Simpson, the author of
+<a href="http://sofastatistics.com/">SOFA - Statistics Open For All</a>
+liked the content, but said he would prefer if it were web-based instead of
+having to download an executable file.
+</p>
+
+<p>
+After some experimentation, I have come up with a visual novel engine written
+in JavaScript. It is not meant as a replacement for Ren'py, nor is it
+intended to do everything that Ren'py does. I have tried to make it general
+enough to do a variety of simple VNs, but my main purpose was to adapt
+a single visual novel to the web. If it serves your purposes too, that&#8217;s
+great.
+</p>
+
+<p>
+Although the engine was inspired by Ren'py, it is not a copy.
+Just as Ren'py is written in Python and &#8220;plays well&#8221; with that
+language, this engine was written to work in an HTML/CSS/JavaScript
+environment, and its notation is closely linked to that environment.
+</p>
+
+<h2><a id="bigPicture">The Big Picture</a></h2>
+<p>
+From a conceptual level, a visual novel takes place in two screen areas:
+the <dfn>tableau</dfn>, where all the images appear, and the
+<dfn>dialog area</dfn>, where the characters&#8217; speech appears. The
+novel is populated by <dfn>actors</dfn>, which can either be
+<dfn>characters</dfn> (people, animals, magical beings, etc.), <dfn>text blocks</dfn> (used to display text that
+isn&#8217;t someone&#8217;s speech in the tableau), or
+<dfn>menu items</dfn>, which let you take different paths through the
+novel.
+</p>
+
+<p>
+The novel has a <dfn>script</dfn> that lets you specify which characters
+appear at what times, what they say, and how the menu items let the reader
+take a path through the novel. This is not the same as your
+<code>&lt;script&gt;</code> element that lets you put JavaScript into
+your HTML file. Speaking of that, though, let&#8217;s look at:
+</p>
+
+<h2><a id="htmlFile">The HTML File</a></h2>
+<p>
+This tutorial will create a sample novel in file 
+<a href="exampleNovel.html"><samp>exampleNovel.html</samp></a>.
+It is not a particularly interesting
+visual novel (in fact, its plot line is non-existent); rather, it&#8217;s
+designed to be an example of, well, an example.
+</p>
+
+<p>
+In the <code>&lt;head&gt;</code> of your document, you must include
+the visual novel JavaScript file, with markup like this. In this example,
+the JavaScript is in the same directory as the HTML file. For this tutorial,
+all the images the novel uses will be placed in a subdirectory named
+<code>images</code>, and audio will be placed in a subdirectory named
+<code>audio</code>. There&#8217;s no law that says you must do this, but
+it&#8217;s a good idea to keep from having one directory with an
+unmanageable number of files in it.
+</p>
+
+<div class="inset bordered"><pre>&lt;script type="text/javascript" src="visual_novel.js"&gt;&lt;/script&gt;</pre></div>
+
+<p>You will also include a <code>&lt;script&gt;</code> element that
+refers to the JavaScript that describes your novel.
+For this example, the file will be named
+<samp>exampleNovel.js</samp>, and it will reside in the same directory as 
+the HTML file.
+</p>
+
+<div class="inset bordered"><pre>&lt;script type="text/javascript" src="exampleNovel.js"&gt;&lt;/script&gt;</pre></div>
+
+<h3><a id="body">Setting up the <code>&lt;body&gt;</code></h3>
+<p>
+In the <code>&lt;body&gt;</code> of the document, you set up the
+tableau and dialog areas, as well as an area for the background image
+of the tableau. Here is a sample setup. The line numbers at the left are
+for the explanation that follows; don&#8217;t enter them into your markup.
+</p>
+
+<div class="inset bordered">
+<pre><span class="line"> 1&nbsp;</span>&lt;body onload="initNovel(800, 600);"&gt;
+<span class="line"> 2&nbsp;</span>&lt;div id="novelDiv" onclick="playNovel()"&gt;
+<span class="line"> 3&nbsp;</span>    &lt;div style="position: absolute;
+<span class="line"> 4&nbsp;</span>        left:0; top: 0; z-index:-1"&gt;
+<span class="line"> 5&nbsp;</span>        &lt;img id="background0" src="images/empty.png"&gt;
+<span class="line"> 6&nbsp;</span>    &lt;/div&gt;
+<span class="line"> 7&nbsp;</span>    &lt;div style="position: absolute;
+<span class="line"> 8&nbsp;</span>        left:0; top: 0; z-index:-1"&gt;
+<span class="line"> 9&nbsp;</span>        &lt;img id="background1" src="images/empty.png"&gt;
+<span class="line">10&nbsp;</span>    &lt;/div&gt;
+<span class="line">11&nbsp;</span>    &lt;div id="dialogDiv" onclick="playNovel()" style="z-index:100"&gt;
+<span class="line">12&nbsp;</span>    &lt;/div&gt;
+<span class="line">13&nbsp;</span>&lt;/div&gt;
+<span class="line">14&nbsp;</span>&lt;div style="text-align:center; margin-top: 0.5em;"&gt;
+<span class="line">15&nbsp;</span>&lt;input type="button" value="Back to Beginning"
+<span class="line">16&nbsp;</span>    onclick="clearTableau(); initNovel(800, 450)"/&gt;
+<span class="line">17&nbsp;</span>&lt;/div&gt;</pre>
+</div>
+
+<dl>
+<dt>Line 1</dt>
+    <dd>When the document finishes loading, initialize the novel.
+    The numbers in the parentheses give the width and height of the
+    tableau in pixels. In this example, the tableau is 800 pixels wide
+    and 450 pixels high.</dd>
+<dt>Line 2</dt>
+    <dd>This is the tableau. Its <code>id</code> <em>must</em> be
+    <samp>"novelDiv"</samp>. The <code>onclick</code> attribute tells
+    the engine to proceed to the next stage in the novel whenever the
+    reader clicks in the tableau.</dd>
+<dt>Lines 3-4</dt>
+    <dd>In order to allow background images to fade in or out, you must
+    include this <code>&lt;div&gt;</code> The <code>position</code>,
+    <code>left</code>, and <code>top</code> make the background image appear
+    at the upper left of the tableau; the <code>z-index:&nbsp;-1</code>
+    ensures that the background image appears behind the characters.</dd>
+<dt>Line 5</dt>
+    <dd>The first background image must have an <code>id="background0"</code>.
+    In this case, the initial background is a totally transparent image.
+    </dd>
+<dt>Lines 7-10</dt>
+    <dd>The second backgound image; this is required in order to allow
+    a <dfn>dissolve</dfn>, where one image fades in as the other fades out.
+    </dd>
+<dt>Lines 11-12</dt>
+    <dd>This is the dialog area, whose <code>id</code> <em>must</em> be
+    <samp>"dialogDiv"</samp>. It also contains an <code>onclick</code> so
+    that clicks in the dialog area will allow the novel to proceed.
+    If your <code>&lt;div&nbsp;id="dialogDiv"&gt;</code> is inside the
+    <code>&lt;div&nbsp;id="novelDiv"&gt;</code> (as it is in the
+    sample novel, &#8220;The Question&#8221;), you must add
+    <code>style="z-index:100"</code> to the <code>dialogDiv</code> to
+    ensure that the dialog always appears above the characters.
+    </dd>
+<dt>Lines 14-17</dt>
+    <dd>These are optional. It&#8217;s just a good idea to allow readers
+    to restart the novel. The <code>onclick</code> re-initializes the
+    novel, just as you did in sline 1.</dd>
+</dl>
+
+<h3><a id="styling">Styling the novel</a></h3>
+<p>
+At this point, you can use CSS to attach styles to the tableau,
+dialog area, and menu items. Here is a sample. First, the tableau.
+The width and height must match the numbers you specified in the
+call to <code>initNovel()</code>, and the <code>position: relative</code>
+is required in order to place the image properly within in the tableau.
+The <code>text-align:&nbsp;center</code> on the <code>body</code> is
+necessary in order for the tableau to be centered horizontally on the
+screen when using Internet Explorer.
+</p>
+
+<div class="inset bordered">
+<pre>body {
+    text-align: center;
+}
+
+#novelDiv {
+    width: 800px;
+    height: 600px;
+    border: 1px solid black;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    text-align: center;
+}</pre>
+</div>
+
+<p>
+The dialog, in this case, is within the tableau rather than below it.
+The padding plus the width add up to 800 pixels so that the borders
+coincide.
+</p>
+
+<div class="inset bordered"><pre>#dialogDiv {
+	font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
+	font-size: 20px;
+	position: absolute;
+	width: 790px;
+	height: 140px;
+	top: 450px;
+	left: 0;
+	padding: 5px;
+	background-color: #3d372c;
+	color: white;
+	text-align: left;
+	filter: alpha(opacity=75);
+	opacity: 0.75;
+}</pre>
+</div>
+
+<p>
+Finally, add styling for menu items. Of course, these sizes and
+colors are just an example; you may change them to reflect the look you
+want for your novel.
+</p>
+
+<div class="inset bordered">
+<pre>.menuItem {
+    font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    background-color: #0050a0;
+    color: white;
+    text-align: center;
+    width: 75%;
+    margin: 0.5em auto;
+    padding: 0.5em 3em;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+
+.menuItem:hover {
+    background-color: #ff8c00;
+}</pre>
+</div>
+
+<h2><a id="jsFile">The novel file</a></h2>
+<p>
+Now, turn your attention to the <code>exampleNovel.js</code> file. This is
+where you will describe the novel&#8217;s actors and write the script
+that puts them through their paces.
+</p>
+
+<h3><a id="preload">Preloading Images</a></h3>
+<p>
+If you have a lot of fairly large images, you want them to be available
+as soon as your novel needs them. You can start a preloading process to
+have the browser retrieve the images while the rest of the page loads.
+Create an array with the names of the files you want to preload.
+Here is an example. Notice that the <code>images/</code> directory
+isn&#8217;t in the file names; that saves some typing.
+(<a href="show_pics.html">See the pictures that this example preloads.</a>)
+</p>
+
+<div class="inset bordered">
+<pre>var preload = [
+  "amazed1.png", "amazed2.png",
+  "cool1.png", "cool2.png",
+  "hand_waving1.png", "hand_waving2.png",
+  "laughing1.png", "laughing2.png",
+  "loving1.png", "loving2.png",
+  "simple1.png", "simple2.png",
+  "smiling1.png", "smiling2.png",
+  "sad1.png", "sad2.png",
+  "silence1.png", "silence2.png",
+  "angry1.png"
+];</pre>
+</div>
+
+<p>
+Now add this code to do the actual preloading; here is where you
+will use the name of the path to the <code>images</code> directory.
+</p>
+
+<div class="inset bordered">
+<pre>var preloadObj = new Array(preload.length);
+for (var i = 0; i &lt; preload.length; i++)
+{
+    preloadObj[i] = new Image();
+    preloadObj[i].src = "images/" + preload[i];
+}</pre>
+</div>
+
+<h3><a id="declare">Declaring Variables</a></h3>
+<p>
+The next part of the JavaScript files declares all the variables you
+will need for the script itself, your characters, textblocks, and
+(optionally) positions that your script will use. The next line is
+absolutely essential; it is the variable that will hold your script,
+and it must be named <code>script</code>.
+</p>
+
+<div class="inset bordered"><pre>var script;</pre></div>
+
+<p>
+Now, reserve variables for your main characters. In this tutorial, there
+are two main characters named Tyler (a tourist) and
+Gavin (a guide), along with a narrator.
+There will also be two pseudo-characters: one used
+to display photos or diagrams, and a text block used to display text in
+the tableau.
+</p>
+<p>
+The following example also declares variables used to specify the position
+of characters. Tyler and Gavin will appear at the lower left and lower right
+side of the window, and the diagram will appear in the upper center.
+Although you can declare multiple variables on one line in
+JavaScript, code is easier to
+read and maintain if you put one variable per line. You can use any variable
+names you want for your characters. It&#8217;s best if they resemble the
+characters&#8217; actual names, but you can keep them short to save yourself
+some typing.
+</p>
+
+<div class="inset bordered">
+<pre>var tyler;
+var gavin;
+var n; // short for "narrator"
+var photo;
+var textBlock;
+
+var leftSide;
+var rightSide;
+var upperCenter;</pre>
+</div>
+
+<h3><a id="prepare">Preparing the Novel</a></h3>
+<p>
+Actual initialization of the variables takes place in a function which
+<em>must</em> be named <code>prepareNovel</code>. The first two lines
+will give the path to the sub-folders where your images and audio live.
+In this case, there&#8217;s no audio, so the <code>audioPath</code> is set to
+<code>""</code>. If you aren&#8217;t using a sub-folder for your images
+or audio, you should also set the path to <code>""</code>.
+</p>
+
+<div class="inset bordered">
+<pre>function prepareNovel()
+{
+    novel.imagePath = "images/"; // path to your image directory
+    novel.audioPath = ""; // path to your audio directory</pre>
+</div>
+
+<p>
+Continuing the function, initialize the characters. A character is
+initialized by giving the name and the color in which his name appears
+when he speaks in the dialog area. The name must be in quote marks
+and can include blanks. The color may be in any format that would be
+acceptable in CSS. Because the narrator doesn&#8217;t have a name,
+no name will appear when he &#8220;speaks,&#8221; so you don&#8217;t have
+to specify a color.
+</p>
+
+<div class="inset bordered">
+<pre>    gavin = new Character("Gavin", {color: "rgb(64, 204, 64)"});
+    tyler = new Character("Tyler", {color: "#ffff00"});
+    n = new Character("");
+</pre>
+</div>
+
+<h3><a id="positions">Specifying Positions</a></h3>
+
+<p>To specify a position on the screen, you give four numbers:</p>
+<ul>
+	<li>The <i>x</i>-coordinate. If this number is less than or equal
+	to 1, it is taken as a decimal percent of the novel&#8217;s width.
+	If it is greater than 1, it is taken as a number of pixels.</li>
+	<li>The <i>y</i>-coordinate. If this number is less than or equal
+	to 1, it is taken as a decimal percent of the novel&#8217;s height.
+	If it is greater than 1, it is taken as a number of pixels.</li>
+	<li>The <i>x</i> <dfn>anchor</dfn>, a number from 0 to 1 (explanation of anchors
+	follows)</li>
+	<li>The <i>y</i> anchor, a number from 0 to 1</li>
+</ul>
+
+<p>You may omit the last two numbers, in which case they will be
+presumed to be zero. <span class="warning">Warning:</span> this may
+change to a default of 0.5 in later versions, depending upon feedback from
+authors who use the novel engine.
+</p>
+
+<p>
+An <dfn>anchor</dfn> tells how far to offset the top or left point of an image.
+Consider these three positions:
+</p>
+
+<div class="inset bordered"><pre>
+place1 = new Position(300, 400, 0, 0);
+place2 = new Position(300, 400, 0.5, 0.5);
+place3 = new Position(300, 400, 1, 0);</pre>
+</div>
+
+<p>
+Let&#8217;s say one of your characters has an image that is 200 pixels wide
+and 150 pixels tall. If you display the character at <code>place1</code>, the
+upper left corner of the image will be at coordinate (300, 400) in the
+tableau, because the anchors are zero; there is no offset.
+</p>
+
+<p>
+If you display the image at <code>place2</code>, the left coordinate will
+be shifted left by one-half the image width, and the top coordinate will
+be shifted up by one-half the image height. That will make the
+upper left corner of the image appear at 
+(300&nbsp;-&nbsp;(200&nbsp;*&nbsp;0.5),&nbsp;400&nbsp;-&nbsp;(150&nbsp;*&nbsp;0.5)),
+or
+(200,&nbsp;325). In effect, this will put the
+center of the picture at (300,&nbsp;400).
+</p>
+
+<p>If you display the image at <code>place3</code>, the left coordinate will
+be shifted left the entire image width, and the top coordinate will be
+not change. That will make the upper left
+coordinate of the image appear at (100, 400),
+effectively putting the right edge of the picture at <i>x</i>-coordinate
+300.
+</p>
+
+<p>
+Here are the four positions that the example novel uses.
+</p>
+
+<div class="inset bordered"><pre>    leftSide = new Position(0, .75, 0, 1);
+    rightSide = new Position(800, 450, 1, 1);
+    upperCenter = new Position(0.5, 0.3, 0.5, 0.5);
+    rightTop = new Position(0.9, 0.1, 1, 0);</pre>
+</div>
+
+<p>
+The <code>leftSide</code> position will place images so that their
+left side is at the left of the screen and their bottom side is
+three-fourths of the way down the tableau.
+</p>
+
+<p>
+The <code>rightSide</code> position will place images so that
+their right and bottom side are at location (800,&nbsp;450), which
+is all the way at the right and three-fourths of the way
+down the tableau.
+</p>
+
+<p>
+The <code>upperCenter</code> position will place images so that their
+horizontal centers are at the center of the tableau, and their vertical
+centers about three-tenths down the screen.
+</p>
+
+<p>
+See if you can figure out where an image at <code>rightTop</code> would
+appear.
+</p>
+
+<div class="warning bordered">
+<p><span class="warning">Warning:</span> because
+JavaScript does not distinguish between floating point and
+integers, a position of (1,&nbsp;1,&nbsp;0,&nbsp;0) will be taken to mean
+100% of the width and 100% of the height of the tableau, not an absolute
+location one pixel to the right and one pixel below the upper
+left of the tableau. That means you will not be able to place
+an image at absolute position (1,&nbsp;1).
+</p>
+</div>
+
+<p>
+Now that you have specified a position, you can use it to create the
+<code>photo</code> character and set its initial position. The photo
+doesn&#8217;t speak, so it doesn't need a name or a color.
+</p>
+
+<div class="inset bordered">
+<pre>    photo = new Character("", {position: upperCenter});</pre>
+</div>
+
+<p>
+The last item to define in this example is a text block. It doesn&#8217;t
+really need a name either, but I put one in just as an example. If you
+don&#8217;t want to name your text blocks, just put in the null
+string <code>""</code>.
+</p>
+
+<div class="inset bordered">
+<pre>    textArea = new TextBlock("myText");</pre>
+</div>
+
+<h3><a id="theScript">The Script</a></h3>
+<p>
+At last! You can finally start entering the script that tells the
+characters what to do.  The following script, which consists of
+pairs of items in a JavaScript array, establishes a scene and
+has the narrator say something. In this script, the
+little arrow (<span class="cont">&rarr;</span>) means that the line
+is continued. The line numbers at the left are for reference.
+</p>
+
+<div class="inset bordered">
+<pre><span class="line"> 1&nbsp;</span>script = [
+<span class="line"> 2&nbsp;</span>    label, "start",
+<span class="line"> 3&nbsp;</span>    scene, "hills1.jpg",
+<span class="line"> 4&nbsp;</span>    n, "It&amp;rsquo;s a beautiful day at Montgomery Hill Park,<span class="cont">&rarr;</span>
+	where we meet Tyler the tourist, who is looking for Gavin the Guide."
+<span class="line"> 5&nbsp;</span>];</pre>
+</div>
+
+<dl>
+<dt>Line 2</dt>
+	<dd>The label <code>"start"</code> indicates the place where the
+	novel begins.</dd>
+<dt>Line 3</dt>
+	<dd>The <code>scene</code> command clears out any characters that
+	might be on screen and sets the background to the filename
+	given as the second item (<samp>"hills1.jpg"</samp> in this case).
+	</dd>
+<dt>Line 4</dt>
+	<dd>The first item is the character name; in this case, the narrator.
+	The second item gives the text the character is supposed to say.
+	The text is HTML, and can contain any valid HTML. In this example,
+	<code>&amp;rsquo;</code> gives a curly right single quote (&rsquo;),
+	which looks better at large sizes than a straight-up-and-down quote (').
+	(<a id="quotemarks" href="quotemarks.html">See an example</a>)
+	</dd>
+</dl>
+
+<p>
+Now add the following lines to make the characters appear and speak (they
+are in bold). Note that I had to add a comma at the end of line 4 in order to avoid
+a JavaScript error. <span class="warning">This is the most common cause of errors
+when you write your script.</span> Always remember to add a comma to the
+last line in the script before adding new lines!
+</p>
+
+<div class="inset bordered">
+<pre><span class="line"> 1</span>script = [ 
+<span class="line"> 2</span>    label, "start",
+<span class="line"> 3</span>    scene, "hills1.jpg",
+<span class="line"> 4</span>    n, "It&amp;rsquo;s a beautiful day at Montgomery Hill Park,<span class="cont">&rarr;</span>
+      where we meet Tyler the tourist, who is looking for Gavin the Guide."<b>,
+<span class="line"> 5</span>    tyler, {image: "worried1.png", position: leftSide},
+<span class="line"> 6</span>    tyler, "Hey, Gavin, where are you?"
+<span class="line"> 7</span>    gavin, {position: rightTop, image: "simple2.png"},
+<span class="line"> 8</span>    tyler, {image: "simple1.png"},
+<span class="line"> 9</span>    gavin, "Up here in the hills, Tyler!",
+<span class="line">10</span>    tyler, "Please come down here. It&amp;rsquo;s easier to talk with you.",
+<span class="line">11</span>    gavin, {position: rightSide},
+<span class="line">12</span>    gavin, "OK. That better?",
+<span class="line">13</span>    tyler, "Much better, thanks!"</b>
+<span class="line">14</span>];</pre>
+</div>
+
+<dl>
+<dt>Line 5</dt>
+	<dd>This line makes the character <code>tyler</code> appear
+	with the given <code>image</code> at the <code>position</code> you
+	specify.</dd>
+<dt>Line 6</dt>
+	<dd>
+	When a character&rsquo;s name is followed by a string, that means
+	that it is &ldquo;speech&rdquo; that should appear in the dialog area.
+	</dd>
+<dt>Line 7</dt>
+	<dd>This line makes character <code>gavin</code> appear at the 
+	specified <code>position</code> with the given <code>image</code>.
+	You can specify image and position in any order you want. Ordinarily,
+	you would pick one order and stay with it throughout your script.</dd>
+<dt>Line 8</dt>
+	<dd>Since only an image is specified, Tyler&rsquo;s image changes,
+	but not his position.</dd>
+<dt>Lines 9-10</dt>
+	<dd>More dialog by the characters.</dd>
+<dt>Line 11</dt>
+	<dd>The <code>gavin</code> character&rsquo;s position has changed,
+	but since no image has been specified, it stays the same as it was.
+</dl>
+
+<h3><a id="menu">Choosing from a Menu</a></h3>
+<p>
+At this point, the story has a branch; Tyler can choose to either see
+dangerous or not-so-dangerous animals. Whenever you have a choice point
+in the story, you add a menu, as shown in the following part of the script.
+</p>
+
+<div class="inset bordered">
+<pre><span class="line"> 1</span>	tyler, "Much better, thanks!",
+<span class="line"> 2</span>	
+<span class="line"> 3</span>	label, "menu1",
+<span class="line"> 4</span>	menu, [
+<span class="line"> 5</span>		"So, what would you like to see?",
+<span class="line"> 6</span>		"Dangerous animals", [jump, "wild"],
+<span class="line"> 7</span>		"Not-so-dangerous animals", [jump, "tame"],
+<span class="line"> 8</span>	],
+<span class="line"> 9</span>
+<span class="line">10</span>	label, "wild",
+<span class="line">11</span>	scene, "hills2.jpg",
+<span class="line">12</span>	/* script continues... */</pre>
+</div>
+
+<dl>
+<dt>Line 1</dt>
+	<dd>Continuation of the script. The comma at the end of the line
+	is required when you add more lines.</dd>
+<dt>Line 3</dt>
+	<dd>Although not required, it&rsquo;s a good idea to put a label on
+	all your choice points so that you can jump back to a menu if you
+	need to.</dd>
+<dt>Line 4</dt>
+	<dd>A <code>menu</code> is contained in a JavaScript array (which
+	is enclosed in square brackets).</dd>
+<dt>Line 5</dt>
+	<dd>The first item in the array is the prompt for the reader. This
+	prompt will appear, centered, in the dialog area.</dd>
+<dt>Lines 6-7</dt>
+	<dd>Specify each choice with the text for that choice, followed by
+	an array telling the novel engine what to do when the reader chooses it.
+	Line 6 will make a button with the text &ldquo;Dangerous animals&rdquo;
+	appear. If the reader clicks it, she will go to the section of the
+	novel that has a <code>label</code> of <samp>"wild"</samp>.
+	<p>
+	Similarly, line 7 makes a button with the text
+	&ldquo;Not-so-dangerous animals&rdquo; appear. If the reader clicks it,
+	she will go to the section of the novel that has a <code>label</code>
+	of <samp>"tame"</samp>.
+	</p>
+	<p>
+	In this example, there&rsquo;s only one thing to do as the result
+	of a click&mdash;a simple jump. It is possible to do more than one thing
+	as the result of a click on a menu item. This is covered in the
+	advanced features section of the tutorial.
+	</p>
+	</dd>
+<dt>Line 8</dt>
+	<dd>Since the script continues, remember to put a comma after the
+	closing square bracket (the opening one was on line 4).</dd>
+</dl>
+
+<p>
+With these simple commands, you can put together a reasonable
+visual novel. <a href="exampleNovel.html">The full example is here.</a>
+The only feature that it uses that has not been explained here is the
+TextBlock, which is discussed in the advanced features.
+</p>
+
+</body>
+</html>
+
