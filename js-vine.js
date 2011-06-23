@@ -153,7 +153,7 @@ Character.prototype.finishDisplay = function()
 		el.style.left = xPos + "px";
 		el.style.top = yPos + "px";
 		el.style.visibility = this.visibility;
-		this.setAlpha(this.alpha);
+		novel_setAlpha(this.domRef, this.alpha);
 		if (changed)
 		{
 			this.prevPosition = this.position.clone();
@@ -178,7 +178,7 @@ Character.prototype.show = function(visible)
 {
 	this.domRef.style.visibility = (visible) ? "visible" : "hidden";
 }
-	
+
 /*
 	Set the transparency. If the picture is completely opaque,
 	we must remove the style information, as IE blurs the picture
@@ -186,17 +186,7 @@ Character.prototype.show = function(visible)
 */
 Character.prototype.setAlpha = function(alpha)
 {
-	if (alpha != 1.0)
-	{
-		this.domRef.style.filter = "alpha(opacity=" +
-			Math.floor(alpha*100) + ")";
-		this.domRef.style.opacity = alpha;
-	}
-	else
-	{
-		this.domRef.style.filter = null;
-		this.domRef.style.opacity = null;
-	}
+	novel_setAlpha(this, alpha);
 }
 
 /*
@@ -303,6 +293,16 @@ TextBlock.prototype.setText = function(html)
 }
 
 /*
+	Set the transparency. If the picture is completely opaque,
+	we must remove the style information, as IE blurs the picture
+	even when alpha is 100.
+*/
+TextBlock.prototype.setAlpha = function(alpha)
+{
+	novel_setAlpha(this, alpha);
+}
+
+/*
 	Display the text block on the screen
 */
 TextBlock.prototype.display = function(param)
@@ -328,19 +328,22 @@ TextBlock.prototype.display = function(param)
 		appropriate action depending upon its type
 	*/
 	el.style.visibility = "hidden";
-	if (param.constructor == Position)
+	if (param != null)
 	{
-		this.position = param;
-	}
-	else if (param.constructor == String)
-	{
-		this.text = param;
-	}
-	else if (param.constructor == Object)
-	{
-		for (var propertyName in param)
+		if (param.constructor == Position)
 		{
-			this[propertyName] = param[propertyName];
+			this.position = param;
+		}
+		else if (param.constructor == String)
+		{
+			this.text = param;
+		}
+		else if (param.constructor == Object)
+		{
+			for (var propertyName in param)
+			{
+				this[propertyName] = param[propertyName];
+			}
 		}
 	}
 	// set the text
@@ -379,16 +382,12 @@ TextBlock.prototype.display = function(param)
 	{
 		el.style.textAlign = this.align;
 	}
+	if (!this.visibility)
+	{
+		this.visibility = "visible";
+	}
 	el.style.position = "absolute";
 	el.style.width = Math.floor(this.width * 100) + "%";
-	if (this.width != 1.0)
-	{
-		el.style.marginLeft = Math.floor((1 - this.width) * 50) + "%";
-	}
-	else
-	{
-		el.style.marginLeft = "0";
-	}
 	el.style.left = xPos + "px";
 	el.style.top = yPos + "px";
 	el.style.visibility = this.visibility; // then reveal (if visible)
@@ -401,26 +400,6 @@ TextBlock.prototype.display = function(param)
 TextBlock.prototype.show = function(visible)
 {
 	this.domRef.style.visibility = (visible) ? "visible" : "hidden";
-}
-	
-/*
-	Set the transparency. If the picture is completely opaque,
-	we must remove the style information, as IE blurs the picture
-	even when alpha is 100.
-*/
-TextBlock.prototype.setAlpha = function(alpha)
-{
-	if (alpha != 1.0)
-	{
-		this.domRef.style.filter = "alpha(opacity=" +
-			Math.floor(alpha*100) + ")";
-		this.domRef.style.opacity = alpha;
-	}
-	else
-	{
-		this.domRef.style.filter = null;
-		this.domRef.style.opacity = null;
-	}
 }
 
 /*
@@ -757,6 +736,26 @@ function novel_popScript()
 }
 
 /*
+	Set the transparency. If the picture is completely opaque,
+	we must remove the style information, as IE blurs the picture
+	even when alpha is 100.
+*/
+function novel_setAlpha(domRef, alpha)
+{
+	if (alpha != 1.0)
+	{
+		domRef.style.filter = "alpha(opacity=" +
+			Math.floor(alpha*100) + ")";
+		domRef.style.opacity = alpha;
+	}
+	else
+	{
+		domRef.style.filter = null;
+		domRef.style.opacity = null;
+	}
+}
+
+/*
 	Take all actors off the tableau, and set their
 	DOM references to null
 */
@@ -864,17 +863,21 @@ function scene(param)
 		fileName = param;
 		effect = "";
 	}
-	else
+	else if (param != null)
 	{
 		fileName = param.image;
 		effect = param.effect;
+	}
+	else
+	{
+		fileName = novel.backgroundImage[novel.activeBG];
 	}
 	novel.bgAlpha = 1.0;
 	if (!effect)
 	{
 		novel.backgroundImage[novel.activeBG] = fileName;
-		document.getElementById("background" + novel.activeBG).src = novel.imagePath +
-			fileName;
+		document.getElementById("background" + novel.activeBG).src =
+			novel.imagePath + fileName;
 	}
 	else if (effect == "fade")
 	{
@@ -1029,13 +1032,17 @@ function textInput(param)
 */
 function initNovel(w, h)
 {
-	if ((typeof novel != 'undefined') && novel.tableau)
+	if ((typeof novel != 'undefined'))
 	{
-		clearTableau();
-	}
-	if ((typeof novel != 'undefined') && novel.dialog)
-	{
-		clearDialog();
+		if (novel.tableau)
+		{
+			clearTableau();
+		}
+		if (novel.dialog)
+		{
+			clearDialog();
+		}
+		stopAudio();
 	}
 	novel = new Novel();
 	novel.tableau = document.getElementById("novelDiv");
@@ -1051,6 +1058,8 @@ function initNovel(w, h)
 	novel.width = w;
 	novel.height = h;
 	prepareNovel();
+	novel_setAlpha(document.getElementById("background0"), 1);
+	novel_setAlpha(document.getElementById("background1"), 0);
 	novel_script = script;
 	novel_collectLabels();
 	novel.frame = novel.labels["start"];
