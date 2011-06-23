@@ -249,10 +249,12 @@ Character.prototype.doAction = function(param)
 	name: the name for this text block
 	escName: the escape() of the name; used as an id="" attribute
 	color: text color for this block
+	bgColor: background color for this block
 	div: a <div class="textClass"> element that holds the text
 	domRef: a reference to the <div> once inserted into the DOM
 	position: where to display this text block
 	align: text alignment, as in CSS
+	border: a border specification as in CSS
 	font: the font to use to display the text
 	width: % of width of the window; range from 0 to 1.0
 	visibility: "visible" or "hidden", as in CSS
@@ -357,13 +359,31 @@ TextBlock.prototype.display = function(param)
 	{
 		yPos *= novel.height;
 	}
-	el.style.color = this.color;
-	el.style.font = this.font;
+	if (this.color)
+	{
+		el.style.color = this.color;
+	}
+	if (this.bgColor)
+	{
+		el.style.backgroundColor = this.bgColor;
+	}
+	if (this.font)
+	{
+		el.style.font = this.font;
+	}
+	if (this.border)
+	{
+		el.style.border = this.border;
+	}
+	if (this.align)
+	{
+		el.style.textAlign = this.align;
+	}
 	el.style.position = "absolute";
 	el.style.width = Math.floor(this.width * 100) + "%";
 	if (this.width != 1.0)
 	{
-		el.style.marginLeft = Math.floor((1 - this.width) * 100) + "%";
+		el.style.marginLeft = Math.floor((1 - this.width) * 50) + "%";
 	}
 	else
 	{
@@ -371,7 +391,6 @@ TextBlock.prototype.display = function(param)
 	}
 	el.style.left = xPos + "px";
 	el.style.top = yPos + "px";
-	el.style.textAlign = this.align;
 	el.style.visibility = this.visibility; // then reveal (if visible)
 }
 
