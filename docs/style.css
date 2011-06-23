@@ -1,0 +1,58 @@
+h1 {
+    font-size: 125%;
+}
+
+h2 {
+    font-size: 110%;
+}
+
+h3 {
+    font-size: 105%;
+}
+
+body {
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+dfn {
+    font-style: normal;
+    color: #006600;
+    font-weight: bold;
+}
+
+.lettered {
+    list-style-type: lower-alpha;
+}
+
+.insert {
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
+.bordered {
+    border: 1px solid gray;
+    padding: 0.25em 0.5em;
+}
+
+.line {
+    color: #999;
+}
+
+div.warning {
+	background-color: #ffc;
+	border-color: red;
+}
+
+span.warning {
+	color: #f00;
+}
+
+.cont {
+	color: #f00;
+}
+
+th, td {
+	border: 1px solid gray;
+	padding: 0.25em;
+	margin: 0;
+}
