@@ -59,7 +59,7 @@ function prepareNovel()
     rightTop = new Position(1, 0.1, 1, 0);
 	
     photo = new Character("");	
-	textArea = new TextBlock("myText");
+	lionText = new TextBlock("myText");
 	
 	// and put your script commands into this array
 	script = [
@@ -93,13 +93,14 @@ function prepareNovel()
 		gavin, "Not what you expected from seeing the cartoons, is it?",
 		gavin, "But his coloration does help camouflage him in summer.",
 		photo, {visibility: "hidden"},
-		textArea, {text: "Mountain Lion picture goes here",
-			width: 1, color: "white",
-			position: new Position(0, 0.3), align: "center"},
+		lionText, {text: "Mountain Lion picture goes here",
+			width: 0.5, color: "white", border: "1px solid black",
+			backgroundColor: "#800",
+			position: new Position(0.25, 0.3), align: "center"},
 		tyler, "How come all I see is a bunch of words?",
 		gavin, "Do <em>you</em> want to be close enough to a mountain lion to get a picture?",
 		tyler, "Um, I guess not.",
-		textArea, {visibility: "hidden"},
+		lionText, {visibility: "hidden"},
 		gavin, "Mountain lions and coyotes are the two wildest animals out here.",
 		jump, "The End",
 		
@@ -133,6 +134,13 @@ function prepareNovel()
 		tyler, {image: "simple1.png", position: leftSide},
 		gavin, {image: "simple2.png", position: rightSide},
 		photo, {visibility: "hidden"},
+		lionText, {
+			width: 0.5, color: "white", border: "1px solid black",
+			backgroundColor: "#800",
+			position: new Position(0.25, 0.3), align: "center",
+			visibility: "visible",
+		text: "Gavin and Tyler images by Nicu Buculei, from <a href='http://openclipart.org' style='color:white'>OpenClipart.org</a>"},
+
 		gavin, "That&rsquo;s it for the tour.",
 		tyler, "Thanks, Gavin. I really enjoyed it."
 	];
