@@ -11,7 +11,12 @@
 <h1>JavaScript Visual Novel Engine: Advanced Topics</h1>
 
 <ol>
-<li><a href="#textblocks">Text Blocks</a></li>
+<li><a href="#textblocks">Text Blocks</a>
+	<ol class="letter">
+	<a href="#posWidth">Position and Width</a>
+	<a href="#initWithText">Displaying without Changes</a>
+	</ol>
+</li>
 <li><a href="#variables">Variables</a></li>
 <li><a href="#ifStatement">The <code>ifStatement</code></a></li>
 <li><a href="#subroutines">Subroutines</a></li>
@@ -20,6 +25,11 @@
 
 <h2><a id="textblocks">Text Blocks</a></h2>
 <p>
+Sometimes you need a text to appear in the tableau. You use a
+<code>TextBlock</code> character to do this. To initialize a
+<code>TextBlock</code>, you give the block a name and optionally
+parameters. Your parameters can be the following:
+</p>
 <table>
 	<thead>
 		<tr><th>Property</th><th>Meaning</th></tr>
@@ -27,10 +37,11 @@
 	<tbody>
 	<tr><td><code>color</code></td>
 		<td>text color for this block, specified as in CSS</td></tr>
-	<tr><td><code>bgColor</code></td>
+	<tr><td><code>backgroundColor</code></td>
 		<td>background color for this block, specified as in CSS</td></tr>
 	<tr><td><code>position</code></td>
-		<td>where to display this text block</td></tr>
+		<td>where to display this text block. The <code>xAnchor</code>
+		and <code>yAnchor</code> are ignored.</td></tr>
 	<tr><td><code>align</code></td>
 		<td>text alignment, specified as in CSS</td></tr>
 	<tr><td><code>border</code></td>
@@ -42,11 +53,111 @@
 	<tr><td><code>visibility</code></td>
 		<td>"visible" or "hidden", as in CSS</td></tr>
 	<tr><td><code>text</code></td>
-		<td>actually, an HTML string to display inside the text area</td></tr>
+		<td>an HTML string to display inside the text area</td></tr>
 	</tbody>
 </table>
-
+<p>
+The following code creates a <code>TextBlock</code> that will display
+red text on a yellow background in 24 point Helvetica font, centered, in
+an area 60% the width of the novel with an upper right corner at
+position (50&nbsp;,70).
 </p>
+<div class="inset bordered">
+<pre>var sampleText; // goes outside of prepareNovel()
+  /* inside the prepareNovel() function, do this: */
+  sampleText = new TextBlock("sample",
+    {
+      color: "red", backgroundColor: "#ff0",
+      font: "24pt Helvetica", align: "center",
+      width: 0.6,
+      position: new Position(50, 70)
+    }
+  );</pre>
+</div>
+
+<p>
+At the moment, this text block has no text in it. To make it appear
+on screen with text, just mention it in your script with the text
+you want it to contain.
+</p>
+
+<div class="inset bordered">
+<pre>script = [
+  label, "start",
+  scene, "empty.png",
+  sampleText, "Here I am!"
+];</pre>
+
+<p>
+You can change the text block&rsquo;s attributes or text and attributes
+simultaneously:
+</p>
+
+<pre>
+  narrator, "Click to change colors.",
+  sampleText, {color: "white", backgroundColor: "#800"},
+  narrator, "Click to change the text and border",
+  sampleText, {text: "New text", border: "5px double white"}
+</pre>
+<h2><a id="poswidth">Position and Width</a></h2>
+<p>
+When you set the position of a text block, the <i>x</i> and
+<i>y</i> positions, if less than or equal to 1, indicate a proportion
+of the novel&rsquo;s width or height. If greater than 1, they indicate
+a pixel position. The xAnchor and yAnchor parameters (which are useful
+when centering an image) are not used for text blocks.
+</p>
+<p>
+Ordinarily, a text block takes up the entire width of the tableau.
+If you want a block with a width of, say, 40% of the screen width,
+you set <code>width:&nbsp;.40</code> If you want that block centered,
+horizontally, then its <i>x</i> position must be .30
+(30%&nbsp;+&nbsp;40%&nbsp;+&nbsp;30%&nbsp;=&nbsp;100%). In general,
+for a text block of width <i>w</i>, you center it by setting the
+<i>x</i> position to ((1&nbsp;-&nbsp;<i>w</i>)&nbsp;/&nbsp;2).
+</p>
+
+<h2><a id="initWithText">Displaying Without Changes</a></h2>
+<p>
+What if you included text when you initialized your 
+<code>TextBlock</code>, as in the following code?
+</p>
+
+<div class="inset bordered">
+<pre>var otherText; // outside prepareNovel()
+/* inside prepareNovel */
+otherText = new TextBlock("other",
+  {
+    text: "Yet more text.",
+    position: new Position(0.25, 0.5),
+    width: 0.5
+  }
+);</pre>
+</div>
+
+<p>
+Or what if you had changed a scene (which clears the tableau), and
+wanted to re-display some text?
+How can you display the text area without changing any of its properties?
+Just use <code>null</code> as the parameter in your script, and the
+text area will appear, exactly as you initialized it.
+</p>
+
+<div class="inset bordered">
+<pre>  /* previous part of script... */
+  narrator, "See some more text.",
+  otherText, null,
+  narrator, "Scene switches...",
+  scene, null, // clear tableau
+  narrator, "And now, the colorful text again",
+  sampleText, null,
+  narrator, "The end"</pre>
+</div>
+<p>
+You may see <a href="textExample/textExample.html">the full
+example here</a>.
+</p>
+
 <h2><a id="variables">Variables</a></h2>
 <p>
 </p>
