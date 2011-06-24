@@ -239,7 +239,7 @@ Character.prototype.doAction = function(param)
 	name: the name for this text block
 	escName: the escape() of the name; used as an id="" attribute
 	color: text color for this block
-	bgColor: background color for this block
+	backgroundColor: background color for this block
 	div: a <div class="textClass"> element that holds the text
 	domRef: a reference to the <div> once inserted into the DOM
 	position: where to display this text block
@@ -366,9 +366,9 @@ TextBlock.prototype.display = function(param)
 	{
 		el.style.color = this.color;
 	}
-	if (this.bgColor)
+	if (this.backgroundColor)
 	{
-		el.style.backgroundColor = this.bgColor;
+		el.style.backgroundColor = this.backgroundColor;
 	}
 	if (this.font)
 	{
@@ -836,6 +836,7 @@ function jump(label)
 		novel.frame = novel.scriptStack.pop();
 		novel_script = novel.scriptStack.pop();
 	}
+	label = label.replace(/{{(.*?)}}/g, novel_interpolator);
 	novel.frame = novel.labels[label];
 	/*
 		Since this function is called from playNovel() and
@@ -846,18 +847,37 @@ function jump(label)
 }
 
 /*
+	Change the background without clearing the tableau or dialog.
+*/
+function background(param)
+{
+	novel_changeBackground(param, false);
+}
+
+/*
 	Set up a new scene. First, clear the tableau and dialog.
-	If the parameter was a string, it's the name of a background
-	image. If the parameter is an object, the image property is
-	the background file name and the effect property tells how you
-	want to display the background (only "fade" is valid for now)
 */
 function scene(param)
 {
+	novel_changeBackground(param, true);
+}
+
+/*
+	If the parameter was a string, it's the name of a background
+	image. If the parameter is an object, the image property is
+	the background file name and the effect property tells how you
+	want to display the background. clearAll is a boolean telling
+	whether to clear the tableau and dialog or not.
+*/
+function novel_changeBackground(param, clearAll)
+{
 	var fileName;
 	var effect;
-	clearTableau();
-	clearDialog();
+	if (clearAll)
+	{
+		clearTableau();
+		clearDialog();
+	}
 	if (typeof param == "string")
 	{
 		fileName = param;
@@ -873,6 +893,7 @@ function scene(param)
 		fileName = novel.backgroundImage[novel.activeBG];
 	}
 	novel.bgAlpha = 1.0;
+	fileName = fileName.replace(/{{(.*?)}}/g, novel_interpolator);
 	if (!effect)
 	{
 		novel.backgroundImage[novel.activeBG] = fileName;
@@ -882,10 +903,6 @@ function scene(param)
 	else if (effect == "fade")
 	{
 		novel.backgroundImage[novel.activeBG] = fileName;
-		/*
-		 document.getElementById("background" + novel.activeBG).src =
-			novel.imagePath + fileName;
-		*/
 		novel.paused = true;
 		novel_fadeBgOut();
 	}
