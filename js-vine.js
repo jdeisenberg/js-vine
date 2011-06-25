@@ -531,9 +531,6 @@ function Novel() {
 	this.activeBG = 0;
 	this.bgAlpha = 1.0;
 	this.waitCount = 0;
-	
-	this.PERCENT = true;
-	this.PIXEL = false;
 }
 
 /*
