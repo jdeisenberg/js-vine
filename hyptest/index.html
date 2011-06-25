@@ -319,7 +319,7 @@ function prepareNovel()
     female, {position: new Position(0.6, 0.5)},
     r, "Or you might claim that both groups will score the same.",
     
-    scene, "",
+    scene, null,
     r, {image: "roberta.png"},
     diagram, {image: "nickel_heads.png", position: center},
     r, "But just as you tested your results of the coin flip against what you expect from a <b>fair</b> coin...",
@@ -741,7 +741,7 @@ function prepareNovel()
 </head>
 <body onload="initNovel(800, 450);">
 <div id="debug"></div>
-<div id="novelDiv" onclick="playNovel()">
+<div id="novelDiv">
 	<div style="position: absolute; left:0; top: 0; z-index:-1">
 		<img id="background0" src="images/wheat.png"/>
 	</div>
@@ -749,7 +749,7 @@ function prepareNovel()
 		<img id="background1" src="images/wheat.png"/>
 	</div>
 </div>
-<div id="dialogDiv" onclick="playNovel()"></div>
+<div id="dialogDiv"></div>
 
 <div style="text-align:center; margin-top: 0.5em;"><input type="button"
 	value="Back to Main Menu" onclick="initNovel(800, 450)"/></div>

@@ -280,7 +280,7 @@ function prepareNovel()
 </head>
 <body onload="initNovel(800, 600);">
 <div id="debug"></div>
-<div id="novelDiv" onclick="playNovel()">
+<div id="novelDiv">
 	<div style="position: absolute;
 		left:0; top: 0; z-index:-1">
 		<img id="background0" src="images/empty.png">
@@ -289,12 +289,12 @@ function prepareNovel()
 		left:0; top: 0; z-index:-1">
 		<img id="background1" src="images/empty.png">
 	</div>
-	<div id="dialogDiv" onclick="playNovel()" style="z-index:100">
+	<div id="dialogDiv" style="z-index:100">
 	</div>
 </div>
 
 <div style="text-align:center; margin-top: 0.5em;"><input type="button"
-	value="Back to Beginning" onclick="initNovel(800, 450)"/></div>
+	value="Back to Beginning" onclick="initNovel(800, 600)"/></div>
 
 <div style="font-size: small">
 &#8220;The Question,&#8221; a visual novel that comes with the

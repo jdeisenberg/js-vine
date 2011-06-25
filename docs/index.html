@@ -121,7 +121,7 @@ for the explanation that follows; don&#8217;t enter them into your markup.
 
 <div class="inset bordered">
 <pre><span class="line"> 1&nbsp;</span>&lt;body onload="initNovel(800, 600);"&gt;
-<span class="line"> 2&nbsp;</span>&lt;div id="novelDiv" onclick="playNovel()"&gt;
+<span class="line"> 2&nbsp;</span>&lt;div id="novelDiv"&gt;
 <span class="line"> 3&nbsp;</span>    &lt;div style="position: absolute;
 <span class="line"> 4&nbsp;</span>        left:0; top: 0; z-index:-1"&gt;
 <span class="line"> 5&nbsp;</span>        &lt;img id="background0" src="images/empty.png"&gt;
@@ -130,12 +130,12 @@ for the explanation that follows; don&#8217;t enter them into your markup.
 <span class="line"> 8&nbsp;</span>        left:0; top: 0; z-index:-1"&gt;
 <span class="line"> 9&nbsp;</span>        &lt;img id="background1" src="images/empty.png"&gt;
 <span class="line">10&nbsp;</span>    &lt;/div&gt;
-<span class="line">11&nbsp;</span>    &lt;div id="dialogDiv" onclick="playNovel()" style="z-index:100"&gt;
+<span class="line">11&nbsp;</span>    &lt;div id="dialogDiv" style="z-index:100"&gt;
 <span class="line">12&nbsp;</span>    &lt;/div&gt;
 <span class="line">13&nbsp;</span>&lt;/div&gt;
 <span class="line">14&nbsp;</span>&lt;div style="text-align:center; margin-top: 0.5em;"&gt;
 <span class="line">15&nbsp;</span>&lt;input type="button" value="Back to Beginning"
-<span class="line">16&nbsp;</span>    onclick="clearTableau(); initNovel(800, 450)"/&gt;
+<span class="line">16&nbsp;</span>    onclick="initNovel(800, 450)"/&gt;
 <span class="line">17&nbsp;</span>&lt;/div&gt;</pre>
 </div>
 
@@ -147,9 +147,7 @@ for the explanation that follows; don&#8217;t enter them into your markup.
     and 450 pixels high.</dd>
 <dt>Line 2</dt>
     <dd>This is the tableau. Its <code>id</code> <em>must</em> be
-    <samp>"novelDiv"</samp>. The <code>onclick</code> attribute tells
-    the engine to proceed to the next stage in the novel whenever the
-    reader clicks in the tableau.</dd>
+    <samp>"novelDiv"</samp>.</dd>
 <dt>Lines 3-4</dt>
     <dd>In order to allow background images to fade in or out, you must
     include this <code>&lt;div&gt;</code> The <code>position</code>,
@@ -166,9 +164,8 @@ for the explanation that follows; don&#8217;t enter them into your markup.
     </dd>
 <dt>Lines 11-12</dt>
     <dd>This is the dialog area, whose <code>id</code> <em>must</em> be
-    <samp>"dialogDiv"</samp>. It also contains an <code>onclick</code> so
-    that clicks in the dialog area will allow the novel to proceed.
-    If your <code>&lt;div&nbsp;id="dialogDiv"&gt;</code> is inside the
+    <samp>"dialogDiv"</samp>.
+	If your <code>&lt;div&nbsp;id="dialogDiv"&gt;</code> is inside the
     <code>&lt;div&nbsp;id="novelDiv"&gt;</code> (as it is in the
     sample novel, &#8220;The Question&#8221;), you must add
     <code>style="z-index:100"</code> to the <code>dialogDiv</code> to
@@ -177,7 +174,7 @@ for the explanation that follows; don&#8217;t enter them into your markup.
 <dt>Lines 14-17</dt>
     <dd>These are optional. It&#8217;s just a good idea to allow readers
     to restart the novel. The <code>onclick</code> re-initializes the
-    novel, just as you did in sline 1.</dd>
+    novel, just as you did in line 1.</dd>
 </dl>
 
 <h3><a id="styling">Styling the novel</a></h3>

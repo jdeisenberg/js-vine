@@ -64,7 +64,8 @@ function Character(characterName)
 		this.color = obj.color || this.color;
 		if (obj.image)
 		{
-			this.image.setAttribute("src", novel.imagePath + obj.image);
+			this.image.setAttribute("src", novel.imagePath +
+				obj.image.replace(/{{(.*?)}}/g, novel_interpolator));
 		}
 		this.position = obj.position || new Position(0, 0, true);
 	}
@@ -95,7 +96,8 @@ Character.prototype.display = function(param)
 		{
 			if (property == "image")
 			{
-				this.image.src = novel.imagePath + param.image;
+				this.image.src = novel.imagePath +
+					param.image.replace(/{{(.*?)}}/g, novel_interpolator);
 			}
 			else
 			{
@@ -755,6 +757,20 @@ function novel_setAlpha(domRef, alpha)
 	}
 }
 
+function novel_handleClick(evt)
+{
+	if (!evt)
+	{
+		evt = window.event;
+	}
+	evt.cancelBubble = true;
+	if (evt.stopPropagation)
+	{
+		evt.stopPropagation();
+	}
+	playNovel();
+}
+
 /*
 	Take all actors off the tableau, and set their
 	DOM references to null
@@ -1064,6 +1080,8 @@ function initNovel(w, h)
 	novel = new Novel();
 	novel.tableau = document.getElementById("novelDiv");
 	novel.dialog = document.getElementById("dialogDiv");
+	novel.tableau.addEventListener('click', novel_handleClick, false);
+	novel.dialog.addEventListener('click', novel_handleClick, false);
 	if (!!(document.createElement('audio').canPlayType))
 	{
 		novel.audio = new Audio();
