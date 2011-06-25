@@ -87,6 +87,7 @@ you want it to contain.
   scene, "empty.png",
   sampleText, "Here I am!"
 ];</pre>
+</div>
 
 <p>
 You can change the text block&rsquo;s attributes or text and attributes
@@ -298,7 +299,123 @@ have been declared in the <samp>js-vine.js</samp> file. You can
 
 <h2><a id="ifStatement">The <code>ifStatement</code></a></h2>
 <p>
+Sometimes you will want some part of the novel to appear only if a certain
+condition has been fulfilled. (For example, you may want some text to appear
+only if the reader is female.) In other cases, you may want different text
+to appear depending upon some condition; some extra text for female readers
+and other text for male readers.  The <code>ifStatement</code> lets you
+do these things.
 </p>
+
+<h3>If-then</h3>
+<p>
+The simplest form of an <code>ifStatement</code> is an &ldquo;if-then&rdquo;
+statement, as in &ldquo;If it&rsquo;s raining, then take an umbrella.&rdquo;
+You can <a href="ifExample/ifExample.html">see it in action in this
+example novel</a>. You are first asked if you prefer cats or dogs. Your
+choice jumps you to a different part of the novel, and the two branches
+rejoin. During the last part of the novel, extra text appears only if you
+said you prefer cats. Here&rsquo;s the menu, which sets a variable named
+<code>animal</code> and then jumps to the appropriate part of the novel.
+</p>
+
+<div class="inset bordered">
+<pre>menu, [
+    "Which do you prefer?",
+    "Cats", [
+        setVars, { animal: "cat" },
+        jump, "catPart"
+    ],
+    "Dogs", [
+        setVars, { animal: "Dog" },
+        jump, "dogPart"
+    ]
+],</pre>
+</div>
+
+<p>
+Both branches eventually jump to <samp>"part2"</samp>, which contains
+the if statement.
+</p>
+
+<div class="inset bordered">
+<pre><span class="line"> 1</span>&nbsp;david, "If you don&amp;rsquo;t have a pet but want one,<span class="cont">&rarr;</span>
+   go to the local shelter and adopt an animal.",
+<span class="line"> 2</span>&nbsp;ifStatement, {
+<span class="line"> 3</span>&nbsp;  condition: "novel.userVar.animal == 'cat'",
+<span class="line"> 4</span>&nbsp;  thenPart: [
+<span class="line"> 5</span>&nbsp;      david, {image: "smiling1.png"},
+<span class="line"> 6</span>&nbsp;      david, "Especially one that purrs!",
+<span class="line"> 7</span>&nbsp;      david, {image: "simple1.png"}
+<span class="line"> 8</span>&nbsp;  ]
+<span class="line"> 9</span>&nbsp;},
+<span class="line">10</span>&nbsp;david, "And remember: please spay or neuter your pet."</pre>
+</div>
+
+<p>
+The <code>ifStatement</code> must contain a <code>condition</code> (line 3).
+The string that follows the <code>condition</code> is a
+JavaScript expression that asks a yes-or-no question.
+In this case, the question is, &ldquo;is <code>novel.userVar.animal</code>
+exactly equal to the string <samp>'cat'</samp>?&rdquo;
+</p>
+
+<p>
+If the answer is yes, the statements in the <code>thenPart</code> (lines
+4-8) are carried out. If the answer is no, the novel simply proceeds to
+the next frame (line 10).
+</p>
+
+<p>
+As in JavaScript, you must use two equal signs in a row (<code>==</code>)
+to test for equality. To test to see if items are not equal, use
+<code>!=</code>.  Less than is <code>&lt;</code>;  greater than is
+<code>&gt;</code>. Less than or equal is<code>&lt;=</code>, 
+and greater than or equal is <code>&gt;=</code>.
+</p>
+
+<h3>If-then-else</h3>
+<p>
+The other type of <code>ifStatement</code> involves an <dfn>else</dfn>
+part; something to do if the <code>condition</code> is not true. For example,
+&ldquo;If I finish work before 6 p.m., then I will cook dinner;
+otherwise (else) I will get some take-out food.&rdquo;
+</p>
+
+<p>
+<a href="ifExample/ifExample2.html">Here is a slight modification of
+the first example</a>. In this novel, if you choose dogs instead of
+cats, you also get a special message in the last part of the novel:
+</p>
+
+<div class="inset bordered">
+<pre>ifStatement, {
+    condition: "novel.userVar.animal == 'cat'",
+    thenPart: [
+        david, {image: "smiling1.png"},
+        david, "Especially one that purrs!",
+        david, {image: "simple1.png"}
+    ],
+    elsePart: [
+        david, "Your dog will be a loyal companion for life."
+    ],
+},</pre>
+</div>
+
+<div class="warning bordered">
+<p>
+<span class="warning">Warning:</span>
+Putting a <code>label</code> inside a <code>thenPart</code> or
+<code>elsePart</code> won&rsquo;t work. The engine can only find
+<code>label</code>s that are outside of <code>ifStatement</code>s. This is
+a bad thing, because it doesn&rsquo;t let you do a <code>label</code>
+and <code>jump</code> that is entirely contained inside the
+<code>thenPart</code> or <code>elsePart</code>. This is a good thing,
+because it prevents you from doing a <code>jump</code> into the middle
+of an <code>ifStatement</code>, which would be pretty weird.
+</p>
+</div>
+
 <h2><a id="subroutines">Subroutines</a></h2>
 <p>
 </p>
