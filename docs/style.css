@@ -24,7 +24,7 @@ dfn {
     list-style-type: lower-alpha;
 }
 
-.insert {
+.inset {
     margin-left: 2em;
     margin-right: 2em;
 }
@@ -41,6 +41,8 @@ dfn {
 div.warning {
 	background-color: #ffc;
 	border-color: red;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 span.warning {
