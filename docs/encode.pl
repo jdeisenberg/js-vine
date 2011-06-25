@@ -8,7 +8,7 @@ while ($data = <STDIN>)
 	$data =~ s/>/\&gt;/g;
 	print qq!<span class="line">!,
 		sprintf("%2d", $line),
-		qq!</span>$data!;
+		qq!</span>&nbsp;$data!;
 	$line++;
 }
 

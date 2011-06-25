@@ -47,6 +47,10 @@ span.warning {
 	color: #f00;
 }
 
+span.fillin {
+	background-color: #ff9;
+}
+
 .cont {
 	color: #f00;
 }
@@ -55,4 +59,8 @@ th, td {
 	border: 1px solid gray;
 	padding: 0.25em;
 	margin: 0;
+}
+
+.center {
+	text-align: center;
 }

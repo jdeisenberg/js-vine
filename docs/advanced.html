@@ -12,10 +12,10 @@
 
 <ol>
 <li><a href="#textblocks">Text Blocks</a>
-	<ol class="letter">
-	<a href="#posWidth">Position and Width</a>
-	<a href="#initWithText">Displaying without Changes</a>
-	</ol>
+    <ol class="letter">
+    <a href="#posWidth">Position and Width</a>
+    <a href="#initWithText">Displaying without Changes</a>
+    </ol>
 </li>
 <li><a href="#variables">Variables</a></li>
 <li><a href="#ifStatement">The <code>ifStatement</code></a></li>
@@ -31,30 +31,30 @@ Sometimes you need a text to appear in the tableau. You use a
 parameters. Your parameters can be the following:
 </p>
 <table>
-	<thead>
-		<tr><th>Property</th><th>Meaning</th></tr>
-	</thead>
-	<tbody>
-	<tr><td><code>color</code></td>
-		<td>text color for this block, specified as in CSS</td></tr>
-	<tr><td><code>backgroundColor</code></td>
-		<td>background color for this block, specified as in CSS</td></tr>
-	<tr><td><code>position</code></td>
-		<td>where to display this text block. The <code>xAnchor</code>
-		and <code>yAnchor</code> are ignored.</td></tr>
-	<tr><td><code>align</code></td>
-		<td>text alignment, specified as in CSS</td></tr>
-	<tr><td><code>border</code></td>
-		<td>a border specification as in CSS</td></tr>
-	<tr><td><code>font</code></td>
-		<td>the font to use to display the text</td></tr>
-	<tr><td><code>width</code></td>
-		<td>decimal percent of width of the window; range from 0 to 1.0</td></tr>
-	<tr><td><code>visibility</code></td>
-		<td>"visible" or "hidden", as in CSS</td></tr>
-	<tr><td><code>text</code></td>
-		<td>an HTML string to display inside the text area</td></tr>
-	</tbody>
+    <thead>
+        <tr><th>Property</th><th>Meaning</th></tr>
+    </thead>
+    <tbody>
+    <tr><td><code>color</code></td>
+        <td>text color for this block, specified as in CSS</td></tr>
+    <tr><td><code>backgroundColor</code></td>
+        <td>background color for this block, specified as in CSS</td></tr>
+    <tr><td><code>position</code></td>
+        <td>where to display this text block. The <code>xAnchor</code>
+        and <code>yAnchor</code> are ignored.</td></tr>
+    <tr><td><code>align</code></td>
+        <td>text alignment, specified as in CSS</td></tr>
+    <tr><td><code>border</code></td>
+        <td>a border specification as in CSS</td></tr>
+    <tr><td><code>font</code></td>
+        <td>the font to use to display the text</td></tr>
+    <tr><td><code>width</code></td>
+        <td>decimal percent of width of the window; range from 0 to 1.0</td></tr>
+    <tr><td><code>visibility</code></td>
+        <td>"visible" or "hidden", as in CSS</td></tr>
+    <tr><td><code>text</code></td>
+        <td>an HTML string to display inside the text area</td></tr>
+    </tbody>
 </table>
 <p>
 The following code creates a <code>TextBlock</code> that will display
@@ -163,7 +163,137 @@ example here</a>.
 Up to this point, the text on every page is the same, independent
 of your menu choices. Take a look at
 <a href="varExample/varExample.html">this simple novel</a>. You
-might think that it has a structure like this:
+might think that it has a structure like this (click it to see
+it at full size)
+</p>
+
+<div class="center">
+<a href="images/varExample_flowchart.png"><img
+    src="images/varExample_flowchart.png"
+    alt="flowchart showing three separate branches"
+    width="283" height="225"/></a>
+</div>
+
+<p>
+And indeed, you could have a separate <code>jump</code> to each
+branch. However, if you look at the text, you will see that all
+the branches are the same, except for places
+where you can &ldquo;fill-in-the-blanks&rdquo;:
+</p>
+
+<div class="inset bordered">
+<p>Well, if you like <span class="fillin">{{some color name}}</span>...</p>
+<p>Perhaps you would like to purchase this lovely
+<span class="fillin">{{name of a jewel}}</span></p>
+</div>
+
+<p>
+And, if the pictures are cleverly named the same as the name of the jewels,
+you can display a picture with a name of
+<samp><span class="fillin">{{name of a jewel}}</span>.jpg</samp>
+</p>
+
+<p>
+This is how variables in the visual novel engine work. Here is the
+code for the menu that lets you choose your color:
+</p>
+
+<div class="inset bordered">
+<pre><span class="line"> 1</span>&nbsp;menu, [
+<span class="line"> 2</span>&nbsp;  "What&amp;rsquo;s your favorite color?",
+<span class="line"> 3</span>&nbsp;  "Red", [ setVars, {color: 'red', jewel: 'ruby'} ],
+<span class="line"> 4</span>&nbsp;  "Green", [ setVars, { color: 'green', jewel: 'emerald'} ],
+<span class="line"> 5</span>&nbsp;  "Blue", [ setVars, "novel.userVar.color='blue'",
+<span class="line"> 6</span>&nbsp;      setVars, "novel.userVar.jewel='sapphire'" ]
+<span class="line"> 7</span>&nbsp;],</pre>
+</div>
+
+<p>
+Lines 3 and 4 show the method you will usually use to set variables, by
+giving the variable name and its value. Variable names must follow 
+JavaScript rules: they must begin with a letter or underscore, followed by
+letters, digits, or underscores.
+</p>
+
+<p>
+<span class="warning">Important:</span>
+What&rsquo;s <em>really</em> happening behind the scenes is that your
+&ldquo;variables&rdquo; become part of a special object named
+<code>novel.userVar</code>.  Lines 5 and 6 show the &ldquo;hard way&rdquo;
+to set variables&mdash;by directly changing the <code>novel.userVar</code>
+object. This is important to know so that you can use the variables
+later on.  Here&rsquo;s the rest of the script: 
+</p>
+
+<div class="inset bordered">
+<pre><span class="line"> 8</span>&nbsp;label,"salesPitch",
+<span class="line"> 9</span>&nbsp;salesman, "Well, if you like {{novel.userVar.color}}...",
+<span class="line">10</span>&nbsp;jewelPhoto, {image: "{{novel.userVar.jewel}}.jpg",
+<span class="line">11</span>&nbsp;  visibility: "visible"},
+<span class="line">12</span>&nbsp;salesman, "Perhaps you would like to purchase this lovely {{novel.userVar.jewel}}!",
+<span class="line">13</span>&nbsp;jump, "ask"</pre>
+</div>
+
+<dl>
+<dt>Line 8</dt>
+    <dd>Because the menu items don&rsquo;t end with a <code>jump</code>,
+    you <em>must</em> put a label afterwards; otherwise the novel engine
+    will skip too far ahead. (This is not an easy thing to fix.)</dd>
+<dt>Lines 9 and 11</dt>
+    <dd>When you want to reference a variable, you enclose it in a
+    set of double braces <code>{{&nbsp;}}</code>, and you <em>must</em>
+    use the <code>novel.userVar</code> notation. The double braces
+    <dfn>interpolate</dfn> the variable; that is, they 
+    &ldquo;fill in the blank.&rdquo;</dd>
+<dt>Line 10</dt>
+    <dd>Interpolation isn&rsquo;t just for dialog. You can use it
+    for file names and menu items. (<i>Ideally, interpolation will
+    work anywhere you can put a quoted string, but I don&rsquo;t 
+    know if I have implemented it everywhere. If you find an instance
+    where it doesn&rsquo;t work, let me know.</i>)</dd>
+</dl>
+
+<p>You can <a href="varExample/varExample.js">see the entire
+JavaScript here</a>.</p>
+
+<h3>Really Advanced Topic: Using Plain JavaScript Variables</h3>
+<p>
+Do you <em>really</em> have to use <code>novel.userVar</code>? No,
+you do not. You could create global variables in your JavaScript file:
+</p>
+
+<div class="inset bordered">
+<pre>/* my own variables (instead of using novel.userVar) */
+var myColor;
+var myJewel;</pre>
+</div>
+
+<p>
+And then do this in your script array. Notice that you can put
+multiple JavaScript statements separated by
+semicolons into a single <code>setVars</code>;
+that&rsquo;s because it <em>is</em> JavaScript.
+</p>
+
+<div class="inset bordered">
+<pre>menu, [
+    "What&amp;rsquo;s your favorite color?",
+    "Red", [ setVars, "myColor='red'; myJewel='ruby'" ],
+    "Green", [ setVars,"myColor='green'; myJewel='emerald'" ],
+    "Blue", [ setVars, "myColor='blue'; myJewel='sapphire'" ]
+],
+label,"salesPitch",
+salesman, "Well, if you like {{myColor}}...",
+jewelPhoto, {image: "{{myJewel}}.jpg", visibility: "visible"},
+salesman, "Perhaps you would like to purchase this lovely {{myJewel}}!",</pre>
+</div>
+
+<p>
+You are free to do this if you wish; you just have to be careful that
+your variable names don&rsquo;t conflict with anything variables that
+have been declared in the <samp>js-vine.js</samp> file. You can
+<a href="varExample/varExample2.html">see the script in action here</a> and
+<a href="varExample/varExample2.js">see the JavaScript here</a>
 </p>
 
 <h2><a id="ifStatement">The <code>ifStatement</code></a></h2>
