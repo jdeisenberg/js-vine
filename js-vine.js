@@ -1015,7 +1015,7 @@ function audio(str)
 	Handle an if statement. The parameter is an object
 	with three properties: 
 	condition: the condition to test (a string to be evaluated)
-	ifPart: an array of script instructions to execute if condition is true
+	thenPart: an array of script instructions to execute if condition is true
 	elsePart: an array of script instructions to execute if condition
 		is false (the elsePart is optional)
 */
@@ -1026,7 +1026,7 @@ function ifStatement(param)
 	novel.frame = 0;
 	if (ok)
 	{
-		novel_script = param.ifPart;
+		novel_script = param.thenPart;
 	}
 	else
 	{
