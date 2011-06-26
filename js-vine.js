@@ -1,4 +1,3 @@
-// testing 1 2 3
 /*
 	Copyright (C) 2011 by J. David Eisenberg
 	
@@ -503,7 +502,8 @@ Position.prototype.clone = function()
 	anonymous: how many un-named text blocks or actors have we created?
 	actors: the list of characters and textblocks currently in the tableau
 	userVar: "variables" defined in the script (associative array)
-	scriptStack: current script stack; used in if statements and menus
+	scriptStack: current script stack; used in menus
+    ifStack: keeps track of whether you are in then or else part of nested if
 	backgroundImage: background image array; in order to fade/dissolve background, it
 		has to be an image rather than a background CSS style
 	activeBG: which background is active (0 or 1)?
@@ -527,6 +527,8 @@ function Novel() {
 	this.anonymous = 0;
 	this.actors = new Array(); // who is on screen right now?
 	this.userVar = new Object();
+    this.ifLevel = 0;
+    this.ifStack = new Array();
 	this.scriptStack = new Array();
 	this.backgroundImage = new Array(2);
 	this.activeBG = 0;
@@ -931,6 +933,59 @@ function novel_changeBackground(param, clearAll)
 }
 
 /*
+    Go through script to find an else that matches the current level
+    of nested if statements (or a matching level endIf) and return
+    that frame number.
+*/
+function novel_findMatchingElse()
+{
+    var currLevel = novel.ifLevel;
+    var f = novel.frame + 2;
+    var item = novel_script[f];
+    while (!((item == elsePart || item == endIf) && currLevel == novel.ifLevel)
+         && f < novel_script.length)
+    {
+        if (item == ifStatement)
+        {
+            currLevel++;
+        }
+        else if (item == endIf)
+        {
+            currLevel--;
+        }
+        f += 2;
+        item = novel_script[f];
+    }
+    return f;
+}
+
+/*
+    Go through script to find an endIf that matches the current level
+    of nested if statements and return
+    that frame number.
+*/
+function novel_findMatchingEndIf()
+{
+    var currLevel = novel.ifLevel;
+    var f = novel.frame + 2;
+    var item = novel_script[f];
+    while (!(item == endIf && currLevel == novel.ifLevel) && f < novel_script.length)
+    {
+        if (item == ifStatement)
+        {
+            currLevel++;
+        }
+        else if (item == endIf)
+        {
+            currLevel--;
+        }
+        f += 2;
+        item = novel_script[f];
+    }
+    return f;
+}
+
+/*
 	Call a subroutine; a section of the script with the given
 	label.
 */
@@ -1010,34 +1065,39 @@ function audio(str)
 }
 
 /*
-	Handle an if statement. The parameter is an object
-	with three properties: 
-	condition: the condition to test (a string to be evaluated)
-	thenPart: an array of script instructions to execute if condition is true
-	elsePart: an array of script instructions to execute if condition
-		is false (the elsePart is optional)
+	Handle an if statement. The parameter is a
+    condition to test (a string to be evaluated)
 */
 function ifStatement(param)
 {
-	var ok = eval(param.condition);
-	novel_pushScript();
-	novel.frame = 0;
+	var ok = eval(param);
 	if (ok)
+    {
+        novel.ifStack.push(0); // 0 == "then" part
+    }
+    else
 	{
-		novel_script = param.thenPart;
+		novel.frame = novel_findMatchingElse();
+        if (novel_script[novel.frame] == elsePart)
+        {
+            novel.ifStack.push(1);
+        }
 	}
-	else
-	{
-		if (param.elsePart)
-		{
-			novel_script = param.elsePart;
-		}
-		else
-		{
-			novel_popScript();
-		}
-	}
-	novel.frame -= 2; // because playNovel() will add 2
+    novel.ifLevel = novel.ifStack.length;
+}
+
+function elsePart()
+{
+    novel.frame = novel_findMatchingEndIf();
+}
+
+function endIf()
+{
+    if (novel.ifLevel > 0)
+    {
+        novel.ifLevel--;
+        novel.ifStack.pop();
+    }
 }
 
 /*
