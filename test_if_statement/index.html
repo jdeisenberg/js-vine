@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;
+       charset=utf-8" />
+<title>Hypothesis Testing</title>
+<style type="text/css">
+body {
+	text-align: center;
+}
+#novelDiv {
+	width: 800px;
+	height: 450px;
+	border: 1px solid black;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	text-align: center;
+}
+
+#dialogDiv {
+	font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
+	font-size: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 790px;
+	height: 141px;
+	border: 1px solid black;
+	border-top: none;
+	background-color: #3d372c;
+	color: white;
+	top: 450px;
+	left: 0;
+	padding: 5px;
+	text-align: left;
+}	
+
+.menuItem {
+	width: 75%;
+	margin: 0.5em auto;
+	padding: 0.5em 3em;
+	background-color: #0050a0;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	text-align: center;
+	color: white;
+	font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
+	font-size: 18px;
+}
+
+div.menuItem:hover {
+	background-color: #00a0ff;
+}
+</style>
+
+<script type="text/javascript" src="../js-vine.js"></script>
+<script type="text/javascript">
+// <![CDATA[
+imgPath = "images/";
+var preload = [
+];
+
+var preloadObj = new Array(preload.length);
+for (var i = 0; i < preload.length; i++)
+{
+	preloadObj[i] = new Image();
+	preloadObj[i].src = imgPath + preload[i];
+}
+
+var narrator;
+
+function prepareNovel()
+{
+	novel.imagePath = "images/";
+	narrator = new Character('');
+	
+	script = [
+	
+	label, "start", // 0
+	scene, "wheat.png",
+	menu, ["Set condition 1",
+    "condition 1 TRUE", [ setVars, { c1: true } ],
+    "condition 1 FALSE", [ setVars, { c1: false} ]
+    ],
+
+    label, "nextChoice", // 6
+    menu, ["Set condition 2",
+    "condition 2 TRUE", [ setVars, { c2: true } ],
+    "condition 2 FALSE", [ setVars, { c2: false} ]
+    ],
+
+    label, "mainEvent",
+    ifStatement, "novel.userVar.c1 == true",
+        narrator, "simple if statement, c1 true",
+    endIf, "",
+    
+    narrator, "Proceed to second test",
+    
+    ifStatement, "novel.userVar.c1 == true",
+        narrator, "outer if statement, then part, c1 true",
+    elsePart, "",
+        narrator, "outer if statement, else part, c1 false",
+        ifStatement, "novel.userVar.c2 == true",
+            narrator, "inner if statement, c1 false, c2 true",
+        endIf, "",
+    endIf, "",
+    
+    narrator, "Proceed to third test of nested ifs",
+    
+    ifStatement, "novel.userVar.c1",
+        narrator, "outer if, c1 is true",
+        ifStatement, "novel.userVar.c2",
+            narrator, "inner if, c1 true, c2 true",
+        elsePart, "",
+            narrator, "inner if, c1 true, c2 false (else part)",
+        endIf, "",
+    elsePart, "",
+        narrator, "outer if, c1 is false (else part)",
+    endIf, "",
+    
+    narrator, "proceed to fourth test of if statements",
+    
+    ifStatement, "novel.userVar.c1",
+        ifStatement, "novel.userVar.c2",
+            narrator, "Both c1 and c2 are true",
+        elsePart, "",
+            narrator, "c1 is true, c2 is false",
+        endIf, "",
+    elsePart, "",
+        ifStatement, "novel.userVar.c2",
+            narrator, "c1 is false, c2 is true",
+        elsePart, "",
+            narrator, "c1 is false, c2 is false",
+        endIf, "",
+    endIf, "",
+    narrator, "Tests conclude."
+	];
+}
+// ]]>
+</script>
+</head>
+<body onload="initNovel(800, 450);">
+<div id="debug"></div>
+<div id="novelDiv">
+	<div style="position: absolute; left:0; top: 0; z-index:-1">
+		<img id="background0" src="images/wheat.png"/>
+	</div>
+	<div style="position: absolute; left:0; top: 0; z-index:-1">
+		<img id="background1" src="images/wheat.png"/>
+	</div>
+</div>
+<div id="dialogDiv"></div>
+
+<div style="text-align:center; margin-top: 0.5em;"><input type="button"
+	value="Back to Main Menu" onclick="initNovel(800, 450)"/></div>
+
+<div style="margin: 0.5em auto 0 auto; width: 800px; text-align: center;"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="cc-by-nc-sa.png" /></a><br /><small><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">Hypothesis Testing</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://evc-cit.info/psych018/hyptest/" property="cc:attributionName" rel="cc:attributionURL">J David Eisenberg</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.</small></div>
+</body>
+</html>
