@@ -76,14 +76,11 @@ function prepareNovel()
 		david, {image: "simple1.png"},
 		david, "If you have a pet, that&rsquo;s great.",
 		david, "If you don&rsquo;t have a pet but want one, go to the local shelter and adopt an animal.",
-		ifStatement, {
-			condition: "novel.userVar.animal == 'cat'",
-			thenPart: [
-				david, {image: "smiling1.png"},
-				david, "Especially one that purrs!",
-				david, {image: "simple1.png"}
-			]
-		},
+		ifStatement, "novel.userVar.animal == 'cat'",
+		    david, {image: "smiling1.png"},
+            david, "Especially one that purrs!",
+			david, {image: "simple1.png"},
+		endIf, "",
 		david, "And remember: please spay or neuter your pet."
 	];
 }

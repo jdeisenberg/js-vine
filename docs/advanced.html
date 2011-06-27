@@ -339,32 +339,28 @@ the if statement.
 </p>
 
 <div class="inset bordered">
-<pre><span class="line"> 1</span>&nbsp;david, "If you don&amp;rsquo;t have a pet but want one,<span class="cont">&rarr;</span>
-   go to the local shelter and adopt an animal.",
-<span class="line"> 2</span>&nbsp;ifStatement, {
-<span class="line"> 3</span>&nbsp;  condition: "novel.userVar.animal == 'cat'",
-<span class="line"> 4</span>&nbsp;  thenPart: [
-<span class="line"> 5</span>&nbsp;      david, {image: "smiling1.png"},
-<span class="line"> 6</span>&nbsp;      david, "Especially one that purrs!",
-<span class="line"> 7</span>&nbsp;      david, {image: "simple1.png"}
-<span class="line"> 8</span>&nbsp;  ]
-<span class="line"> 9</span>&nbsp;},
-<span class="line">10</span>&nbsp;david, "And remember: please spay or neuter your pet."</pre>
+<pre><span class="line"> 1</span>&nbsp;ifStatement, "novel.userVar.animal == 'cat'",
+<span class="line"> 2</span>&nbsp;  david, {image: "smiling1.png"},
+<span class="line"> 3</span>&nbsp;  david, "Especially one that purrs!",
+<span class="line"> 4</span>&nbsp;  david, {image: "simple1.png"},
+<span class="line"> 5</span>&nbsp;endIf, "",
+<span class="line"> 6</span>&nbsp;david, "And remember: please spay or neuter your pet."</pre>
 </div>
 
 <p>
-The <code>ifStatement</code> must contain a <code>condition</code> (line 3).
-The string that follows the <code>condition</code> is a
-JavaScript expression that asks a yes-or-no question.
+The <code>ifStatement</code> must contain a <code>condition</code> (line 1),
+which is a JavaScript expression that asks a yes-or-no question.
 In this case, the question is, &ldquo;is <code>novel.userVar.animal</code>
 exactly equal to the string <samp>'cat'</samp>?&rdquo;
+If the answer is yes, the statements in the <code>thenPart</code> (lines
+2-4) are carried out. If the answer is no, the novel simply proceeds
+after the <code>endIf</code>.
 </p>
 
-<p>
-If the answer is yes, the statements in the <code>thenPart</code> (lines
-4-8) are carried out. If the answer is no, the novel simply proceeds to
-the next frame (line 10).
-</p>
+<p><span class="warning">Important:</span> That&rsquo;s a capital letter
+<code>I</code> in <code>endIf</code>.  You have to put an <code>""</code>
+after the <code>endIf</code> so that every entry in the script has two
+parts.
 
 <p>
 As in JavaScript, you must use two equal signs in a row (<code>==</code>)
@@ -385,39 +381,44 @@ otherwise (else) I will get some take-out food.&rdquo;
 <p>
 <a href="ifExample/ifExample2.html">Here is a slight modification of
 the first example</a>. In this novel, if you choose dogs instead of
-cats, you also get a special message in the last part of the novel:
+cats, you also get a special message in the last part of the novel,
+as specified in the <code>elsePart</code> on line 5.
 </p>
 
 <div class="inset bordered">
-<pre>ifStatement, {
-    condition: "novel.userVar.animal == 'cat'",
-    thenPart: [
-        david, {image: "smiling1.png"},
-        david, "Especially one that purrs!",
-        david, {image: "simple1.png"}
-    ],
-    elsePart: [
-        david, "Your dog will be a loyal companion for life."
-    ],
-},</pre>
+<pre><span class="line"> 1</span>&nbsp;ifStatement, "novel.userVar.animal == 'cat'",
+<span class="line"> 2</span>&nbsp;  david, {image: "smiling1.png"},
+<span class="line"> 3</span>&nbsp;  david, "Especially one that purrs!",
+<span class="line"> 4</span>&nbsp;  david, {image: "simple1.png"},
+<span class="line"> 5</span>&nbsp;elsePart, "", 
+<span class="line"> 6</span>&nbsp;  david, "Your dog will be a loyal companion for life.",
+<span class="line"> 7</span>&nbsp;endIf, "", 
+</pre>
 </div>
 
 <div class="warning bordered">
 <p>
 <span class="warning">Warning:</span>
-Putting a <code>label</code> inside a <code>thenPart</code> or
-<code>elsePart</code> won&rsquo;t work. The engine can only find
-<code>label</code>s that are outside of <code>ifStatement</code>s. This is
-a bad thing, because it doesn&rsquo;t let you do a <code>label</code>
-and <code>jump</code> that is entirely contained inside the
-<code>thenPart</code> or <code>elsePart</code>. This is a good thing,
-because it prevents you from doing a <code>jump</code> into the middle
-of an <code>ifStatement</code>, which would be pretty weird.
+Be careful about putting a <code>jump</code> inside of an
+<code>ifStatement</code>. If a <code>jump</code> leads
+to a destination that is outside
+of the <code>ifStatement</code>, the novel engine will not
+be aware that it has left the <code>ifStatement</code>, and strange things
+may occur. If a <code>jump</code> from outside an
+<code>ifStatement</code> goes to a destination that is inside
+an <code>ifStatement</code>, the novel engine will be very confused
+when it finds an <code>endIf</code> without ever having started the
+<code>ifStatement</code>.
 </p>
 </div>
 
 <h2><a id="subroutines">Subroutines</a></h2>
 <p>
+If there is a series of statements that you will do many times during
+a script, you can put them in a <dfn>subroutine</dfn>, which is analogous
+to a JavaScript function.
+Think of it as a &ldquo;mini-script&rdquo; that you can call
+upon whenever you need it.
 </p>
 <h2><a id="jscall">Calling JavaScript from your Novel</a></h2>
 <p>
