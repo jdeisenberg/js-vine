@@ -498,7 +498,35 @@ endSub, "",</pre>
 
 <h2><a id="jscall">Calling JavaScript from your Novel</a></h2>
 <p>
+<span class="warning">For the technically advanced readers only!</span>
+Sometimes you will need to call a JavaScript function to accomplish some
+goal. You can put a <code>jsCall</code> into your script. It is followed
+by an object that has these properties: <code>fcn</code>, which is the
+name of the JavaScript function you want to call, and
+<code>params</code>, which is an array of parameters to be passed to the
+function. If there are no parameters, use an empty array
+(<code>[&nbsp;]</code>). <a href="jsCallExample/jsCallExample.html">This
+example</a> calls JavaScript to add two numbers. Here is the relevant
+script, and the function it calls:
 </p>
+
+<div class="inset bordered">
+<pre>
+// this goes inside function prepareNovel();
+script = [
+    label, "start",
+    scene, "empty.png",
+    narrator, "Click the mouse to add 2 and 5.",
+    jsCall,  { fcn: addNumbers, params: [2, 5] },
+    narrator, "The result is {{novel.userVar.sum}}."
+];
+
+// and this function is elsewhere in your JavaScript file
+function addNumbers(x, y)
+{
+    novel.userVar.sum = x + y;
+}</pre>
+</div>
 </body>
 </html>
 
