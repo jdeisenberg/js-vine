@@ -418,8 +418,84 @@ If there is a series of statements that you will do many times during
 a script, you can put them in a <dfn>subroutine</dfn>, which is analogous
 to a JavaScript function.
 Think of it as a &ldquo;mini-script&rdquo; that you can call
-upon whenever you need it.
+upon whenever you need it. 
+<a href="subExample/subExample.html">Take a look at this sample
+visual novel</a>. Every time a character speaks, his picture becomes
+completely opaque and the non-speaking character&rsquo;s picture becomes
+transparent. Each speaker&rsquo;s code looks like this:
 </p>
+
+<div class="inset bordered">
+<pre>// Make Mr. Gold the primary speaker
+gold, { alpha: 1.0 },
+green, { alpha: 0.3 },
+
+// Make Mr. Green the primary speaker
+gold, { alpha: 0.3 },
+green, { alpha: 1.0 },</pre>
+</div>
+
+<p>
+Now, you could copy and paste this code into the script every time
+one of the speakers changes, but that&rsquo;s prone to error, and if
+you ever decide to change the transparent alpha value, you have to change
+every occurrence (another error-prone process).
+</p>
+
+<p>
+The solution is to make each of these bits of a code into a
+subroutine:
+</p>
+
+<div class="inset bordered">
+<pre>sub, "showGold",
+    gold, { alpha: 1.0 },
+    green, { alpha: 0.3 },
+endSub, "",
+    
+    sub, "showGreen",
+    gold, { alpha: 0.3 },
+    green, { alpha: 1.0 },
+endSub, "",</pre>
+</div>
+
+<p>
+Now the script makes calls to the subroutines:
+</p>
+
+<div class="inset bordered">
+<pre>call, "showGold",
+gold, "Hi. I am Mr. Gold.",
+call, "showGreen",
+green, "And I am Mr. Green.",</pre>
+</div>
+
+<h3>Where to Place Subroutines</h3>
+<p>
+<span class="warning"><big>Important!</big></span> Always place your
+subroutines before the <code>label,&nbsp;"start",</code> line. Never
+put them in the middle of your script, and don&rsquo;t put them at the end
+of the script, either.
+</p>
+
+<p>
+A subtle technical point, which you may skip if you don&rsquo;t care:
+You may put a subroutine at the end of the script, as long as there is no way
+for the script to encounter it normally, as in this sample code:
+</p>
+
+<div class="inset bordered">
+<pre>narrator, "and that is the end of our story!",
+narrator, "Click to see the story again.",
+jump, "start",
+
+// the engine will never get to this line
+sub, "setScene",
+   scene, "empty.png",
+   narrator, { alpha: 1.0 },
+endSub, "",</pre>
+</div>
+
 <h2><a id="jscall">Calling JavaScript from your Novel</a></h2>
 <p>
 </p>

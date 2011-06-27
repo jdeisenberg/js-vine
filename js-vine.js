@@ -993,7 +993,7 @@ function call(label)
 {
 	if (typeof novel.subs[label] != 'undefined')
 	{
-		novel.callStack.push(novel.frame);
+        novel.callStack.push(novel.frame);
 		novel.frame = novel.subs[label];
 	}
 }
@@ -1043,7 +1043,6 @@ function label(str)
 
 function sub(str)
 {
-	// do nothing
 }
 
 /*
