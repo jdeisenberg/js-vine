@@ -201,10 +201,9 @@ function prepareNovel()
     narrator, "And so, we became a visual novel creating team.",
     narrator, "We made games and had a lot of fun making them.",
 
-    ifStatement, {condition: "novel.userVar.bl_game == true",
-		thenPart: [
-        narrator, "Well, apart from that Boy&rsquo;s Love game she insisted on making."]
-	},
+    ifStatement, "novel.userVar.bl_game == true",
+        narrator, "Well, apart from that Boy&rsquo;s Love game she insisted on making.",
+	endIf, "",
 
 	narrator, "And one day...",
 
