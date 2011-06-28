@@ -309,10 +309,6 @@ TextBlock.prototype.setAlpha = function(alpha)
 */
 TextBlock.prototype.display = function(param)
 {
-	var el;
-	var xPos;
-	var yPos;
-
 	/*
 		If the <div> isn't in the DOM yet, insert it,
 		and add it to the list of actors in the tableau.
@@ -323,76 +319,84 @@ TextBlock.prototype.display = function(param)
 		novel.actors.push(this);
 	}
 	this.domRef = document.getElementById(this.escName);
-	el = this.domRef;
 	
-	/*
+    novel_textEntity_display(this, param);
+}
+
+function novel_textEntity_display(obj, param)
+{
+    /*
 		Hide the text, then look at the parameter and take
 		appropriate action depending upon its type
 	*/
+    var el = obj.domRef;
+	var xPos;
+	var yPos;
+
 	el.style.visibility = "hidden";
 	if (param != null)
 	{
 		if (param.constructor == Position)
 		{
-			this.position = param;
+			obj.position = param;
 		}
 		else if (param.constructor == String)
 		{
-			this.text = param;
+			obj.text = param;
 		}
 		else if (param.constructor == Object)
 		{
 			for (var propertyName in param)
 			{
-				this[propertyName] = param[propertyName];
+				obj[propertyName] = param[propertyName];
 			}
 		}
 	}
 	// set the text
-	el.innerHTML = this.text.replace(/{{(.*?)}}/g,
+	el.innerHTML = obj.text.replace(/{{(.*?)}}/g,
 		novel_interpolator);;
 
-	xPos = this.position.x;
-	yPos = this.position.y;
+	xPos = obj.position.x;
+	yPos = obj.position.y;
 	
 	// and its position and attributes
-	if (this.position.xRelative)
+	if (obj.position.xRelative)
 	{
 		xPos *= novel.width;
 	}
-	if (this.position.yRelative)
+	if (obj.position.yRelative)
 	{
 		yPos *= novel.height;
 	}
-	if (this.color)
+	if (obj.color)
 	{
-		el.style.color = this.color;
+		el.style.color = obj.color;
 	}
-	if (this.backgroundColor)
+	if (obj.backgroundColor)
 	{
-		el.style.backgroundColor = this.backgroundColor;
+		el.style.backgroundColor = obj.backgroundColor;
 	}
-	if (this.font)
+	if (obj.font)
 	{
-		el.style.font = this.font;
+		el.style.font = obj.font;
 	}
-	if (this.border)
+	if (obj.border)
 	{
-		el.style.border = this.border;
+		el.style.border = obj.border;
 	}
-	if (this.align)
+	if (obj.align)
 	{
-		el.style.textAlign = this.align;
+		el.style.textAlign = obj.align;
 	}
-	if (!this.visibility)
+	if (!obj.visibility)
 	{
-		this.visibility = "visible";
+		obj.visibility = "visible";
 	}
 	el.style.position = "absolute";
-	el.style.width = Math.floor(this.width * 100) + "%";
+	el.style.width = Math.floor(obj.width * 100) + "%";
 	el.style.left = xPos + "px";
 	el.style.top = yPos + "px";
-	el.style.visibility = this.visibility; // then reveal (if visible)
+	el.style.visibility = obj.visibility; // then reveal (if visible)
 }
 
 /*
@@ -411,6 +415,146 @@ TextBlock.prototype.show = function(visible)
 TextBlock.prototype.doAction = function(param)
 {
 	this.display(param);
+}
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
+/* ============================================== */
+/*
+	A Input is a block of text that can be displayed.
+	
+	name: the name for this text block
+	escName: the escape() of the name; used as an id="" attribute
+	color: text color for this block
+	backgroundColor: background color for this block
+	inputElement: a <input type="text" class="textClass"> element that holds the text
+	domRef: a reference to the <div> once inserted into the DOM
+	position: where to display this text block
+	align: text alignment, as in CSS
+	border: a border specification as in CSS
+	font: the font to use to display the text
+	width: % of width of the window; range from 0 to 1.0
+	visibility: "visible" or "hidden", as in CSS
+	text: initial value of text field
+*/
+function Input(textName)
+{
+	if (textName == '')
+	{
+		textName = "anon" + novel.anonymous++;
+	}
+	this.escName = escape(textName);
+	this.color = "#000000";
+	this.inputElement = document.createElement("input");
+    this.inputElement.setAttribute("type", "text");
+	this.inputElement.setAttribute("id", this.escName);
+	this.inputElement.setAttribute("class", "textClass");
+	this.inputElement.setAttribute("className", "textClass");
+    this.inputElement.addEventListener("change", novel_inputChange, false);
+	this.domRef = null;
+	this.position = new Position(0, 0, true);
+	this.align = "left";
+	this.font = '20px "Deja Vu Sans", Helvetica, Arial, sans-serif';
+	this.width = 1.0; // decimal percentage
+	this.visibility = "visible";
+	this.text = "";
+	
+	/*
+		If given a second parameter, use its fields
+		to set the Input's fields
+	*/
+	if (arguments.length > 1)
+	{
+		var param = arguments[1];
+		for (var property in param)
+		{
+			this[property] = param[property];
+		}
+	}
+}
+
+/*
+	Convenience method to set the initial value of the input field
+*/
+Input.prototype.setValue = function(txt)
+{
+	this.domRef.value = txt;
+}
+
+/*
+	Set the transparency. If the picture is completely opaque,
+	we must remove the style information, as IE blurs the picture
+	even when alpha is 100.
+*/
+Input.prototype.setAlpha = function(alpha)
+{
+	novel_setAlpha(this, alpha);
+}
+
+/*
+	Display the text block on the screen
+*/
+Input.prototype.display = function(param)
+{
+	/*
+		If the <div> isn't in the DOM yet, insert it,
+		and add it to the list of actors in the tableau.
+	*/
+	if (this.domRef == null)
+	{
+		novel.tableau.appendChild(this.inputElement);
+		novel.actors.push(this);
+	}
+	this.domRef = document.getElementById(this.escName);
+    this.domRef.value = this.text;
+    this.domRef.focus();
+	
+    novel_textEntity_display(this, param);
+    novel.paused = true;
+    novel.ignoreClicks = true;
+}
+
+/*
+	A convenience method; parameter is either true or false
+	to show or hide a text block
+*/
+Input.prototype.show = function(visible)
+{
+	this.domRef.style.visibility = (visible) ? "visible" : "hidden";
+}
+
+/*
+	At this moment, the only action a text block can
+	take is to display itself.
+*/
+Input.prototype.doAction = function(param)
+{
+	this.display(param);
+}
+
+function novel_inputChange(evt)
+{
+    var inputObj;
+    var actor;
+	if (!evt)
+	{
+		evt = window.event;
+	}
+    inputObj = evt.target;
+    novel.userVar[inputObj.id] = inputObj.value;
+	evt.cancelBubble = true;
+	if (evt.stopPropagation)
+	{
+		evt.stopPropagation();
+	}
+    novel.paused = false;
+    novel.ignoreClicks = false;
+    actor = novel.actors.pop();
+    inputObj = actor.domRef;
+    if (inputObj != null)
+    {
+        inputObj.parentNode.removeChild(inputObj);
+    }
+    actor.domRef = null;
+    playNovel();
 }
 
 /* ============================================== */
@@ -1181,7 +1325,8 @@ function playNovel()
 	{
 		obj = novel_script[novel.frame];
 //		document.getElementById("debug").innerHTML = "frame: " + novel.frame + " " + obj + "/" + novel_script[novel.frame +1];
-		if (obj.constructor == Character || obj.constructor == TextBlock)
+		if (obj.constructor == Character || obj.constructor == TextBlock ||
+            obj.constructor == Input)
 		{
 			obj.doAction(novel_script[novel.frame+1]);
 			novel.frame += 2;
