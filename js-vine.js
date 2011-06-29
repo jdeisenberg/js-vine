@@ -1190,20 +1190,45 @@ function sub(str)
 }
 
 /*
-	Play the audio with the given filename
+	Play the audio with the given filename. The default
+    action is to loop the sound indefinitely.
+    
+    If given an object, the src property gives the filename
+    and the loop property (boolean) tells whether to loop or not.
+    
+    If the parameter is null, sound is stopped.
 */
-function audio(str)
+function audio(param)
 {
 	var audioSource;
+    var loop = true;
 	if (novel.audio)
 	{
 		stopAudio();
-		novel.audio.src = novel.audioPath + str;
-		novel.audio.addEventListener('ended', function() {
-			this.currentTime = 0;
-			this.play();
-		}, false);
-		novel.audio.play();
+        if (param != null)
+        {
+            if (param.constructor == String)
+            {
+                audioSource = param;
+            }
+            else if (param.constructor == Object)
+            {
+                audioSource = param.src;
+                if (param.loop != null)
+                {
+                    loop = param.loop;
+                }
+            }
+            novel.audio.src = novel.audioPath + audioSource;
+            if (loop)
+            {
+                novel.audio.addEventListener('ended', function() {
+                    this.currentTime = 0;
+                    this.play();
+                }, false);
+            }
+            novel.audio.play();
+        }
 	}
 }
 
