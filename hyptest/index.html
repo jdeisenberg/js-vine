@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html;
@@ -7,50 +7,50 @@
 <title>Hypothesis Testing</title>
 <style type="text/css">
 body {
-	text-align: center;
+    text-align: center;
 }
 #novelDiv {
-	width: 800px;
-	height: 450px;
-	border: 1px solid black;
-	margin-left: auto;
-	margin-right: auto;
-	position: relative;
-	text-align: center;
+    width: 800px;
+    height: 450px;
+    border: 1px solid black;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    text-align: center;
 }
 
 #dialogDiv {
-	font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
-	font-size: 20px;
-	margin-left: auto;
-	margin-right: auto;
-	width: 790px;
-	height: 141px;
-	border: 1px solid black;
-	border-top: none;
-	background-color: #3d372c;
-	color: white;
-	top: 450px;
-	left: 0;
-	padding: 5px;
-	text-align: left;
-}	
+    font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 790px;
+    height: 141px;
+    border: 1px solid black;
+    border-top: none;
+    background-color: #3d372c;
+    color: white;
+    top: 450px;
+    left: 0;
+    padding: 5px;
+    text-align: left;
+}   
 
 .menuItem {
-	width: 75%;
-	margin: 0.5em auto;
-	padding: 0.5em 3em;
-	background-color: #0050a0;
-	-moz-border-radius: 15px;
-	border-radius: 15px;
-	text-align: center;
-	color: white;
-	font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
-	font-size: 18px;
+    width: 75%;
+    margin: 0.5em auto;
+    padding: 0.5em 3em;
+    background-color: #0050a0;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+    font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
+    font-size: 18px;
 }
 
 div.menuItem:hover {
-	background-color: #00a0ff;
+    background-color: #00a0ff;
 }
 </style>
 
@@ -108,8 +108,8 @@ var preload = [
 var preloadObj = new Array(preload.length);
 for (var i = 0; i < preload.length; i++)
 {
-	preloadObj[i] = new Image();
-	preloadObj[i].src = imgPath + preload[i];
+    preloadObj[i] = new Image();
+    preloadObj[i].src = imgPath + preload[i];
 }
 
 var r;
@@ -130,68 +130,68 @@ var script;
 
 function prepareNovel()
 {
-	novel.imagePath = "images/";
-	r = new Character('Roberta', {color: "#c8ffc8"});
-	f = new Character('Frank', {color: "#ffff60"});
-	narrator = new Character('');
-	diagram = new Character('');
-	male = new Character("male");
-	female = new Character("female");
-	textArea = new TextBlock('', {align: "center"});
-	leftSide = new Position(10, 300, 0, 0);
-	rightSide = new Position(800, 300, 1, 0);
-	nearTop = new Position(0.5, 0.1, 0.5, 0);
-	center = new Position(0.5, 0.5, 0.5, 0.5);
-	textCenter = new Position(0, 0.5, 0.5, 0.5);
-	textTop = new Position(0, 0.1);
-	bigFont = '36px "Deja Vu Sans", Helvetica, Arial, sans-serif';
-	
-	script = [
-	sub, "show_roberta", 
-	f, {alpha: 0.3},
-	r, {alpha: 1.0},
-	endSub, "",
-	
-	sub, "show_frank",
-	f, {alpha: 1.0},
-	r, {alpha: 0.3},
-	endSub, "",
-
-	sub, "setscene",
-	scene, "wheat.png",
-	r, {image: "roberta.png", position: rightSide},
-	f, {image: "frank.png", position: leftSide},
+    novel.imagePath = "images/";
+    r = new Character('Roberta', {color: "#c8ffc8"});
+    f = new Character('Frank', {color: "#ffff60"});
+    narrator = new Character('');
+    diagram = new Character('');
+    male = new Character("male");
+    female = new Character("female");
+    textArea = new TextBlock('', {align: "center"});
+    leftSide = new Position(10, 300, 0, 0);
+    rightSide = new Position(800, 300, 1, 0);
+    nearTop = new Position(0.5, 0.1, 0.5, 0);
+    center = new Position(0.5, 0.5, 0.5, 0.5);
+    textCenter = new Position(0, 0.5, 0.5, 0.5);
+    textTop = new Position(0, 0.1);
+    bigFont = '36px "Deja Vu Sans", Helvetica, Arial, sans-serif';
+    
+    script = [
+    sub, "show_roberta", 
+    f, {alpha: 0.3},
+    r, {alpha: 1.0},
+    endSub, "",
+    
+    sub, "show_frank",
+    f, {alpha: 1.0},
+    r, {alpha: 0.3},
     endSub, "",
 
-	sub, "setscene_rf",
-	scene, "wheat.png",
-	r, {image: "roberta.png", position: leftSide},
-	f, {image: "frank.png", position: rightSide},
+    sub, "setscene",
+    scene, "wheat.png",
+    r, {image: "roberta.png", position: rightSide},
+    f, {image: "frank.png", position: leftSide},
     endSub, "",
-	
-	label, "start",
-	scene, "wheat.png",
-	menu, ["Main Menu",
-		"Start Tutorial", [jump, "intro"],
+
+    sub, "setscene_rf",
+    scene, "wheat.png",
+    r, {image: "roberta.png", position: leftSide},
+    f, {image: "frank.png", position: rightSide},
+    endSub, "",
+    
+    label, "start",
+    scene, "wheat.png",
+    menu, ["Main Menu",
+        "Start Tutorial", [jump, "intro"],
         "The odds", [jump, "odds"],
         "Hypotheses", [jump, "hypotheses"],
         "Example 1&#8211;Math Scores", [jump, "math"],
         "Example 2&#8212;Shoes", [jump, "shoes"],
         "1-Tailed vs. 2-Tailed", [jump, "tailed_tests"],
         "Type I Error", [jump, "type1_error"]
-	],
-	
-	label, "intro",
-	call, "setscene",
-	f, { image: "frank_confused.png"},
-	call, "show_frank",
-	f, "I just don&#8217;t get this stuff about hypothesis testing and significance levels.<br /><br /><small style='color:#fff'>(Click to continue, please.)</small>",
-	
-	diagram, {image: "nickel_heads.png", position: center, visibility: "visible"},
-	f, {image: "frank.png"},
-	
-	call, "show_roberta",
-	r, "Well, let&#8217;s start with something that everybody understands: flipping a coin.",
+    ],
+    
+    label, "intro",
+    call, "setscene",
+    f, { image: "frank_confused.png"},
+    call, "show_frank",
+    f, "I just don&#8217;t get this stuff about hypothesis testing and significance levels.<br /><br /><small style='color:#fff'>(Click to continue, please.)</small>",
+    
+    diagram, {image: "nickel_heads.png", position: center, visibility: "visible"},
+    f, {image: "frank.png"},
+    
+    call, "show_roberta",
+    r, "Well, let&#8217;s start with something that everybody understands: flipping a coin.",
     r, "In fact, I&#8217;ll flip you for who pays for lunch!",
     
     call, "show_frank",
@@ -230,27 +230,27 @@ function prepareNovel()
     call, "show_roberta",
     r, "Why?",
     
-	label, "odds",
+    label, "odds",
     call, "setscene",
     diagram, {image: "9_to_1.png", position: center},
     call, "show_frank",
     f, "Well, it <i>is</i> possible for a fair coin to come up heads 9 times in ten flips...but what are the chances of that?",
  
-	call, "show_roberta",
+    call, "show_roberta",
     r, "It turns out that if you did many, many sets of 10 coin flips, you could expect 9 heads and 1 tail a little less than 1% of the time.",
 
     diagram, {image: "9_either_way.png", position: nearTop},
     r, "If you didn&#8217;t care whether it was 9 heads or 9 tails, that would happen about 2% of the time.",
-	
-	label, "showOdds",
-	scene, "wheat.png",
-	menu, ["Would you like to see the odds for all the combinations?",
-		"Show me a graph", [jump, "odds_graph"],
-		"Show me a table", [jump, "odds_table"],
-		"Keep going", [jump, "odds_meaning"] ],
-		
-	label, "odds_graph",
-	scene, "wheat.png",
+    
+    label, "showOdds",
+    scene, "wheat.png",
+    menu, ["Would you like to see the odds for all the combinations?",
+        "Show me a graph", [jump, "odds_graph"],
+        "Show me a table", [jump, "odds_table"],
+        "Keep going", [jump, "odds_meaning"] ],
+        
+    label, "odds_graph",
+    scene, "wheat.png",
     r, {image: "roberta.png", position: leftSide},
     diagram, {image: "histogram.png", position: nearTop},
     r, "This graph shows the percent probability that you will get a particular number of heads.",
@@ -262,7 +262,7 @@ function prepareNovel()
     r, "But the odds of 4, 5, or 6 heads are pretty good.",
     jump, "showOdds",
 
-	label, "odds_table",
+    label, "odds_table",
     scene, "wheat.png",
     r, {image: "roberta", position: rightSide},
     diagram, {image: "table.png", position: nearTop},
@@ -275,10 +275,10 @@ function prepareNovel()
     r, "But the probability of 4, 5, or 6 heads all combined is over 60%.",
     jump, "showOdds",
 
-	label, "odds_meaning",
-	scene, "wheat.png",
+    label, "odds_meaning",
+    scene, "wheat.png",
     f, {image: "frank.png", position: leftSide},
-	f, {alpha: 1.0},
+    f, {alpha: 1.0},
     f, "So here&#8217;s what happened:",
     
     diagram, {image: "nickel_heads.png", position: center},
@@ -290,7 +290,7 @@ function prepareNovel()
     diagram, {image: "histogram_middle.png", position: nearTop},
     f, "And I compared the results to what I would expect from a fair coin.",
     
-	textArea, {text: "&gt; 5%", position: textTop},
+    textArea, {text: "&gt; 5%", position: textTop},
     f, "If what I got is something I would expect 5% of the time or more, I would say the coin is fair.",
 
     f,  {image: "frank_sad.png"},
@@ -359,7 +359,7 @@ function prepareNovel()
     call, "show_frank",   
     f, "Let me see the rest of the math test example, please.",
 
-	label, "math",
+    label, "math",
     scene, "wheat.png",
     r, {image: "roberta.png", position: leftSide, visibility: "visible", alpha: 1.0},
     r, "We can&#8217;t test all the men and women in our school, so we take a sample of 10 men and 10 women and give them each a math test with 100 problems on it.",
@@ -397,70 +397,70 @@ function prepareNovel()
     textArea, {text: "&gt; 5%", position: textTop, visibility: "visible"},
     r, "And since our probability was greater than .05 (5%), our result is <b><i><span style='color:#ffff00'>not</span></i></b> significant.",
 
-	label, "shoes",
+    label, "shoes",
     call, "setscene",
-	call, "show_frank",
+    call, "show_frank",
     f, "How about another example?",
     
     diagram, {image: "shoes.png", position: center},
-	call, "show_roberta",
+    call, "show_roberta",
     r, "Sure thing. Who owns more shoes? Men or women?",
     
     call, "show_frank",
-	f, "Ha! I bet I know this one!",
+    f, "Ha! I bet I know this one!",
     
     call, "show_roberta",
-	r, "I have my own prediction too. But what&#8217;s the null hypothesis here?",
+    r, "I have my own prediction too. But what&#8217;s the null hypothesis here?",
     
     scene, "wheat.png",
     diagram, {image: "your_mf_hypothesis.png",
-		position: new Position(0.5, 0.7, 0.5, 0.5)},
+        position: new Position(0.5, 0.7, 0.5, 0.5)},
     menu, [
         "Is the null hypothesis that, on the average:",
         "Women own more shoes than men do.",
-			[setVars,  {your_guess: "that women have more shoes"},
+            [setVars,  {your_guess: "that women have more shoes"},
                 jump, "bad_null"],
         "Women and men own the same number of shoes.",
                 [jump, "good_null"],
         "Men own more shoes than women do.",
-		[setVars, { your_guess: "that men have more shoes"},
+        [setVars, { your_guess: "that men have more shoes"},
                 jump, "bad_null"],
         "I\u2019m not sure.",
-		[setVars, { your_guess: "any of the three possibilities"},
+        [setVars, { your_guess: "any of the three possibilities"},
                 jump, "bad_null"]
-		],
+        ],
 
-	label, "bad_null",
-	scene, "wheat.png",
+    label, "bad_null",
+    scene, "wheat.png",
     r, {image: "roberta.png", position: leftSide},
     diagram, {image: "your_mf_hypothesis.png", position: nearTop},
     r, "<i>Your</i> hypothesis might be {{novel.userVar.your_guess}}...",
     
-	diagram, {image: "null_mf_hypothesis.png", position: nearTop},
- 	textArea, {text: "H<sub>0</sub>", font: bigFont, position: textTop},
+    diagram, {image: "null_mf_hypothesis.png", position: nearTop},
+    textArea, {text: "H<sub>0</sub>", font: bigFont, position: textTop},
    r, "...but the null hypothesis says that the means are equal; the difference is null.",
     
-	f, {position: rightSide},
+    f, {position: rightSide},
     call, "show_frank",
     f, "Null as in zero, zip, nada.",
     jump, "ttest2",
     
-	label, "good_null",
-	scene, "wheat.png",
+    label, "good_null",
+    scene, "wheat.png",
     r, {image: "roberta_talking.png", position: leftSide},
     diagram, {image: "null_mf_hypothesis.png", position: nearTop},
- 	textArea, {text: "H<sub>0</sub>", font: bigFont, position: textTop},
+    textArea, {text: "H<sub>0</sub>", font: bigFont, position: textTop},
     r, "Correct. The null hypothesis states that there is no difference in the means.",
-	                
-	label, "ttest2",
-	f, {visibility: "hidden"},
+                    
+    label, "ttest2",
+    f, {visibility: "hidden"},
     r, {image: "roberta.png", position: leftSide},
-	call, "show_roberta",
+    call, "show_roberta",
     diagram, {image: "null_mf_hypothesis.png", position: nearTop},
     r, "Stated formally, the null hypothesis is that the mean number of shoes owned by men equals the mean number of shoes owned by women.",
     
     diagram, {image: "shoe_table.png"},
-	textArea, {visibility: "hidden"},
+    textArea, {visibility: "hidden"},
     r, "Here are the results from asking 10 men and 10 women how many pairs of shoes they own.",
     
     diagram, {image: "shoe_results.png"},
@@ -471,15 +471,15 @@ function prepareNovel()
     call, "show_roberta",
     r, "And the standard deviation shows less of a spread in the data for the men.",
     
-	call, "show_frank",
-	f, "But to find out if the difference in means is significant, you need to do a statistical test.",
+    call, "show_frank",
+    f, "But to find out if the difference in means is significant, you need to do a statistical test.",
 
-	textArea, {text: "<i>p</i> = .01", position: new Position(0, 0.5),
-	font: bigFont, visibility: "visible"},
-	call, "show_roberta",
-	r, "The <i>t</i> test tells us that, if the null hypothesis is true, and we did this survey with many sets of men and women, we could expect a difference this big only 1% of the time.",
+    textArea, {text: "<i>p</i> = .01", position: new Position(0, 0.5),
+    font: bigFont, visibility: "visible"},
+    call, "show_roberta",
+    r, "The <i>t</i> test tells us that, if the null hypothesis is true, and we did this survey with many sets of men and women, we could expect a difference this big only 1% of the time.",
 
-	label, "signif_choice",
+    label, "signif_choice",
      scene, "wheat.png",
      textArea, {text: "<i>p</i> = .01", position: textCenter, font: bigFont},
      menu, [
@@ -490,122 +490,122 @@ function prepareNovel()
                 [jump, "bad_signif"],
         "I&#8217;m not sure if it is significant or not.",
                 [jump, "dk_signif"]
-	],
+    ],
 
-	label, "dk_signif",
+    label, "dk_signif",
     call, "setscene_rf",
     diagram, {image: "nickel_heads.png", position: center},
-	call, "show_frank",
+    call, "show_frank",
     f, "Remember what happened with the coin?",
     
     diagram, {image: "9_to_1.png"},
-	call, "show_roberta",
-	r, "If the coin is fair (the null hypothesis) and we get 9 heads (1% of the time)...",
+    call, "show_roberta",
+    r, "If the coin is fair (the null hypothesis) and we get 9 heads (1% of the time)...",
     
     call, "show_frank",
-	f, "Then we have something significantly different from what a fair coin would give us.",
+    f, "Then we have something significantly different from what a fair coin would give us.",
     
     diagram, {image: "null_mf_hypothesis.png", position: nearTop},
     call, "show_roberta",
-	r, "In this case, the null hypothesis is that there is no difference in average number of shoes for men and women...",
+    r, "In this case, the null hypothesis is that there is no difference in average number of shoes for men and women...",
     
     textArea, {text: "<i>p</i> = .01", visibility: "visible", position: textTop, font: bigFont, width: 1.0},
-	call, "show_frank",
+    call, "show_frank",
     f, "...and you have a result that would happen only 1% of the time. That is also significantly different than what a &#8220;same averages&#8221; assumption would lead you to expect.",
     
     jump, "signif_choice",
 
-	label, "bad_signif",
+    label, "bad_signif",
     call, "setscene",
     diagram, {image: "null_mf_hypothesis.png", position: nearTop},
     textArea, {text: "<i>p</i> = .01", visibility: "visible", position: textCenter, font: bigFont},
-	call, "show_frank",
+    call, "show_frank",
     f, {image: "frank_sad.png"},
     f, "Sorry, that&#8217;s not right.",
     
     f, {image: "frank.png"},
- 	call, "show_roberta",
+    call, "show_roberta",
     r, "You may have thought that because the number is so small, the result can&#8217;t be significant.",
     
-	call, "show_frank",
+    call, "show_frank",
     f, "But remember, the smaller the number, the smaller the probability that the null hypothesis is correct.",
     
-	call, "show_roberta",
+    call, "show_roberta",
     r, "When the number is less than .05, it is significantly different than what the null hypothesis states.",
     
     jump, "reject",
     
-	label, "good_signif",
+    label, "good_signif",
     call, "setscene_rf",
     diagram, {image: "null_mf_hypothesis.png", position: nearTop},
     textArea, {text: "<i>p</i> = .01", font: bigFont,
-		visibility: "visible", position: textCenter},
-	call, "show_roberta",
+        visibility: "visible", position: textCenter},
+    call, "show_roberta",
     r, {image: "roberta_talking.png"},
     r, "Yes, that&#8217;s right!",
     
     r, {image: "roberta"},
-	call, "show_frank",
+    call, "show_frank",
     f, "If men and women did own the same number of shoes, you would get this result only 1% of the time, so the result is <i>significantly</i> different than what the null hypothesis tells you to expect.",
 
-	label, "reject",
+    label, "reject",
     scene, "wheat.png",
     call, "setscene_rf",
     diagram, {image: "null_mf_hypothesis.png", position: nearTop},
     textArea, {text: "<i>p</i> = .01", font: bigFont,
-		visibility: "visible", position: textCenter},
-	call, "show_frank",
-	f, "Because the probability is so low...",
+        visibility: "visible", position: textCenter},
+    call, "show_frank",
+    f, "Because the probability is so low...",
     
     diagram, {image: "reject_null_mf_hypothesis.png", position: nearTop},
     f, "You reject the null hypothesis. There is a significant difference in mean number of shoes owned for men and women.",
-	
-	textArea, {text: "&lt; 5%", position: textCenter},
+    
+    textArea, {text: "&lt; 5%", position: textCenter},
     call, "show_roberta",
-	r, "In general, if  you get a probability less than .05, you reject the null hypothesis, because the odds are that your result is significantly out of line from what the null hypothesis states.",
+    r, "In general, if  you get a probability less than .05, you reject the null hypothesis, because the odds are that your result is significantly out of line from what the null hypothesis states.",
     
     diagram, {image: "null_mf_hypothesis.png"},
     textArea, {text: "&gt; 5%", position: textCenter},
-	call, "show_frank",
+    call, "show_frank",
     f, "If you get a probability greater than .05, you accept the null hypothesis, because the odds are that your results are in line with what the null hypothesis states.",
 
-	label, "tailed_tests",
+    label, "tailed_tests",
     scene, "wheat.png",
     r, {image: "roberta.png", position: leftSide},
     f, {image: "frank.png", position: rightSide},
-	call, "show_roberta",
+    call, "show_roberta",
     r, "All of the tests we have done so far are called &#8220;two-tailed&#8221; tests.",
     
     diagram, {image: "twotails.png", position: center},
     call, "show_frank",
-	f, "You mean like a fake coin with tails on both sides?",
+    f, "You mean like a fake coin with tails on both sides?",
     
     diagram, {image: "histogram_low_high.png", position: nearTop},
-	call, "show_roberta",
+    call, "show_roberta",
     r, "No, in this case, the &#8220;tails&#8221; refer to the tail ends of the probability distribution.",
     
     r, "In the case of the coin, we didn&#8217;t care if we had nine tails and one head or nine heads and one tail.",
     
     call, "show_frank",
-	f, "In either case, you would suspect a rigged coin.",
+    f, "In either case, you would suspect a rigged coin.",
     
     diagram, {image: "tails_mf_hypothesis.png", position: nearTop},
     call, "show_roberta",
     r, "For the math tests or shoe ownership, we just wanted to see if there was a significant difference by gender.",
-	
-	r, "It didn&#8217;t matter whether men or women scored higher, or which gender had more shoes. We were just looking for a difference.",
+    
+    r, "It didn&#8217;t matter whether men or women scored higher, or which gender had more shoes. We were just looking for a difference.",
     
     call, "show_frank",
-	f, "Would you ever want to look at only one side of the probabilities?",
+    f, "Would you ever want to look at only one side of the probabilities?",
     
     diagram, {image: "sun_rain.png", position: center},
-	call, "show_roberta",
+    call, "show_roberta",
     r, "Not often, but here is an example. Let&#8217;s say someone tells you that he can predict whether it will be sunny or rainy by psychic powers.",
     
     r, "You test him for ten days and see how many predictions he gets right.",
     
     scene, "wheat.png",
-	menu, [
+    menu, [
         "What is the null hypothesis?",
         
         "The average number of correct predictions is more than the wrong predictions.",
@@ -616,34 +616,34 @@ function prepareNovel()
             [jump, "correct_tail_null"],
         "I don&#8217;t know",
             [jump, "dk_tail_null"]
-		],
+        ],
 
-	label, "wrong_tail_null",
+    label, "wrong_tail_null",
     call, "setscene",
     f, {image: "frank_sad.png"},
-	call, "show_frank",
+    call, "show_frank",
     f, "Remember, the null hypothesis says that <i>nothing</i> special is going on.",
     jump, "tails_continued",
 
-	label, "dk_tail_null",
+    label, "dk_tail_null",
     call, "setscene",
-	call, "show_frank",
+    call, "show_frank",
     f, "Remember, the null hypothesis says that <i>nothing</i> special is going on.",
     jump, "tails_continued",
 
-	label, "correct_tail_null",
+    label, "correct_tail_null",
     call, "setscene",
-	call,"show_frank",
+    call,"show_frank",
     f, "Yes, you got it right!",
     jump, "tails_continued",
     
-	label, "tails_continued",
+    label, "tails_continued",
     f, {image: "frank.png"},
-	diagram, {image: "sun_rain.png", position: center},
+    diagram, {image: "sun_rain.png", position: center},
     f, "In this case, as with the coin, the null hypothesis is that the average number of correct predictions will be the same as the average number of incorrect predictions.",
     
     diagram, {image: "onetail.png", position: nearTop},
-	call, "show_roberta",
+    call, "show_roberta",
     r, "But when you do your statistical test, you want to see if the &#8220;psychic&#8221; got significantly more correct than by pure chance.",
     
     diagram, {image: "onetail_wrong.png", position: nearTop},
@@ -651,16 +651,16 @@ function prepareNovel()
     
     r, "Again, though, this is a special case. Most of the time, you will want to do a two-tailed test. You want to  know if there is a difference at all, and you do not care which direction it is.",
  
-	label, "type1_error",
+    label, "type1_error",
     call, "setscene",
     diagram, {image: "9_either_way.png", position: nearTop},
-	call, "show_frank",
+    call, "show_frank",
     f, "I have one more question. Remember when I said that it is possible to get nine heads or nine tails in a set of ten tosses, even if the coin is fair?",
     
     f, "Well, if I did get nine tails, the coin <i>could</i> actually be fair, but I would accuse you of having a phony coin.",
     
     r, {image: "roberta_talking.png"},
-	call, "show_roberta",
+    call, "show_roberta",
     r, "Yes, and I would never forgive you :)",
     
     r, {image: "roberta.png"},
@@ -670,15 +670,15 @@ function prepareNovel()
     
     r, "That is a roman numeral one in Type I Error, so read it as &#8220;type one error,&#8221; not &#8220;type eye errror.&#8221;",
     
-	call, "show_frank",
+    call, "show_frank",
     f, "How worried should I be about a Type I error?",
     
     call, "show_roberta",
-	diagram, {image: "histogram_low_high.png", position: nearTop},
+    diagram, {image: "histogram_low_high.png", position: nearTop},
     r, "Well, if you are accusing me, you should be plenty worried! But remember, the chance that you will make this error with the coin is about 2% of the time.",
     
     call, "show_frank",
-	f, "Is that percentage related to the significance level?",
+    f, "Is that percentage related to the significance level?",
     
     call, "show_roberta",
     r, "Yes, it is. The significance level gives the odds that you will make a Type I error...",
@@ -686,12 +686,12 @@ function prepareNovel()
     r, "...the odds that you will reject the null hypothesis when it is really correct.",
     
     diagram, {visibility: "hidden"},
-	textArea, {text: "&lt; 5%", position: textCenter, font: bigFont},
+    textArea, {text: "&lt; 5%", position: textCenter, font: bigFont},
     call, "show_frank",
-	f, "So the magic number 5%...",
+    f, "So the magic number 5%...",
     
     call, "show_roberta",
-	r, "Isn&#8217;t really magic. It is set to that level to minimize the odds that you will make an incorrect guess.",
+    r, "Isn&#8217;t really magic. It is set to that level to minimize the odds that you will make an incorrect guess.",
     
     call, "show_frank",
     f, "And that is important because...?",
@@ -700,7 +700,7 @@ function prepareNovel()
     r, "If I were testing a safety device to see if it works or not, I would not want to say that the device works when it really has no effect (the null hypothesis).",
     
     call, "show_frank",
-	textArea, {visibility: "hidden"},
+    textArea, {visibility: "hidden"},
     f, "Well, if there is a type one error, is there a type two error as well?",
     
     call, "show_roberta",
@@ -713,28 +713,28 @@ function prepareNovel()
     r, "Or if you say that men and women own the same number of shoes, when in fact they don&#8217;t.",
     
     call, "show_frank",
-	f, "Do I need to worry about Type II error also?",
+    f, "Do I need to worry about Type II error also?",
     
     call, "show_roberta",
-	r, "Not as much as Type I error, but you definitely should keep it in mind.",
+    r, "Not as much as Type I error, but you definitely should keep it in mind.",
 
-	label, "the_end",
+    label, "the_end",
     scene, "wheat.png",
-	call, "setscene_rf",
+    call, "setscene_rf",
     r, {image: "roberta.png"},
     r, "There is a lot more to hypothesis testing (like knowing which statistics   to use), but this should be enough to get you started.",
     
-	call, "show_frank",
+    call, "show_frank",
     f, {image: "frank.png"},
     f, "Bye for now!",
-	
-	scene, "wheat.png",
-	textArea, {text: "Coin images from U.S. Mint<br /><br />Other icons from openclipart.org<br /><br />Roberta &amp; Frank from www.manga.com/content/avatar-face-maker", font: '20px "Deja Vu Sans", Helvetica, Arial, sans-serif', position: textCenter, visibility: "visible"},
-	menu, [
-		"You may close the window, or start over again.",
-		"Return to Main Menu", [jump, "start"]
-	]
-	];
+    
+    scene, "wheat.png",
+    textArea, {text: "Coin images from U.S. Mint<br /><br />Other icons from openclipart.org<br /><br />Roberta &amp; Frank from www.manga.com/content/avatar-face-maker", font: '20px "Deja Vu Sans", Helvetica, Arial, sans-serif', position: textCenter, visibility: "visible"},
+    menu, [
+        "You may close the window, or start over again.",
+        "Return to Main Menu", [jump, "start"]
+    ]
+    ];
 }
 // ]]>
 </script>
@@ -742,17 +742,17 @@ function prepareNovel()
 <body onload="initNovel(800, 450);">
 <div id="debug"></div>
 <div id="novelDiv">
-	<div style="position: absolute; left:0; top: 0; z-index:-1">
-		<img id="background0" src="images/wheat.png"/>
-	</div>
-	<div style="position: absolute; left:0; top: 0; z-index:-1">
-		<img id="background1" src="images/wheat.png"/>
-	</div>
+    <div style="position: absolute; left:0; top: 0; z-index:-1">
+        <img id="background0" src="images/wheat.png"/>
+    </div>
+    <div style="position: absolute; left:0; top: 0; z-index:-1">
+        <img id="background1" src="images/wheat.png"/>
+    </div>
 </div>
 <div id="dialogDiv"></div>
 
 <div style="text-align:center; margin-top: 0.5em;"><input type="button"
-	value="Back to Main Menu" onclick="initNovel(800, 450)"/></div>
+    value="Back to Main Menu" onclick="initNovel(800, 450)"/></div>
 
 <div style="margin: 0.5em auto 0 auto; width: 800px; text-align: center;"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="cc-by-nc-sa.png" /></a><br /><small><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">Hypothesis Testing</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://evc-cit.info/psych018/hyptest/" property="cc:attributionName" rel="cc:attributionURL">J David Eisenberg</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.</small></div>
 </body>

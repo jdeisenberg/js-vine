@@ -25,8 +25,8 @@
         <li><a href="#declare">Declaring Variables</a></li>
         <li><a href="#prepare">Preparing the Novel</a></li>
         <li><a href="#positions">Specifying Positions</a></li>
-		<li><a href="#theScript">The Script</a></li>
-		<li><a href="#menu">Choosing from a Menu</a></li>
+        <li><a href="#theScript">The Script</a></li>
+        <li><a href="#menu">Choosing from a Menu</a></li>
     </ul>
 </li>
 </ol>
@@ -165,7 +165,7 @@ for the explanation that follows; don&#8217;t enter them into your markup.
 <dt>Lines 11-12</dt>
     <dd>This is the dialog area, whose <code>id</code> <em>must</em> be
     <samp>"dialogDiv"</samp>.
-	If your <code>&lt;div&nbsp;id="dialogDiv"&gt;</code> is inside the
+    If your <code>&lt;div&nbsp;id="dialogDiv"&gt;</code> is inside the
     <code>&lt;div&nbsp;id="novelDiv"&gt;</code> (as it is in the
     sample novel, &#8220;The Question&#8221;), you must add
     <code>style="z-index:100"</code> to the <code>dialogDiv</code> to
@@ -212,19 +212,19 @@ coincide.
 </p>
 
 <div class="inset bordered"><pre>#dialogDiv {
-	font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
-	font-size: 20px;
-	position: absolute;
-	width: 790px;
-	height: 140px;
-	top: 450px;
-	left: 0;
-	padding: 5px;
-	background-color: #3d372c;
-	color: white;
-	text-align: left;
-	filter: alpha(opacity=75);
-	opacity: 0.75;
+    font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    position: absolute;
+    width: 790px;
+    height: 140px;
+    top: 450px;
+    left: 0;
+    padding: 5px;
+    background-color: #3d372c;
+    color: white;
+    text-align: left;
+    filter: alpha(opacity=75);
+    opacity: 0.75;
 }</pre>
 </div>
 
@@ -382,15 +382,15 @@ to specify a color.
 
 <p>To specify a position on the screen, you give four numbers:</p>
 <ul>
-	<li>The <i>x</i>-coordinate. If this number is less than or equal
-	to 1, it is taken as a decimal percent of the novel&#8217;s width.
-	If it is greater than 1, it is taken as a number of pixels.</li>
-	<li>The <i>y</i>-coordinate. If this number is less than or equal
-	to 1, it is taken as a decimal percent of the novel&#8217;s height.
-	If it is greater than 1, it is taken as a number of pixels.</li>
-	<li>The <i>x</i> <dfn>anchor</dfn>, a number from 0 to 1 (explanation of anchors
-	follows)</li>
-	<li>The <i>y</i> anchor, a number from 0 to 1</li>
+    <li>The <i>x</i>-coordinate. If this number is less than or equal
+    to 1, it is taken as a decimal percent of the novel&#8217;s width.
+    If it is greater than 1, it is taken as a number of pixels.</li>
+    <li>The <i>y</i>-coordinate. If this number is less than or equal
+    to 1, it is taken as a decimal percent of the novel&#8217;s height.
+    If it is greater than 1, it is taken as a number of pixels.</li>
+    <li>The <i>x</i> <dfn>anchor</dfn>, a number from 0 to 1 (explanation of anchors
+    follows)</li>
+    <li>The <i>y</i> anchor, a number from 0 to 1</li>
 </ul>
 
 <p>You may omit the last two numbers, in which case they will be
@@ -517,27 +517,27 @@ is continued. The line numbers at the left are for reference.
 <span class="line"> 2&nbsp;</span>    label, "start",
 <span class="line"> 3&nbsp;</span>    scene, "hills1.jpg",
 <span class="line"> 4&nbsp;</span>    n, "It&amp;rsquo;s a beautiful day at Montgomery Hill Park,<span class="cont">&rarr;</span>
-	where we meet Tyler the tourist, who is looking for Gavin the Guide."
+    where we meet Tyler the tourist, who is looking for Gavin the Guide."
 <span class="line"> 5&nbsp;</span>];</pre>
 </div>
 
 <dl>
 <dt>Line 2</dt>
-	<dd>The label <code>"start"</code> indicates the place where the
-	novel begins.</dd>
+    <dd>The label <code>"start"</code> indicates the place where the
+    novel begins.</dd>
 <dt>Line 3</dt>
-	<dd>The <code>scene</code> command clears out any characters that
-	might be on screen and sets the background to the filename
-	given as the second item (<samp>"hills1.jpg"</samp> in this case).
-	</dd>
+    <dd>The <code>scene</code> command clears out any characters that
+    might be on screen and sets the background to the filename
+    given as the second item (<samp>"hills1.jpg"</samp> in this case).
+    </dd>
 <dt>Line 4</dt>
-	<dd>The first item is the character name; in this case, the narrator.
-	The second item gives the text the character is supposed to say.
-	The text is HTML, and can contain any valid HTML. In this example,
-	<code>&amp;rsquo;</code> gives a curly right single quote (&rsquo;),
-	which looks better at large sizes than a straight-up-and-down quote (').
-	(<a id="quotemarks" href="quotemarks.html">See an example</a>)
-	</dd>
+    <dd>The first item is the character name; in this case, the narrator.
+    The second item gives the text the character is supposed to say.
+    The text is HTML, and can contain any valid HTML. In this example,
+    <code>&amp;rsquo;</code> gives a curly right single quote (&rsquo;),
+    which looks better at large sizes than a straight-up-and-down quote (').
+    (<a id="quotemarks" href="quotemarks.html">See an example</a>)
+    </dd>
 </dl>
 
 <p>
@@ -568,27 +568,27 @@ last line in the script before adding new lines!
 
 <dl>
 <dt>Line 5</dt>
-	<dd>This line makes the character <code>tyler</code> appear
-	with the given <code>image</code> at the <code>position</code> you
-	specify.</dd>
+    <dd>This line makes the character <code>tyler</code> appear
+    with the given <code>image</code> at the <code>position</code> you
+    specify.</dd>
 <dt>Line 6</dt>
-	<dd>
-	When a character&rsquo;s name is followed by a string, that means
-	that it is &ldquo;speech&rdquo; that should appear in the dialog area.
-	</dd>
+    <dd>
+    When a character&rsquo;s name is followed by a string, that means
+    that it is &ldquo;speech&rdquo; that should appear in the dialog area.
+    </dd>
 <dt>Line 7</dt>
-	<dd>This line makes character <code>gavin</code> appear at the 
-	specified <code>position</code> with the given <code>image</code>.
-	You can specify image and position in any order you want. Ordinarily,
-	you would pick one order and stay with it throughout your script.</dd>
+    <dd>This line makes character <code>gavin</code> appear at the 
+    specified <code>position</code> with the given <code>image</code>.
+    You can specify image and position in any order you want. Ordinarily,
+    you would pick one order and stay with it throughout your script.</dd>
 <dt>Line 8</dt>
-	<dd>Since only an image is specified, Tyler&rsquo;s image changes,
-	but not his position.</dd>
+    <dd>Since only an image is specified, Tyler&rsquo;s image changes,
+    but not his position.</dd>
 <dt>Lines 9-10</dt>
-	<dd>More dialog by the characters.</dd>
+    <dd>More dialog by the characters.</dd>
 <dt>Line 11</dt>
-	<dd>The <code>gavin</code> character&rsquo;s position has changed,
-	but since no image has been specified, it stays the same as it was.
+    <dd>The <code>gavin</code> character&rsquo;s position has changed,
+    but since no image has been specified, it stays the same as it was.
 </dl>
 
 <h3><a id="menu">Choosing from a Menu</a></h3>
@@ -599,56 +599,56 @@ in the story, you add a menu, as shown in the following part of the script.
 </p>
 
 <div class="inset bordered">
-<pre><span class="line"> 1</span>	tyler, "Much better, thanks!",
-<span class="line"> 2</span>	
-<span class="line"> 3</span>	label, "menu1",
-<span class="line"> 4</span>	menu, [
-<span class="line"> 5</span>		"So, what would you like to see?",
-<span class="line"> 6</span>		"Dangerous animals", [jump, "wild"],
-<span class="line"> 7</span>		"Not-so-dangerous animals", [jump, "tame"],
-<span class="line"> 8</span>	],
+<pre><span class="line"> 1</span>   tyler, "Much better, thanks!",
+<span class="line"> 2</span>    
+<span class="line"> 3</span>    label, "menu1",
+<span class="line"> 4</span>    menu, [
+<span class="line"> 5</span>        "So, what would you like to see?",
+<span class="line"> 6</span>        "Dangerous animals", [jump, "wild"],
+<span class="line"> 7</span>        "Not-so-dangerous animals", [jump, "tame"],
+<span class="line"> 8</span>    ],
 <span class="line"> 9</span>
-<span class="line">10</span>	label, "wild",
-<span class="line">11</span>	scene, "hills2.jpg",
-<span class="line">12</span>	/* script continues... */</pre>
+<span class="line">10</span>    label, "wild",
+<span class="line">11</span>    scene, "hills2.jpg",
+<span class="line">12</span>    /* script continues... */</pre>
 </div>
 
 <dl>
 <dt>Line 1</dt>
-	<dd>Continuation of the script. The comma at the end of the line
-	is required when you add more lines.</dd>
+    <dd>Continuation of the script. The comma at the end of the line
+    is required when you add more lines.</dd>
 <dt>Line 3</dt>
-	<dd>Although not required, it&rsquo;s a good idea to put a label on
-	all your choice points so that you can jump back to a menu if you
-	need to.</dd>
+    <dd>Although not required, it&rsquo;s a good idea to put a label on
+    all your choice points so that you can jump back to a menu if you
+    need to.</dd>
 <dt>Line 4</dt>
-	<dd>A <code>menu</code> is contained in a JavaScript array (which
-	is enclosed in square brackets).</dd>
+    <dd>A <code>menu</code> is contained in a JavaScript array (which
+    is enclosed in square brackets).</dd>
 <dt>Line 5</dt>
-	<dd>The first item in the array is the prompt for the reader. This
-	prompt will appear, centered, in the dialog area.</dd>
+    <dd>The first item in the array is the prompt for the reader. This
+    prompt will appear, centered, in the dialog area.</dd>
 <dt>Lines 6-7</dt>
-	<dd>Specify each choice with the text for that choice, followed by
-	an array telling the novel engine what to do when the reader chooses it.
-	Line 6 will make a button with the text &ldquo;Dangerous animals&rdquo;
-	appear. If the reader clicks it, she will go to the section of the
-	novel that has a <code>label</code> of <samp>"wild"</samp>.
-	<p>
-	Similarly, line 7 makes a button with the text
-	&ldquo;Not-so-dangerous animals&rdquo; appear. If the reader clicks it,
-	she will go to the section of the novel that has a <code>label</code>
-	of <samp>"tame"</samp>.
-	</p>
-	<p>
-	In this example, there&rsquo;s only one thing to do as the result
-	of a click&mdash;a simple jump. It is possible to do more than one thing
-	as the result of a click on a menu item. This is covered in the
-	advanced features section of the tutorial.
-	</p>
-	</dd>
+    <dd>Specify each choice with the text for that choice, followed by
+    an array telling the novel engine what to do when the reader chooses it.
+    Line 6 will make a button with the text &ldquo;Dangerous animals&rdquo;
+    appear. If the reader clicks it, she will go to the section of the
+    novel that has a <code>label</code> of <samp>"wild"</samp>.
+    <p>
+    Similarly, line 7 makes a button with the text
+    &ldquo;Not-so-dangerous animals&rdquo; appear. If the reader clicks it,
+    she will go to the section of the novel that has a <code>label</code>
+    of <samp>"tame"</samp>.
+    </p>
+    <p>
+    In this example, there&rsquo;s only one thing to do as the result
+    of a click&mdash;a simple jump. It is possible to do more than one thing
+    as the result of a click on a menu item. This is covered in the
+    advanced features section of the tutorial.
+    </p>
+    </dd>
 <dt>Line 8</dt>
-	<dd>Since the script continues, remember to put a comma after the
-	closing square bracket (the opening one was on line 4).</dd>
+    <dd>Since the script continues, remember to put a comma after the
+    closing square bracket (the opening one was on line 4).</dd>
 </dl>
 
 <p>

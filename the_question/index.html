@@ -1,55 +1,55 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html;
        charset=utf-8" />
 <style type="text/css">
 body {
-	text-align: center;
+    text-align: center;
 }
 #novelDiv {
-	width: 800px;
-	height: 600px;
-	border: 1px solid black;
-	margin-left: auto;
-	margin-right: auto;
-	position: relative;
-	text-align: center;
+    width: 800px;
+    height: 600px;
+    border: 1px solid black;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    text-align: center;
 }
 
 .menuItem {
-	width: 75%;
-	margin: 0.5em auto;
-	padding: 0.5em 3em;
-	background-color: #0050a0;
-	position: relative;
-	text-align: center;
-	color: white;
-	font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
-	font-size: 18px;
-	-moz-border-radius: 15px;
-	border-radius: 15px;
+    width: 75%;
+    margin: 0.5em auto;
+    padding: 0.5em 3em;
+    background-color: #0050a0;
+    position: relative;
+    text-align: center;
+    color: white;
+    font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
 }
 
 div.menuItem:hover {
-	background-color: #00a0ff;
+    background-color: #00a0ff;
 }
 
 #dialogDiv {
-	font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
-	font-size: 20px;
-	position: absolute;
-	width: 790px;
-	height: 140px;
-	background-color: #3d372c;
-	color: white;
-	top: 450px;
-	left: 0;
-	padding: 5px;
-	text-align: left;
-	filter: alpha(opacity=75);
-	opacity: 0.75;
+    font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    position: absolute;
+    width: 790px;
+    height: 140px;
+    background-color: #3d372c;
+    color: white;
+    top: 450px;
+    left: 0;
+    padding: 5px;
+    text-align: left;
+    filter: alpha(opacity=75);
+    opacity: 0.75;
 }
 
 </style>
@@ -74,8 +74,8 @@ var preload = [
 var preloadObj = new Array(preload.length);
 for (var i = 0; i < preload.length; i++)
 {
-	preloadObj[i] = new Image();
-	preloadObj[i].src = imgPath + preload[i];
+    preloadObj[i] = new Image();
+    preloadObj[i].src = imgPath + preload[i];
 }
 
 var s;
@@ -96,29 +96,29 @@ var script;
 
 function prepareNovel()
 {
-	novel.imagePath = "images/";
-	novel.audioPath = "audio/";
-	s = new Character('Eileen', {color: "#c8ffc8"});
-	m = new Character('Me', {color: "#c8c8ff"});
-	narrator = new Character('');
-	center = new Position(0.5, 0, 0.5, 0);
+    novel.imagePath = "images/";
+    novel.audioPath = "audio/";
+    s = new Character('Eileen', {color: "#c8ffc8"});
+    m = new Character('Me', {color: "#c8c8ff"});
+    narrator = new Character('');
+    center = new Position(0.5, 0, 0.5, 0);
 
-	script = [
+    script = [
 
-	label, "start",
-	clearTableau, "",
-	showDialog, "visible",
-	audio, {src: "illurock.ogg"},
-	scene, "lecturehall.jpg",
+    label, "start",
+    clearTableau, "",
+    showDialog, "visible",
+    audio, {src: "illurock.ogg"},
+    scene, "lecturehall.jpg",
     narrator, "Well, the professor&rsquo;s lecture was interesting.",
     narrator, "But to be honest, I couldn&rsquo;t concentrate on it very much.",
     narrator, "I had a lot of other thoughts on my mind.",
     narrator, "And they all ended up with a question; a question I&rsquo;ve been meaning to ask someone.",
 
-	scene, {image: "uni.jpg", effect: "dissolve"},
-	narrator, "When we came out of the university, I saw her.",
+    scene, {image: "uni.jpg", effect: "dissolve"},
+    narrator, "When we came out of the university, I saw her.",
 
-	s, {image: "sylvie_normal.png", position: center},
+    s, {image: "sylvie_normal.png", position: center},
     narrator, "She was a wonderful person.",
     narrator, "I&rsquo;ve known her ever since we were children, and she&rsquo;s always been a good friend.",
     narrator, "But recently, I think...",
@@ -126,46 +126,46 @@ function prepareNovel()
     narrator, "More than just talking... more than just walking home together when our classes ended.",
     narrator, "And I decided...",
 
-	label, "choice1",
-	menu, [
-		"",
-		"...to ask her right away.", [jump, "rightaway"],
-		"...to ask her later.", [jump, "later"]
-	],
+    label, "choice1",
+    menu, [
+        "",
+        "...to ask her right away.", [jump, "rightaway"],
+        "...to ask her later.", [jump, "later"]
+    ],
 
-	label, "rightaway",
-	scene, "uni.jpg",
-	s, {image: "sylvie_smile.png", position: center},
-	s, "Oh, hi, do we walk home together?",
-	m, "Yes...",
-	narrator, "I said and my voice was already shaking.",
+    label, "rightaway",
+    scene, "uni.jpg",
+    s, {image: "sylvie_smile.png", position: center},
+    s, "Oh, hi, do we walk home together?",
+    m, "Yes...",
+    narrator, "I said and my voice was already shaking.",
 
-	scene, {image: "meadow.jpg", effect: "dissolve"},
-	narrator, "We reached the meadows just outside our hometown.",
+    scene, {image: "meadow.jpg", effect: "dissolve"},
+    narrator, "We reached the meadows just outside our hometown.",
     narrator, "Autumn was so beautiful here.",
     narrator, "When we were children, we often played here.",
     m, "Hey... ummm...",
-	s, {image: "sylvie_smile.png"},
+    s, {image: "sylvie_smile.png"},
     narrator, "She turned to me and smiled.",
     narrator, "I&rsquo;ll ask her...",
     m, "Ummm... will you...",
     m, "Will you be my artist for a visual novel?",
 
-	s, {image: "sylvie_surprised.png"},
+    s, {image: "sylvie_surprised.png"},
     narrator, "Silence.",
     narrator, "She is shocked. And then...",
 
- 	s, {image: "sylvie_smile.png"},
+    s, {image: "sylvie_smile.png"},
 
     s, "Sure, but what is a \"visual novel?\"",
 
-	label, "choice2",
-	menu, [ "",
-		"It&rsquo;s a story with pictures.", [jump, "vn"],
+    label, "choice2",
+    menu, [ "",
+        "It&rsquo;s a story with pictures.", [jump, "vn"],
          "It&rsquo;s a hentai game.", [jump, "hentai"]
-	],
+    ],
 
-	label, "vn",
+    label, "vn",
 
     m, "It&rsquo;s a story with pictures and music.",
     m, "And you&rsquo;ll be able to make choices that influence the outcome of the story.",
@@ -177,9 +177,9 @@ function prepareNovel()
 
     s, "Well, I can try. I hope I don&rsquo;t disappoint you.",
     m, "You can&rsquo;t disappoint me, you know that.",
-	jump, "marry",
+    jump, "marry",
 
-	label, "hentai",
+    label, "hentai",
 
     setVars, "novel.userVar.bl_game = true",
 
@@ -188,24 +188,24 @@ function prepareNovel()
     s, "I&rsquo;ve always wanted to make one of those.",
     s, "I&rsquo;ll get right on it!",
 
-	s, {visibility: "hidden"},
-	narrator, "...",
-	m, "That wasn&rsquo;t what I meant!",
+    s, {visibility: "hidden"},
+    narrator, "...",
+    m, "That wasn&rsquo;t what I meant!",
 
     jump, "marry",
 
-	label, "marry",
-	scene, {image: "black.png", effect: "dissolve"},
+    label, "marry",
+    scene, {image: "black.png", effect: "dissolve"},
     narrator, "--- years later ---",
-	scene, {image: "club.jpg", effect: "dissolve"},
+    scene, {image: "club.jpg", effect: "dissolve"},
     narrator, "And so, we became a visual novel creating team.",
     narrator, "We made games and had a lot of fun making them.",
 
     ifStatement, "novel.userVar.bl_game == true",
         narrator, "Well, apart from that Boy&rsquo;s Love game she insisted on making.",
-	endIf, "",
+    endIf, "",
 
-	narrator, "And one day...",
+    narrator, "And one day...",
 
     s, {image: "sylvie2_normal.png", position: center, visibility: "visible"},
 
@@ -235,7 +235,7 @@ function prepareNovel()
 
     s, {image: "sylvie2_normal.png"},
 
-	s, "I know. So, will you marry me?",
+    s, "I know. So, will you marry me?",
     m, "Ummm, of course I will. I&rsquo;ve actually been meaning to ask you, but since you brought it up...",
     s, "I know, but you are so indecisive, that I thought I&rsquo;d take the initiative. ",
     m, "I guess... It&rsquo;s all about asking the right question... at the right time.",
@@ -252,9 +252,9 @@ function prepareNovel()
 
     narrator, ".:. Good Ending.",
 
-	jump, "the_end",
+    jump, "the_end",
 
-	label, "later",
+    label, "later",
 
     scene, {image: "black.png", effect: "dissolve"},
 
@@ -265,14 +265,14 @@ function prepareNovel()
 
     narrator, ".:. Bad Ending.",
 
-	label, "the_end",
-	scene, "menu.jpg",
-	showDialog, "hidden",
-	menu, [
-		"You may close the window, or start over again.",
-		"Replay the story", [jump, "start"]
-	]
-	];
+    label, "the_end",
+    scene, "menu.jpg",
+    showDialog, "hidden",
+    menu, [
+        "You may close the window, or start over again.",
+        "Replay the story", [jump, "start"]
+    ]
+    ];
 }
 // ]]>
 </script>
@@ -280,20 +280,20 @@ function prepareNovel()
 <body onload="initNovel(800, 600);">
 <div id="debug"></div>
 <div id="novelDiv">
-	<div style="position: absolute;
-		left:0; top: 0; z-index:-1">
-		<img id="background0" src="images/empty.png">
-	</div>
-	<div style="position: absolute;
-		left:0; top: 0; z-index:-1">
-		<img id="background1" src="images/empty.png">
-	</div>
-	<div id="dialogDiv" style="z-index:100">
-	</div>
+    <div style="position: absolute;
+        left:0; top: 0; z-index:-1">
+        <img id="background0" src="images/empty.png">
+    </div>
+    <div style="position: absolute;
+        left:0; top: 0; z-index:-1">
+        <img id="background1" src="images/empty.png">
+    </div>
+    <div id="dialogDiv" style="z-index:100">
+    </div>
 </div>
 
 <div style="text-align:center; margin-top: 0.5em;"><input type="button"
-	value="Back to Beginning" onclick="initNovel(800, 600)"/></div>
+    value="Back to Beginning" onclick="initNovel(800, 600)"/></div>
 
 <div style="font-size: small">
 &#8220;The Question,&#8221; a visual novel that comes with the
