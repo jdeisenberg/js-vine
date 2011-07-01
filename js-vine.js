@@ -354,7 +354,7 @@ function novel_textEntity_display(obj, param)
     }
     // set the text
     el.innerHTML = obj.text.replace(/{{(.*?)}}/g,
-        novel_interpolator);;
+        novel_interpolator);
 
     xPos = obj.position.x;
     yPos = obj.position.y;
@@ -416,8 +416,7 @@ TextBlock.prototype.doAction = function(param)
 {
     this.display(param);
 }
-/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
-/* ============================================== */
+
 /*
     A Input is a block of text that can be displayed.
     
@@ -480,9 +479,7 @@ Input.prototype.setValue = function(txt)
 }
 
 /*
-    Set the transparency. If the picture is completely opaque,
-    we must remove the style information, as IE blurs the picture
-    even when alpha is 100.
+    Set the transparency.
 */
 Input.prototype.setAlpha = function(alpha)
 {
@@ -495,7 +492,7 @@ Input.prototype.setAlpha = function(alpha)
 Input.prototype.display = function(param)
 {
     /*
-        If the <div> isn't in the DOM yet, insert it,
+        If the <input> isn't in the DOM yet, insert it,
         and add it to the list of actors in the tableau.
     */
     if (this.domRef == null)
@@ -533,13 +530,19 @@ Input.prototype.doAction = function(param)
 function novel_inputChange(evt)
 {
     var inputObj;
+    var str;
     var actor;
     if (!evt)
     {
         evt = window.event;
     }
     inputObj = evt.target;
-    novel.userVar[inputObj.id] = inputObj.value;
+    str = inputObj.value;
+    str = str.replace(/&/g, '&amp;');
+    str = str.replace(/</g, '&lt;');
+    str = str.replace(/>/g, '&gt;');
+    novel.userVar[inputObj.id] = str;
+
     evt.cancelBubble = true;
     if (evt.stopPropagation)
     {
