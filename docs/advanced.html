@@ -18,6 +18,7 @@
     </ol>
 </li>
 <li><a href="#variables">Variables</a></li>
+<li><a href="#textinput">Text Input</a></li>
 <li><a href="#ifStatement">The <code>ifStatement</code></a></li>
 <li><a href="#subroutines">Subroutines</a></li>
 <li><a href="#jscall">Calling JavaScript from your Novel</a></li>
@@ -295,6 +296,59 @@ your variable names don&rsquo;t conflict with anything variables that
 have been declared in the <samp>js-vine.js</samp> file. You can
 <a href="varExample/varExample2.html">see the script in action here</a> and
 <a href="varExample/varExample2.js">see the JavaScript here</a>
+</p>
+
+<h2><a id="textinput">Text Input</a></h2>
+<p>
+If you want to get the reader&rsquo;s input to use in your script,
+you create an <code>Input</code> character, as follows:
+</p>
+
+<div class="inset bordered">
+<pre>// global variable
+var inputArea;
+
+// in prepareNovel()
+inputArea = new Input('yourName',
+{
+    position: new Position(0.2, 0.5),
+    width: 0.5,
+    text: "&lt;Your Name Here&gt;"
+});</pre>
+</div>
+
+<p>The <code>Input</code> object has the same parameters as a
+<code>TextBlock</code>, with one small difference: the 
+<code>text:</code> property gives the default value for the input
+field, and it is plain text rather than HTML.</p>
+
+<p>The name you give the object (in this example, <code>yourName</code>)
+is the name of the <code>novel.userVar</code> property that gets filled in
+when the reader changes the input field.</p>
+
+<p>
+Here&rsquo;s an example of the <code>Input</code> in action. Because
+the input area&rsquo;s name is <code>yourName</code>, the script
+accesses it via <code>novel.userVar.yourName</code>.
+</p>
+
+<div class="inset bordered">
+<pre>script = [  
+    label, "start",
+    scene, "wheat.png",
+
+    inputArea, "",
+    narrator, "Your name is {{novel.userVar.yourName}}.",
+    narrator, "The end."
+];</pre>
+</div>
+
+<p>
+<span class="warning">Note:</span> unlike a <code>TextBlock</code>,
+an <code>Input</code> field is removed from the tableau as soon as the
+reader has entered a value. You may
+<a href="textInputExample/textInputExample.html">see the code in action
+here</a>.
 </p>
 
 <h2><a id="ifStatement">The <code>ifStatement</code></a></h2>

@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html;
        charset=utf-8" />
-<title>Testing Input</title>
+<title>JavaScript Visual Novel Engine: Text Input</title>
 <style type="text/css">
 body {
     text-align: center;
@@ -54,7 +54,7 @@ div.menuItem:hover {
 }
 </style>
 
-<script type="text/javascript" src="../js-vine.js"></script>
+<script type="text/javascript" src="../../js-vine.js"></script>
 <script type="text/javascript">
 // <![CDATA[
 imgPath = "images/";
@@ -69,26 +69,26 @@ for (var i = 0; i < preload.length; i++)
 }
 
 var narrator;
-var inputTest;
+var inputArea;
 
 function prepareNovel()
 {
     novel.imagePath = "images/";
     narrator = new Character('');
-    inputTest = new Input('yourName',
+    inputArea = new Input('yourName',
         {
         position: new Position(0.2, 0.5),
         width: 0.5,
         text: "<Your Name Here>"
         });
     
-    script = [
+    script = [  
+        label, "start",
+        scene, "wheat.png",
     
-    label, "start", // 0
-    scene, "wheat.png",
-    inputTest, "",
-    narrator, "Your name is {{novel.userVar.yourName}}.",
-    narrator, "The end."
+        inputArea, "",
+        narrator, "Welcome, {{novel.userVar.yourName}}!",
+        narrator, "The end."
     ];
 }
 // ]]>
