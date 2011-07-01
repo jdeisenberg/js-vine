@@ -21,6 +21,7 @@
 <li><a href="#textinput">Text Input</a></li>
 <li><a href="#ifStatement">The <code>ifStatement</code></a></li>
 <li><a href="#subroutines">Subroutines</a></li>
+<li><a href="#audio">Audio</a></li>
 <li><a href="#jscall">Calling JavaScript from your Novel</a></li>
 </ol>
 
@@ -548,6 +549,55 @@ sub, "setScene",
    scene, "empty.png",
    narrator, { alpha: 1.0 },
 endSub, "",</pre>
+</div>
+
+<h2><a id="audio">Audio</a></h2>
+<p>
+You can add sound to your novels with the <code>audio</code> command.
+It has these properties:
+</p>
+
+<table>
+    <thead>
+        <tr><th>Property</th><th>Meaning</th></tr>
+    </thead>
+    <tbody>
+    <tr><td><code>src</code></td>
+        <td>the name of the audio file you wish to play</td></tr>
+    <tr><td><code>loop</code></td>
+        <td>a boolean that tells whether the sound should loop or not.
+        Sounds do <em>not</em> loop automatically. You must set this
+        when you start a sound or while it is playing.</td></tr>
+    <tr><td><code>action</code></td>
+        <td>one of:
+            <ul>
+            <li><code>"play"</code></li>
+            <li><code>"pause"</code></li>
+            <li><code>"rewind"</code></li>
+            <li><code>"stop"</code></li>
+            </ul>
+        </td></tr>
+    </tbody>
+</table>
+
+<p><span class="warning">Important:</span> If you <code>"stop"</code> the
+audio, you must give the <code>src</code> when you start playing the
+sound again.</p>
+
+<p>Here is the relevant code from <a href="audioExample/audioExample.html">the
+audio example</a> that shows how to manipulate audio.</p>
+
+<div class="inset bordered">
+<pre>menu, [
+    "Choose an option (loop is {{novel.audioLoop}})",
+    "Start audio", [audio, {src: "scale.ogg", action: "play"}],
+    "Stop audio", [audio, {action: "stop"}],
+    "Pause audio", [audio, {action: "pause"}],
+    "Resume audio", [audio, {action: "play"}],
+    "Rewind audio", [audio, {action: "rewind"}],
+    "Set loop true", [audio, {loop: true}],
+    "Set loop false", [audio, {loop: false}]
+],</pre>
 </div>
 
 <h2><a id="jscall">Calling JavaScript from your Novel</a></h2>

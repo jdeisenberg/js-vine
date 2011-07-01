@@ -638,6 +638,7 @@ Position.prototype.clone = function()
     tableau: the <div id="novel"> (Name comes from card games)
     dialog: the <div id="dialog"> where characters "speak"
     audio: the <div id="audio"> (if any, for music)
+    audioLoop: a boolean telling whether audio is looped or not
     paused: awaiting a click. We need this because JavaScript can't
         wait() or sleep().
     history: keeps track of path through novel (not used yet)
@@ -664,6 +665,7 @@ function Novel() {
     this.tableau = null;
     this.dialog = null;
     this.audio = null;
+    this.audioLoop = false;
     this.paused = false;
     this.history = new Array();
     this.historyPos = 0;
@@ -945,8 +947,9 @@ function stopAudio()
 {
     if (novel.audio && novel.audio.src)
     {
-        novel.audio.currentTime = 0;
-        novel.audio.pause();
+//        novel.audio.currentTime = 0;
+//        novel.audio.pause();
+        novel.audio.src = null;
     }
 }
 
@@ -974,7 +977,8 @@ function showDialog(status)
 function menu(menuArray)
 {
     novel.ignoreClicks = true;
-    novel.dialog.innerHTML = menuArray[0];
+    novel.dialog.innerHTML =
+        menuArray[0].replace(/{{(.*?)}}/g, novel_interpolator);
     novel.dialog.style.textAlign="center";
     for (var i = 1; i < menuArray.length; i += 2)
     {
@@ -1133,6 +1137,16 @@ function novel_findMatchingEndIf()
 }
 
 /*
+    This is the listener function that is invoked
+    when audio has ended; it implements looping
+*/
+function novel_audioLoop()
+{
+    novel.audio.currentTime = 0;
+    novel.audio.play();
+}
+
+/*
     Call a subroutine; a section of the script with the given
     label.
 */
@@ -1190,11 +1204,12 @@ function label(str)
 
 function sub(str)
 {
+    // do nothing
 }
 
 /*
     Play the audio with the given filename. The default
-    action is to loop the sound indefinitely.
+    action is to NOT loop the sound indefinitely.
     
     If given an object, the src property gives the filename
     and the loop property (boolean) tells whether to loop or not.
@@ -1204,33 +1219,62 @@ function sub(str)
 function audio(param)
 {
     var audioSource;
-    var loop = true;
+    var action = null;
+    
     if (novel.audio)
     {
-        stopAudio();
+        // stopAudio();
         if (param != null)
         {
             if (param.constructor == String)
             {
                 audioSource = param;
+                novel.audio.src = novel.audioPath + audioSource;
+                novel.audioLoop = false;
             }
             else if (param.constructor == Object)
             {
-                audioSource = param.src;
+                if (param.src)
+                {
+                    audioSource = param.src;
+                    novel.audio.src = novel.audioPath + audioSource;
+                    novel.audioLoop = false;
+                }
                 if (param.loop != null)
                 {
-                    loop = param.loop;
+                    novel.audioLoop = param.loop;
+                }
+                if (param.action)
+                {
+                    action = param.action;
                 }
             }
-            novel.audio.src = novel.audioPath + audioSource;
-            if (loop)
+            if (novel.audioLoop)
             {
-                novel.audio.addEventListener('ended', function() {
-                    this.currentTime = 0;
-                    this.play();
-                }, false);
+                novel.audio.addEventListener('ended', novel_audioLoop, false);
             }
-            novel.audio.play();
+            else
+            {
+                novel.audio.removeEventListener('ended', novel_audioLoop,
+                    false);
+            }
+            if (action == "stop")
+            {
+                novel.audio.src = null;
+            }
+            else if (action == "rewind")
+            {
+                novel.audio.currentTime = 0;
+            }
+            else if (action == "pause")
+            {
+                novel.audio.pause();
+            }
+            else if (action == "play")
+            {
+                novel.audio.play();
+            }
+           // novel.audio.play();
         }
     }
 }
