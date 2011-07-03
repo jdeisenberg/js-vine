@@ -22,6 +22,7 @@
 <li><a href="#ifStatement">The <code>ifStatement</code></a></li>
 <li><a href="#subroutines">Subroutines</a></li>
 <li><a href="#audio">Audio</a></li>
+<li><a href="#background">Backgrounds</a></li>
 <li><a href="#jscall">Calling JavaScript from your Novel</a></li>
 </ol>
 
@@ -599,6 +600,37 @@ audio example</a> that shows how to manipulate audio.</p>
     "Set loop false", [audio, {loop: false}]
 ],</pre>
 </div>
+
+<h2><a id="background">Backgrounds</a></h2>
+<p>
+When changing scenes, you can specify a new background image. You
+can also specify an <dfn>effect</dfn> for the transition to the new
+background. Consider the following example of four scenes (we have
+left out the text within each scene).  The first command makes
+<samp>office.jpg</samp> the background. The next scene will simply replace
+<samp>office.jpg</samp> with <samp>highway.jpg</samp> (Note: you could have
+written the second command as <code>scene,&nbsp;"highway.jpg"</code>. The
+next scene will fade out <samp>highway.jpg</samp> and then fade in
+<samp>house.jpg</samp>.  The last scene fades out <samp>house.jpg</samp>
+at the same time that <samp>kitchen.jpg</samp> fades in.
+</p>
+
+<div class="inset bordered"><pre>scene, "office.jpg",
+scene, {image: "highway.jpg"},
+scene, {image: "house.jpg", effect: "fade"},
+scene, {image: "kitchen.jpg", effect: "dissolve"}</pre>
+</div>
+
+<p>
+The <code>scene</code> command clears the tableau and dialog areas. If
+you want to change a background without clearing those areas, use the
+<code>background</code> command instead. It also allows you to use
+an <code>effect</code>.
+</p>
+
+<p>You can <a href="backgroundExample/backgroundExample.html">see an
+example of <code>scene</code> and <code>background</code> here</a>.
+</p>
 
 <h2><a id="jscall">Calling JavaScript from your Novel</a></h2>
 <p>
