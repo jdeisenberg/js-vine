@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;
+       charset=utf-8" />
+<title>JavaScript Visual Novel Engine: Using Flags</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+<h1>JavaScript Visual Novel Engine: Using Flags</h1>
+<p>
+Some visual novels have paths that diverge and then rejoin. You need
+to be able to keep track of which paths have been taken in order to come
+to the appropriate ending. (Click the picture to see it at full size).
+</p>
+
+<div class="center">
+<a href="images/flags_flowchart.png"><img src="images/flags_flowchart.png"
+    width="209" height="300"
+    alt="flowchart of novel that diverges and converges three times" /></a>
+</div>
+
+<p>
+In the summary, you want four possible endings:
+</p>
+
+<ul>
+    <li>Reader chose path A two or more times: very good ending</li>
+    <li>Reader chose path B two or more times: good ending</li>
+    <li>Reader chose path C two or more times: very bad ending</li>
+    <li>Reader chose each path one time: bad ending</li>
+</ul>
+
+<p>
+To accomplish this, you set a <dfn>flag</dfn>, a variable that keeps track
+of the number of times a path was chosen, for each path.
+</p>
+
+<p>
+At the beginning of the novel, set three user variables to zero:
+</p>
+
+<div class="inset bordered">
+<pre>setVars, {flagA: 0, flagB: 0, flagC: 0}</pre>
+</div>
+
+<p>
+And then, every time you get to a choice point, you add one to the appropriate
+variable. For example, if the reader chooses path A, you do this:
+</p>
+
+<div class="inset bordered">
+<pre>setVars, "novel.userVar.flagA = novel.userVar.flagA + 1"</pre>
+</div>
+
+<p>
+Then, in the summary, you can use a series of
+<code>ifStatement</code>s to figure out what to do.  You can 
+<a href="flagExample/flagExample.html">see a complete example of
+flags here</a>.
+</p>
+</body>
+</html>
+
