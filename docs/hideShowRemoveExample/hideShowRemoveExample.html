@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;
+       charset=utf-8" />
+<title>Hide/Show/Remove Example</title>
+<style type="text/css">
+body {
+    text-align: center;
+}
+
+#novelDiv {
+    width: 800px;
+    height: 400px;
+    border: 1px solid black;
+    border-bottom: none;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    text-align: center;
+}
+
+#dialogDiv {
+    font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 790px;
+    height: 100px;
+    padding: 5px;
+    border: 1px solid black;
+    border-top: none;
+    background-color: #3d372c;
+    color: white;
+    text-align: left;
+    position: relative;
+}
+
+.menuItem {
+    width: 75%;
+    margin: 0.5em auto;
+    padding: 0.5em 3em;
+    background-color: #0050a0;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+    font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    
+}
+
+.menuItem:hover {
+    background-color: #00a0ff;
+}
+</style>
+
+<script type="text/javascript" src="../../js-vine.js"></script>
+<script type="text/javascript" src="hideShowRemoveExample.js"></script>
+</head>
+
+<body onload="initNovel(800, 400);">
+
+<div id="novelDiv">
+    <div style="position: absolute; left:0; top: 0; z-index:-1">
+        <img id="background0" src="empty.png"/>
+    </div>
+    <div style="position: absolute; left:0; top: 0; z-index:-1">
+        <img id="background1" src="empty.png"/>
+    </div>
+</div>
+<div id="dialogDiv"></div>
+
+<p style="text-align:center">
+    <input type="button" value="Restart the Novel"
+        onclick="initNovel(800, 400)"/>
+</p>
+</body>
+</html>
