@@ -90,7 +90,7 @@ Character.prototype.display = function(param)
         If the parameter is an object, set the character's properties
         to the properties given in the parameter
     */
-    if (param.constructor == Object)
+    if (param && param.constructor == Object)
     {
         for (var property in param)
         {
@@ -178,7 +178,10 @@ Character.prototype.finishDisplay = function()
 */
 Character.prototype.show = function(visible)
 {
-    this.domRef.style.visibility = (visible) ? "visible" : "hidden";
+    if (this.domRef)
+    {
+        this.domRef.style.visibility = (visible) ? "visible" : "hidden";
+    }
 }
 
 /*
@@ -384,6 +387,10 @@ function novel_textEntity_display(obj, param)
     {
         el.style.border = obj.border;
     }
+    if (obj.padding)
+    {
+        el.style.padding = obj.padding;
+    }
     if (obj.align)
     {
         el.style.textAlign = obj.align;
@@ -405,7 +412,10 @@ function novel_textEntity_display(obj, param)
 */
 TextBlock.prototype.show = function(visible)
 {
-    this.domRef.style.visibility = (visible) ? "visible" : "hidden";
+    if (this.domRef)
+    {
+        this.domRef.style.visibility = (visible) ? "visible" : "hidden";
+    }
 }
 
 /*
@@ -941,6 +951,53 @@ function clearTableau()
             actor.domRef = null;
         }
     }
+}
+
+function show(param)
+{
+    if (param.constructor == Character ||
+        param.constructor == TextBlock)
+    {
+        param.display(null);
+        param.show(true);
+    }
+}
+
+function hide(param)
+{
+    if (param.constructor == Character ||
+        param.constructor == TextBlock)
+    {
+        param.show(false);
+    }
+}
+
+function remove(param)
+{
+    var i;
+    var foundPos = -1;
+    
+    if (param.constructor == Character ||
+        param.constructor == TextBlock)
+    {
+        for (i = 0; i < novel.actors.length && foundPos < 0; i++)
+        {
+            if (novel.actors[i] == param)
+            {
+                foundPos = i;
+            }
+        }
+        if (foundPos >= 0)
+        {
+            if (param.domRef)
+            {
+                param.domRef.parentNode.removeChild(param.domRef);
+            }
+            param.domRef = null;
+            novel.actors.splice(foundPos, 1);
+        }
+    }
+            
 }
 
 function stopAudio()
