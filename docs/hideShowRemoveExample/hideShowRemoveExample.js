@@ -67,7 +67,7 @@ function prepareNovel()
         message, {text: '<code>show, message<br />hide, frank,<br />show,frank</code>'},
         
         show, frank,
-        frank, "Show brings me back - still behind the message.",
+        frank, "<code>show</code> brings me back - still behind the message.",
         
         remove, frank,
         message, {text: '<code>show,frank,<br />remove, frank</code>'},
