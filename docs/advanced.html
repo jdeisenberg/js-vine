@@ -17,6 +17,7 @@
     <a href="#initWithText">Displaying without Changes</a>
     </ol>
 </li>
+<li><a href="#showHide">Showing, Hiding, and Removing</a></li>
 <li><a href="#variables">Variables</a></li>
 <li><a href="#textinput">Text Input</a></li>
 <li><a href="#ifStatement">The <code>ifStatement</code></a></li>
@@ -160,6 +161,43 @@ text area will appear, exactly as you initialized it.
 <p>
 You may see <a href="textExample/textExample.html">the full
 example here</a>.
+</p>
+
+<h2><a id="showHide">Showing, Hiding, and Removing</a></h2>
+<p>
+While it is possible to hide and display a character this way:
+</p>
+
+<div class="inset bordered">
+<pre>protagonist, {visibility: "hidden"},
+// later on...
+protagonist, {visibility: "visible"}</pre>
+</div>
+
+<p>
+It is easier to use the show and hide commands:
+</p>
+<div class="inset bordered">
+<pre>hide, protagonist,
+// later on...
+show, protagonist</pre>
+</div>
+
+<p> When you use <code>show</code>, the character will be added to the tableau
+(if not there already) and will become visible.
+</p>
+
+<p>
+The <code>hide</code> command makes a character invisible, but does
+not remove the character from the tableau. If you really want to remove
+a character, use <code>remove</code> instead of <code>hide</code>.
+</p>
+
+<p>If you have characters that overlap on the tableau, then
+<code>hide</code> followed by <code>show</code> will not do the same thing
+as <code>remove</code> followed by <code>show</code>. 
+<a href="hideShowRemoveExample/hideShowRemoveExample.html">This example
+novel shows the difference</a>.
 </p>
 
 <h2><a id="variables">Variables</a></h2>
