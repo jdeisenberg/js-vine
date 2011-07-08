@@ -14,7 +14,6 @@
     You should have received a copy of the GNU Lesser General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
-
 var novel_script;
 /*
     A Character is an actor that can speak and be displayed.
@@ -457,7 +456,14 @@ function Input(textName)
     this.inputElement.setAttribute("id", this.escName);
     this.inputElement.setAttribute("class", "textClass");
     this.inputElement.setAttribute("className", "textClass");
-    this.inputElement.addEventListener("change", novel_inputChange, false);
+    if (this.inputElement.addEventListener)
+    {
+        this.inputElement.addEventListener("change", novel_inputChange, false);
+    }
+    else
+    {
+        this.inputElement.attachEvent("onchange", novel_inputChange);
+    }
     this.domRef = null;
     this.position = new Position(0, 0, true);
     this.align = "left";
@@ -558,7 +564,6 @@ function novel_inputChange(evt)
     {
         evt.stopPropagation();
     }
-    novel.paused = false;
     novel.ignoreClicks = false;
     actor = novel.actors.pop();
     inputObj = actor.domRef;
@@ -668,6 +673,7 @@ Position.prototype.clone = function()
     bgAlpha: the transparency of the backgroundImage (0=transparent, 1=opaque)
     waitCount: # of times waiting to complete picture loading (used for
         debugging)
+    pauseTimer: a timer for the pause command
 */
 
 function Novel() {
@@ -693,6 +699,7 @@ function Novel() {
     this.activeBG = 0;
     this.bgAlpha = 1.0;
     this.waitCount = 0;
+    this.pauseTimer = null;
 }
 
 /*
@@ -1308,12 +1315,26 @@ function audio(param)
             }
             if (novel.audioLoop)
             {
-                novel.audio.addEventListener('ended', novel_audioLoop, false);
+                if (novel.audio.addEventListener)
+                {
+                    novel.audio.addEventListener('ended', novel_audioLoop, false);
+                }
+                else if (novel.audio.attachEvent)
+                {
+                    novel.audio.attachEvent('onended', novel_audioLoop);
+                }
             }
             else
             {
-                novel.audio.removeEventListener('ended', novel_audioLoop,
+                if (novel.audio.removeEventListener)
+                {
+                    novel.audio.removeEventListener('ended', novel_audioLoop,
                     false);
+                }
+                else if (novel.audio.detachEvent)
+                {
+                    novel.audio.detachEvent('onended', novel_audioLoop);
+                }
             }
             if (action == "stop")
             {
@@ -1336,6 +1357,20 @@ function audio(param)
     }
 }
 
+function pause(param)
+{
+    if (param)
+    {
+        novel.pauseTimer = window.setTimeout(novel_unPause, parseInt(param, 10));
+    }
+    novel.paused = true;
+}
+
+function novel_unPause()
+{
+    playNovel();
+}
+    
 /*
     Handle an if statement. The parameter is a
     condition to test (a string to be evaluated)
@@ -1382,10 +1417,6 @@ function jsCall(jsInfo)
     jsInfo.fcn.apply(window, jsInfo.params);
 }
 
-function textInput(param)
-{
-}
-
 /*
     Initialize the novel object; the parameters w and h are
     the width and height of the <div id="novel">.
@@ -1410,8 +1441,16 @@ function initNovel(w, h)
     novel = new Novel();
     novel.tableau = document.getElementById("novelDiv");
     novel.dialog = document.getElementById("dialogDiv");
-    novel.tableau.addEventListener('click', novel_handleClick, false);
-    novel.dialog.addEventListener('click', novel_handleClick, false);
+    if (novel.tableau.addEventListener)
+    {
+        novel.tableau.addEventListener('click', novel_handleClick, false);
+        novel.dialog.addEventListener('click', novel_handleClick, false);
+    }
+    else if (novel.tableau.attachEvent)
+    {
+        novel.tableau.attachEvent('onclick', novel_handleClick);
+        novel.dialog.attachEvent('onclick', novel_handleClick);
+    }
     if (!!(document.createElement('audio').canPlayType))
     {
         novel.audio = new Audio();
@@ -1445,7 +1484,13 @@ function initNovel(w, h)
 function playNovel()
 {
     var obj;
+    if (novel.pauseTimer != null)
+    {
+        window.clearTimeout(novel.pauseTimer);
+        novel.pauseTimer = null;
+    }
     novel.paused = false;
+
     /*
     novel.history.push(novel.frame);
     novel.historyPos++;
