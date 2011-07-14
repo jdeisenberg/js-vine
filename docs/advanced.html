@@ -666,6 +666,19 @@ you want to change a background without clearing those areas, use the
 an <code>effect</code>.
 </p>
 
+<p>
+With either the <code>background</code> or <code>scene</code> command, you
+can specify an alpha value (0=transparent, 1=opaque). This can be useful if
+you want to emphasize a diagram on a &ldquo;busy&rdquo; background.
+Consider the following sequence:
+</p>
+
+<div class="inset bordered">
+<pre>background, {image: "house.jpg", alpha: 0.5},
+background, {image: "kitchen.jpg", alpha: 0.5, effect: "dissolve"},
+background, {alpha: 1.0} // kitchen image becomes opaque</pre>
+</div>
+
 <p>You can <a href="backgroundExample/backgroundExample.html">see an
 example of <code>scene</code> and <code>background</code> here</a>.
 </p>
