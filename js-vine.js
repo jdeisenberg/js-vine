@@ -792,7 +792,7 @@ function novel_menuJump(menuScript, evt)
     transparent, swap to the new background image source,
     and start fading in.
 */
-function novel_fadeBgOut()
+function novel_fadeBgOut(targetAlpha)
 {
     var bg = document.getElementById("background" + novel.activeBG);
     novel.bgAlpha -= 0.1;
@@ -800,12 +800,12 @@ function novel_fadeBgOut()
     bg.style.opacity = novel.bgAlpha;
     if (novel.bgAlpha > 0)
     {
-        setTimeout(novel_fadeBgOut, 100);
+        setTimeout("novel_fadeBgOut(" + targetAlpha + ")", 100);
     }
     else
     {
         bg.src = novel.imagePath + novel.backgroundImage[novel.activeBG];
-        novel_fadeBgIn();
+        novel_fadeBgIn(targetAlpha);
     }
 }
     
@@ -815,21 +815,21 @@ function novel_fadeBgOut()
     its alpha by 10% every 0.1 seconds. When totally
     opaque, restart playing the novel.
 */
-function novel_fadeBgIn()
+function novel_fadeBgIn(targetAlpha)
 {
     var bg = document.getElementById("background" + novel.activeBG);
     novel.bgAlpha += 0.1;
-    if (novel.bgAlpha < 1)
+    if (novel.bgAlpha < targetAlpha)
     {
         bg.style.filter = "alpha(opacity=" +
             Math.floor(novel.bgAlpha*100) + ")";
         bg.style.opacity = novel.bgAlpha;
-        setTimeout(novel_fadeBgIn, 100);
+        setTimeout("novel_fadeBgIn(" + targetAlpha + ")", 100);
     }
     else
     {
-        bg.style.filter = null;
-        bg.style.opacity = null;
+        novel_setAlpha(bg, targetAlpha);
+        novel.bgAlpha = targetAlpha;
         playNovel();
     }
 }
@@ -839,23 +839,23 @@ function novel_fadeBgIn()
     alpha by 10% every 0.1 seconds. When one is totally
     transparent, the other will be totally opaque.
 */
-function novel_dissolveIn()
+function novel_dissolveIn(targetAlpha, n)
 {
     var bgA = document.getElementById("background" + novel.activeBG);
     var bgB = document.getElementById("background" + (1 - novel.activeBG));
-    novel.bgAlpha -= 0.1;
-    bgA.style.filter = "alpha(opacity=" + Math.floor(novel.bgAlpha*100) + ")";
-    bgA.style.opacity = novel.bgAlpha;
-    bgB.style.filter = "alpha(opacity=" + Math.floor(100 - novel.bgAlpha*100) + ")";
-    bgB.style.opacity = (1.0 - novel.bgAlpha);
-    if (novel.bgAlpha > 0)
+    n++;
+    novel_setAlpha(bgA, novel.bgAlpha * (10 - n) / 10);
+    novel_setAlpha(bgB, targetAlpha * n / 10);
+    if (n < 10)
     {
-        setTimeout(novel_dissolveIn, 100);
+        setTimeout("novel_dissolveIn(" + targetAlpha + "," + n + ")", 100);
     }
     else
     {
+        novel_setAlpha(bgA, 0);
+        novel_setAlpha(bgB, targetAlpha);
         novel.activeBG = 1 - novel.activeBG;
-        novel.bgAlpha = 1.0;
+        novel.bgAlpha = targetAlpha;
         playNovel();
     }
 }
@@ -1104,11 +1104,15 @@ function novel_changeBackground(param, clearAll)
 {
     var fileName;
     var effect;
+    var targetAlpha = 1.0;
+    var bg;
+    
     if (clearAll)
     {
         clearTableau();
         clearDialog();
     }
+    fileName = novel.backgroundImage[novel.activeBG];
     if (typeof param == "string")
     {
         fileName = param;
@@ -1116,26 +1120,32 @@ function novel_changeBackground(param, clearAll)
     }
     else if (param != null)
     {
-        fileName = param.image;
+        if (param.image)
+        {
+            fileName = param.image;
+        }
         effect = param.effect;
     }
-    else
+
+    if (param.alpha)
     {
-        fileName = novel.backgroundImage[novel.activeBG];
+        targetAlpha = param.alpha;
     }
-    novel.bgAlpha = 1.0;
+
     fileName = fileName.replace(/{{(.*?)}}/g, novel_interpolator);
     if (!effect)
     {
         novel.backgroundImage[novel.activeBG] = fileName;
-        document.getElementById("background" + novel.activeBG).src =
-            novel.imagePath + fileName;
+        bg = document.getElementById("background" + novel.activeBG);
+        bg.src = novel.imagePath + fileName;
+        novel_setAlpha(bg, targetAlpha);
+        novel.bgAlpha = targetAlpha;
     }
     else if (effect == "fade")
     {
         novel.backgroundImage[novel.activeBG] = fileName;
         novel.paused = true;
-        novel_fadeBgOut();
+        novel_fadeBgOut(targetAlpha);
     }
     else if (effect == "dissolve")
     {
@@ -1143,7 +1153,7 @@ function novel_changeBackground(param, clearAll)
         document.getElementById("background" + (1 - novel.activeBG)).src =
             novel.imagePath + fileName;
         novel.paused = true;
-        novel_dissolveIn();
+        novel_dissolveIn(targetAlpha, 0);
     }
 }
 
