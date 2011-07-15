@@ -1125,11 +1125,11 @@ function novel_changeBackground(param, clearAll)
             fileName = param.image;
         }
         effect = param.effect;
-    }
 
-    if (param.alpha)
-    {
-        targetAlpha = param.alpha;
+		if (param.alpha)
+		{
+			targetAlpha = param.alpha;
+		}
     }
 
     fileName = fileName.replace(/{{(.*?)}}/g, novel_interpolator);
