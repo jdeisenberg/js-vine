@@ -652,6 +652,22 @@ in the story, you add a menu, as shown in the following part of the script.
 </dl>
 
 <p>
+It is also possible to display a character&rsquo;s image and have the
+character speak with one command. 
+Just add a <code>say</code> property in addition to specifying the image.
+The following two sequences do the same thing:
+</p>
+
+<div class="inset bordered">
+<pre>// sequence 1:
+tyler, {image: "loving1.png"},
+tyler, "Aww, that&rsquo;s really nice.",
+
+// sequence 2:
+tyler, {image: "loving1.png", say: "Aww, that&rsquo;s really nice."},</pre>
+</div>
+
+<p>
 With these simple commands, you can put together a reasonable
 visual novel. <a href="exampleNovel.html">The full example is here.</a>
 The only feature that it uses that has not been explained here is the

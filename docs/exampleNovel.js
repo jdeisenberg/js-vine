@@ -114,20 +114,20 @@ function prepareNovel()
         tyler, "Did they just wander away from home?",
         gavin, {image: "sad2.png"},
         gavin, "Some of them, yes. Others have been dumped in the hills by their owners, who don&rsquo;t want them any more.",
-        tyler, {image: "angry1.png"},
-        tyler, "That&rsquo;s horrible!",
+        tyler, {image: "angry1.png", say:
+        "That&rsquo;s horrible!"},
         gavin, "I know. I don&rsquo;t see how people can be so heartless.",
         
         photo, {visibility: "hidden"},
         tyler, {image: "worried1.png"},
-        gavin, {image: "simple2.png"},
-        gavin, "There&rsquo;s another animal you will find in the hills.",
+        gavin, {image: "simple2.png",
+        say: "There&rsquo;s another animal you will find in the hills."},
         gavin, {image: "silence2.png"},
         photo, {image: "deer.jpg", visibility: "visible"},  
         gavin, "But be quiet, or you&rsquo;ll scare it away.",
 
-        tyler, {image: "loving1.png"},
-        tyler, "Aww, that&rsquo;s really nice.",
+        tyler, {image: "loving1.png",
+        say: "Aww, that&rsquo;s really nice."},
         
         label, "The End",
         scene, {image: "hills1.jpg"},

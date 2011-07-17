@@ -98,21 +98,25 @@ Character.prototype.display = function(param)
                 this.image.src = novel.imagePath +
                     param.image.replace(/{{(.*?)}}/g, novel_interpolator);
             }
-            else
+            else if (property != "say")
             {
                 this[property] = param[property];
             }
         }
     }
-    
+
+    if (param.say)
+    {
+        this.say(param.say);
+    }
     /*
         The image's width and height don't get set immediately if the
         image isn't cached, so wait 10 milliseconds to finish the display.
     */
-    setTimeout( function() { return closure.finishDisplay.apply( closure ); }, 10 );
+    setTimeout( function() { return closure.finishDisplay.apply( closure, [param] ); }, 10 );
 }
 
-Character.prototype.finishDisplay = function()
+Character.prototype.finishDisplay = function(param)
 {
     if (this.image.complete)
     {
@@ -166,7 +170,7 @@ Character.prototype.finishDisplay = function()
         novel.waitCount++;
         var closure = this;
         setTimeout( function() {
-            return closure.finishDisplay.apply( closure );
+            return closure.finishDisplay.apply( closure, [param] );
         }, 10 );
     }
 }

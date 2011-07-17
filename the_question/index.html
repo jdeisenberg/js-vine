@@ -135,8 +135,8 @@ function prepareNovel()
 
     label, "rightaway",
     scene, "uni.jpg",
-    s, {image: "sylvie_smile.png", position: center},
-    s, "Oh, hi, do we walk home together?",
+    s, {image: "sylvie_smile.png", position: center,
+    say: "Oh, hi, do we walk home together?" },
     m, "Yes...",
     narrator, "I said and my voice was already shaking.",
 
@@ -155,9 +155,8 @@ function prepareNovel()
     narrator, "Silence.",
     narrator, "She is shocked. And then...",
 
-    s, {image: "sylvie_smile.png"},
-
-    s, "Sure, but what is a \"visual novel?\"",
+    s, {image: "sylvie_smile.png",
+    say: "Sure, but what is a \"visual novel?\""},
 
     label, "choice2",
     menu, [ "",
