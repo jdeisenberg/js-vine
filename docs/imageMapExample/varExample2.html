@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;
+       charset=utf-8" />
+<title>Visual Novel Example for Variables (2)</title>
+<style type="text/css">
+body {
+    text-align: center;
+}
+#novelDiv {
+    width: 800px;
+    height: 600px;
+    border: 1px solid black;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    text-align: center;
+}
+
+#dialogDiv {
+    font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    position: absolute;
+    width: 790px;
+    height: 140px;
+    background-color: #3d372c;
+    color: white;
+    top: 450px;
+    left: 0;
+    padding: 5px;
+    text-align: left;
+    filter: alpha(opacity=75);
+    opacity: 0.75;
+}
+
+.menuItem {
+    width: 75%;
+    margin: 0.5em auto;
+    padding: 0.5em 3em;
+    background-color: #0050a0;
+    position: relative;
+    text-align: center;
+    color: white;
+    font-family: "Deja Vu Sans", Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+
+div.menuItem:hover {
+    background-color: #00a0ff;
+}
+
+</style>
+
+<script type="text/javascript" src="../../js-vine.js"></script>
+<script type="text/javascript" src="varExample2.js"></script>
+</head>
+
+<body onload="initNovel(800, 600);">
+
+<div id="novelDiv">
+    <div style="position: absolute; left:0; top: 0; z-index:-1">
+        <img id="background0" src="images/empty.png"/>
+    </div>
+    <div style="position: absolute; left:0; top: 0; z-index:-1">
+        <img id="background1" src="images/empty.png"/>
+    </div>
+    <div id="dialogDiv"></div>
+</div>
+
+<p style="text-align:center">
+    <input type="button" value="Restart the Novel"
+        onclick="initNovel(800, 600)"/>
+</p>
+<p>
+Jewelry pictures from Wikimedia Commons.<br />
+<a href="http://en.wikipedia.org/wiki/File:Logansapphire.jpg">Sapphire by TomR</a><br />
+<a href="http://en.wikipedia.org/wiki/File:Cut_Ruby.jpg">Ruby by Bkell</a><br />
+<a href="http://en.wikipedia.org/wiki/File:National_Museum_of_Natural_History_Emeralds_3.JPG">Emerald by Jorfer</a>
+</p>
+<p>
+Smiling face by Nicu Buculei, at the <a href="http://openclipart.org/">Open Clip Art Library</a>.
+</p>
+</body>
+</html>
