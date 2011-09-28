@@ -105,9 +105,16 @@ Character.prototype.display = function(param)
         }
     }
 
-    if (param.say)
+    if (param && param.say)
     {
-        this.say(param.say);
+        if (param.noPause)
+        {
+            this.say(param.say, param.noPause);
+        }
+        else
+        {
+            this.say(param.say);
+        }
     }
     /*
         The image's width and height don't get set immediately if the
@@ -219,7 +226,7 @@ Character.prototype.say = function(str)
     }
     htmlStr += str;
     novel.dialog.innerHTML = htmlStr;
-    novel.paused = true;
+    novel.paused = (arguments.length == 1) ? true : (!arguments[1]);     
 }
 
 /*
@@ -229,7 +236,7 @@ Character.prototype.say = function(str)
 */
 Character.prototype.doAction = function(param)
 {
-    if (param == "" || param.constructor == Object)
+    if (param == null || param == "" || param.constructor == Object)
     {
         this.display(param);
     }
@@ -678,6 +685,7 @@ Position.prototype.clone = function()
     waitCount: # of times waiting to complete picture loading (used for
         debugging)
     pauseTimer: a timer for the pause command
+    mappedImage: which image (if any) has an imageMap attached to it
 */
 
 function Novel() {
@@ -704,6 +712,7 @@ function Novel() {
     this.bgAlpha = 1.0;
     this.waitCount = 0;
     this.pauseTimer = null;
+    this.mappedImage = null;
 }
 
 /*
@@ -964,6 +973,25 @@ function clearTableau()
     }
 }
 
+/*
+    imageMap attaches a map ID to a character;
+    if the map ID exists, then the novel
+    pauses for input.
+*/
+function imagemap(param)
+{
+    var mapId = document.getElementById(param.mapId);
+    var image = param.character.domRef;
+
+    if (mapId)
+    {
+        image.setAttribute("usemap", '#' + param.mapId);
+        novel.paused = true;
+        novel.ignoreClicks = true;
+        novel.mappedImage = image;
+    }
+}
+
 function show(param)
 {
     if (param.constructor == Character ||
@@ -1079,6 +1107,20 @@ function jump(label)
         we jump to the correct point in the script.
     */
     novel.frame -= 2;
+}
+
+function mapJump(label)
+{
+    jump(label); // gets us to the correct place for a call from playNovel
+    novel.frame += 2; // but we're calling it when playNovel isn't active
+    /*
+        We need to both return false and call playNovel(). We can't
+        do both, so we'll set up a timer for 10 msec to call playNovel(),
+        and then we'll return false
+    */
+    novel.ignoreClicks = false;
+    setTimeout('playNovel()', 10);
+    return false;
 }
 
 /*
