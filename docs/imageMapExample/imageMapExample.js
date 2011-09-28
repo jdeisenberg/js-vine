@@ -3,9 +3,6 @@
     to be pre-loaded.
 */
 var preload = [
-    "images/sapphire.jpg",
-    "images/ruby.jpg",
-    "images/emerald.jpg"
 ];
 
 /*
