@@ -46,6 +46,7 @@ function Character(characterName)
     this.imageElement.setAttribute("id", this.escName);
     this.src = null;
     this.prevSrc = null;
+    this.avatar = "";
     this.domRef = null;
     this.position = new Position(0, 0, true);
     this.prevPosition = new Position(0, 0, true);
@@ -78,13 +79,8 @@ function Character(characterName)
 Character.prototype.display = function(param)
 {
     var closure = this;
-    if (this.domRef == null)
-    {
-        novel.tableau.appendChild(this.imageElement);
-        novel.actors.push(this);
-    }
-    this.domRef = document.getElementById(this.escName);
-
+    var displayImage = true;
+    
     /*
         If the parameter is an object, set the character's properties
         to the properties given in the parameter
@@ -95,8 +91,15 @@ Character.prototype.display = function(param)
         {
             if (property == "image")
             {
-                this.image.src = novel.imagePath +
+                if (param.image != null)
+                {
+                    this.image.src = novel.imagePath +
                     param.image.replace(/{{(.*?)}}/g, novel_interpolator);
+                }
+                else
+                {
+                    displayImage = false;
+                }
             }
             else if (property != "say")
             {
@@ -120,7 +123,17 @@ Character.prototype.display = function(param)
         The image's width and height don't get set immediately if the
         image isn't cached, so wait 10 milliseconds to finish the display.
     */
-    setTimeout( function() { return closure.finishDisplay.apply( closure, [param] ); }, 10 );
+    if (displayImage && this.image)
+    {
+        if (this.domRef == null)
+        {
+            novel.tableau.appendChild(this.imageElement);
+            novel.actors.push(this);
+        }
+        this.domRef = document.getElementById(this.escName);
+
+        setTimeout( function() { return closure.finishDisplay.apply( closure, [param] ); }, 10 );
+    }
 }
 
 Character.prototype.finishDisplay = function(param)
@@ -215,9 +228,16 @@ Character.prototype.say = function(str)
     var htmlStr = "";
     var interpolatedString = str;
     clearDialog();
+    if (this.avatar != "")
+    {
+        htmlStr += '<img src="' +
+            novel.imagePath +
+            this.avatar.replace(/{{(.*?)}}/g, novel_interpolator) +
+            '" class="avatar"/>';
+    }
     if (this.name != "")
     {
-        htmlStr = '<span style="color: ' + this.color + '">' +
+        htmlStr += '<span style="color: ' + this.color + '">' +
         this.name + ':</span><br />';
     }
     if (str.indexOf("{{") >= 0)
