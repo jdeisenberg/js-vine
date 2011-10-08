@@ -107,36 +107,17 @@ Character.prototype.display = function(param)
             }
         }
     }
-
-    if (param && param.say)
-    {
-        if (param.noPause)
-        {
-            this.say(param.say, param.noPause);
-        }
-        else
-        {
-            this.say(param.say);
-        }
-    }
+    
     /*
         The image's width and height don't get set immediately if the
-        image isn't cached, so wait 10 milliseconds to finish the display.
+        image isn't cached, so wait 30 milliseconds to finish the display.
     */
-    if (displayImage && this.image)
-    {
-        if (this.domRef == null)
-        {
-            novel.tableau.appendChild(this.imageElement);
-            novel.actors.push(this);
-        }
-        this.domRef = document.getElementById(this.escName);
-
-        setTimeout( function() { return closure.finishDisplay.apply( closure, [param] ); }, 10 );
-    }
+    novel.paused = true;
+    // novel.frame -= 2;   // playNovel will increment this...
+    setTimeout( function() { return closure.finishDisplay.apply( closure, [param, displayImage] ); }, 30 );
 }
 
-Character.prototype.finishDisplay = function(param)
+Character.prototype.finishDisplay = function(param, displayImage)
 {
     if (this.image.complete)
     {
@@ -150,48 +131,72 @@ Character.prototype.finishDisplay = function(param)
         var yPos = pos.y;
         var changed = false;
 
-        if (!pos.equals(this.prevPosition) ||
+        if (this.domRef == null)
+        {
+            this.imageElement.style.visibility = 'hidden';
+            novel.tableau.appendChild(this.imageElement);
+            novel.actors.push(this);
+            this.domRef = document.getElementById(this.escName);
+            el = this.domRef;
+            changed = true;
+        }
+        else
+        {
+            changed = (!pos.equals(this.prevPosition) ||
             this.image.width != this.domRef.width ||
             this.image.height != this.domRef.height)
-        {
-            el.style.visibility = "hidden";
-            changed = true;
         }
         
         el.src = this.image.src;    // load in the new picture
         
-        /*
-            Then set its position, visiblity, and transparency
-        */
-        if (pos.xRelative)
+        if (changed && displayImage)
         {
-            xPos *= novel.width;
-        }
-        if (pos.yRelative)
-        {
-            yPos *= novel.height;
-        }
-        novel.waitCount = 0;
-        xPos -= Math.floor(pos.xAnchor * this.image.width);
-        yPos -= Math.floor(pos.yAnchor * this.image.height);
-        el.style.position = "absolute";
-        el.style.left = xPos + "px";
-        el.style.top = yPos + "px";
-        el.style.visibility = this.visibility;
-        novel_setAlpha(this.domRef, this.alpha);
-        if (changed)
-        {
+            /*
+                Then set its position, visiblity, and transparency
+            */
+            if (pos.xRelative)
+            {
+                xPos *= novel.width;
+            }
+            if (pos.yRelative)
+            {
+                yPos *= novel.height;
+            }
+            novel.waitCount = 0;
+            xPos -= Math.floor(pos.xAnchor * this.image.width);
+            yPos -= Math.floor(pos.yAnchor * this.image.height);
+            el.style.position = "absolute";
+            el.style.left = xPos + "px";
+            el.style.top = yPos + "px";
+            el.style.visibility = this.visibility;
+            novel_setAlpha(this.domRef, this.alpha);
             this.prevPosition = this.position.clone();
+        }
+        
+        if (param && param.say)
+        {
+            if (param.noPause)
+            {
+                this.say(param.say, param.noPause);
+            }
+            else
+            {
+                this.say(param.say);
+            }
+        }
+        else
+        {
+            playNovel();
         }
     }
     else 
     {
-        /* Image isn't loaded yet; try again in 10 milliseconds */
+        /* Image isn't loaded yet; try again in 30 milliseconds */
         novel.waitCount++;
         var closure = this;
         setTimeout( function() {
-            return closure.finishDisplay.apply( closure, [param] );
-        }, 10 );
+            return closure.finishDisplay.apply( closure, [param, displayImage] );
+        }, 30 );
     }
 }
 
@@ -698,8 +703,9 @@ Position.prototype.clone = function()
     userVar: "variables" defined in the script (associative array)
     scriptStack: current script stack; used in menus
     ifStack: keeps track of whether you are in then or else part of nested if
-    backgroundImage: background image array; in order to fade/dissolve background, it
-        has to be an image rather than a background CSS style
+    backgroundImage: background image array; in order to fade/dissolve
+        background, it has to be an image rather than a background CSS style
+    pendingBackgroundImage: this is the background image that is waiting to load
     activeBG: which background is active (0 or 1)?
     bgAlpha: the transparency of the backgroundImage (0=transparent, 1=opaque)
     waitCount: # of times waiting to complete picture loading (used for
@@ -728,6 +734,7 @@ function Novel() {
     this.ifStack = new Array();
     this.scriptStack = new Array();
     this.backgroundImage = new Array(2);
+    this.pendingBackgroundImage;
     this.activeBG = 0;
     this.bgAlpha = 1.0;
     this.waitCount = 0;
@@ -838,11 +845,12 @@ function novel_fadeBgOut(targetAlpha)
     else
     {
         bg.src = novel.imagePath + novel.backgroundImage[novel.activeBG];
-        novel_fadeBgIn(targetAlpha);
+        novel.pendingBackgroundImage = bg;
+        novel.paused = true;
+        setTimeout('novel_finishLoadingBackground("fade", ' + targetAlpha + ')', 30);
     }
 }
     
-
 /*
     Fade in the background image by increasing
     its alpha by 10% every 0.1 seconds. When totally
@@ -1190,7 +1198,7 @@ function novel_changeBackground(param, clearAll)
         {
             fileName = param.image;
         }
-        effect = param.effect;
+        effect = (param.effect) ? param.effect : "";
 
 		if (param.alpha)
 		{
@@ -1204,8 +1212,8 @@ function novel_changeBackground(param, clearAll)
         novel.backgroundImage[novel.activeBG] = fileName;
         bg = document.getElementById("background" + novel.activeBG);
         bg.src = novel.imagePath + fileName;
-        novel_setAlpha(bg, targetAlpha);
-        novel.bgAlpha = targetAlpha;
+        novel.pendingBackgroundImage = bg;
+        novel.paused = true;
     }
     else if (effect == "fade")
     {
@@ -1216,11 +1224,44 @@ function novel_changeBackground(param, clearAll)
     else if (effect == "dissolve")
     {
         novel.backgroundImage[1 - novel.activeBG] = fileName;
-        document.getElementById("background" + (1 - novel.activeBG)).src =
+        novel.pendingBackgroundImage = document.getElementById("background" + (1 - novel.activeBG));
+        novel.pendingBackgroundImage.src =
             novel.imagePath + fileName;
         novel.paused = true;
-        novel_dissolveIn(targetAlpha, 0);
     }
+    if (effect != "fade")
+    {
+        setTimeout('novel_finishLoadingBackground("' + effect + '", ' + targetAlpha + ')', 30);
+    }
+}
+
+/*
+    Complete loading the background
+*/
+function novel_finishLoadingBackground(effect, targetAlpha)
+{
+    if (novel.pendingBackgroundImage && novel.pendingBackgroundImage.complete)
+    {
+        if (!effect)
+        {
+            novel_setAlpha(novel.pendingBackgroundImage, targetAlpha);
+            novel.bgAlpha = targetAlpha;
+            playNovel();
+        }
+        else if (effect == "fade")
+        {
+            novel_fadeBgIn(targetAlpha);
+        }
+        else if (effect == "dissolve")
+        {
+            novel_dissolveIn(targetAlpha, 0);
+        }
+        novel.pendingBackgroundImage = null;
+    }
+    else
+    {
+        setTimeout('novel_finishLoadingBackground("' + effect + '", ' + targetAlpha + ')', 30);
+    }   
 }
 
 /*
