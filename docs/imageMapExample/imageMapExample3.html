@@ -55,7 +55,7 @@ div.menuItem:hover {
 </style>
 
 <script type="text/javascript" src="../../js-vine.js"></script>
-<script type="text/javascript" src="imageMapExample.js"></script>
+<script type="text/javascript" src="imageMapExample3.js"></script>
 </head>
 
 <body onload="initNovel(800, 600);">
@@ -77,20 +77,13 @@ div.menuItem:hover {
 <p>
 Smiling face by Nicu Buculei, at the <a href="http://openclipart.org/">Open Clip Art Library</a>.
 </p>
-<map name="euroMap" id="euroMap">
-
-	<area shape="rect" coords="87,83,135,142"
-		href="#" alt="Germany" onclick="return novel_mapJump('germany');" />
-
-	<area shape="rect" coords="50,115,108,170"
-		href="#"  alt="France" onclick="return novel_mapJump('france');" />
-
-	<area shape="rect" coords="20,155,78,207"
-		href="#" alt="Spain" onclick="return novel_mapJump('spain');" />
-
-	<area shape="rect" coords="114,6,148,90"
-		href="#" alt="Sweden" onclick="return novel_mapJump('sweden');" />
+<map name="geometryMap" id="geometryMap">
+    <area shape="rect" coords="4,1,55,52" href="#"
+        onclick="return novel_mapJump('red');"/>
+    <area shape="circle" coords="102,22,29" href="#"
+        onclick="return novel_mapJump('green');"/>
+    <area shape="poly" coords="150,1,170,51,221,51,222,1" href="#"
+        onclick="return novel_mapJump('blue');"/>
 </map>
-
 </body>
 </html>

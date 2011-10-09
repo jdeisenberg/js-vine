@@ -175,13 +175,10 @@ Character.prototype.finishDisplay = function(param, displayImage)
         
         if (param && param.say)
         {
+            this.say(param.say);
             if (param.noPause)
             {
-                this.say(param.say, param.noPause);
-            }
-            else
-            {
-                this.say(param.say);
+                playNovel();
             }
         }
         else
@@ -251,7 +248,8 @@ Character.prototype.say = function(str)
     }
     htmlStr += str;
     novel.dialog.innerHTML = htmlStr;
-    novel.paused = (arguments.length == 1) ? true : (!arguments[1]);     
+    novel.paused = true;
+    // novel.paused = (arguments.length == 1) ? true : (!arguments[1]);     
 }
 
 /*
@@ -1004,19 +1002,18 @@ function clearTableau()
 /*
     imageMap attaches a map ID to a character;
     if the map ID exists, then the novel
-    pauses for input.
+    pauses for input. If you set the screenActive
+    property, then the rest of the screen will still respond
+    to clicks; otherwise, the imagemap is modal.
 */
 function imagemap(param)
 {
-    var mapId = document.getElementById(param.mapId);
-    var image = param.character.domRef;
-
-    if (mapId)
+    if (param.mapId)
     {
-        image.setAttribute("usemap", '#' + param.mapId);
+        param.character.domRef.setAttribute("usemap", '#' + param.mapId);
         novel.paused = true;
-        novel.ignoreClicks = true;
-        novel.mappedImage = image;
+        novel.ignoreClicks = !(param.screenActive);
+        novel.mappedImage = param.character.domRef;
     }
 }
 
@@ -1137,10 +1134,21 @@ function jump(label)
     novel.frame -= 2;
 }
 
-function mapJump(label)
+/*
+    Use this when you want to jump to a label in a novel based
+    on an imagemap click. This will also de-activate the image map.
+*/
+function novel_mapJump(label)
 {
     jump(label); // gets us to the correct place for a call from playNovel
     novel.frame += 2; // but we're calling it when playNovel isn't active
+    
+    if (novel.mappedImage)
+    {
+        novel.mappedImage.removeAttribute("usemap");
+        novel.mappedImage = null;
+    }
+    
     /*
         We need to both return false and call playNovel(). We can't
         do both, so we'll set up a timer for 10 msec to call playNovel(),
@@ -1396,6 +1404,15 @@ function sub(str)
     and the loop property (boolean) tells whether to loop or not.
     
     If the parameter is null, sound is stopped.
+*/
+/*
+if (myAudio.canPlayType) {
+      
+       // Currently canPlayType(type) returns: "", "maybe" or "probably" 
+
+       var canPlayMp3 = !!myAudio.canPlayType && "" != myAudio.canPlayType('audio/mpeg');
+       var canPlayOgg = !!myAudio.canPlayType && "" != myAudio.canPlayType('audio/ogg; codecs="vorbis"');
+    }
 */
 function audio(param)
 {
