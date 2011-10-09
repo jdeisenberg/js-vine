@@ -24,6 +24,8 @@
 <li><a href="#subroutines">Subroutines</a></li>
 <li><a href="#audio">Audio</a></li>
 <li><a href="#background">Backgrounds</a></li>
+<li><a href="#imagemaps">Image Maps</a></li>
+<li><a href="#avatars">Dialog Avatars</a></li>
 <li><a href="#jscall">Calling JavaScript from your Novel</a></li>
 </ol>
 
@@ -602,19 +604,19 @@ It has these properties:
     </thead>
     <tbody>
     <tr><td><code>src</code></td>
-        <td>the name of the audio file you wish to play</td></tr>
+        <td>the name of the audio file you wish to play. If you
+        specify a <code>format</code>, do not put an extension
+        on the filename.</td></tr>
+    <tr><td><code>format</code></td>
+        <td>which file formats you provide, as an array of strings.</td></tr>
     <tr><td><code>loop</code></td>
         <td>a boolean that tells whether the sound should loop or not.
         Sounds do <em>not</em> loop automatically. You must set this
         when you start a sound or while it is playing.</td></tr>
     <tr><td><code>action</code></td>
         <td>one of:
-            <ul>
-            <li><code>"play"</code></li>
-            <li><code>"pause"</code></li>
-            <li><code>"rewind"</code></li>
-            <li><code>"stop"</code></li>
-            </ul>
+            <code>"play"</code>, <code>"pause"</code>,
+            <code>"rewind"</code>, or <code>"stop"</code>
         </td></tr>
     </tbody>
 </table>
@@ -629,7 +631,7 @@ audio example</a> that shows how to manipulate audio.</p>
 <div class="inset bordered">
 <pre>menu, [
     "Choose an option (loop is {{novel.audioLoop}})",
-    "Start audio", [audio, {src: "scale.ogg", action: "play"}],
+    "Start audio", [audio, {src: "scale", format: ["ogg","wav"], action: "play"}],
     "Stop audio", [audio, {action: "stop"}],
     "Pause audio", [audio, {action: "pause"}],
     "Resume audio", [audio, {action: "play"}],
@@ -638,6 +640,14 @@ audio example</a> that shows how to manipulate audio.</p>
     "Set loop false", [audio, {loop: false}]
 ],</pre>
 </div>
+
+<p>
+The preceding example will first test to see if the browser
+can play file <samp>scale.ogg</samp>. If it cannot, then the engine will test
+to see if the browser can play file <samp>scale.wav</samp>. If you had only
+provided one file, say, the Ogg Vorbis format, you would simply have put
+<code>src: "scale.ogg"</code> and omitted the <code>format</code> property.
+</p>
 
 <h2><a id="background">Backgrounds</a></h2>
 <p>
@@ -681,6 +691,122 @@ background, {alpha: 1.0} // kitchen image becomes opaque</pre>
 
 <p>You can <a href="backgroundExample/backgroundExample.html">see an
 example of <code>scene</code> and <code>background</code> here</a>.
+</p>
+
+<h2><a id="imagemaps">Image Maps</a></h2>
+<p>
+You can create an image map using the <code>&lt;map&gt;</code> element in
+your HTML and then use it from within your novel&rsquo;s script.
+Consider this section of code from
+<a href="imageMapExample/imageMapExample.html">an image map example</a>:
+</p>
+
+<div class="inset bordered"><pre>&lt;map name="euroMap" id="euroMap"&gt;
+	&lt;area shape="rect" coords="87,83,135,142"
+		href="#" alt="Germany" onclick="return novel_mapJump('germany');"/&gt;
+	&lt;area shape="rect" coords="50,115,108,170"
+		href="#"  alt="France" onclick="return novel_mapJump('france');"/&gt;
+	&lt;area shape="rect" coords="20,155,78,207"
+		href="#" alt="Spain" onclick="return novel_mapJump('spain');"/&gt;
+	&lt;area shape="rect" coords="114,6,148,90"
+		href="#" alt="Sweden" onclick="return novel_mapJump('sweden');"/&gt;
+&lt;/map&gt;</pre>
+</div>
+
+<p>
+In your novel, you attach the image map to a character. The relevant code
+is here:
+</p>
+
+<div class="inset bordered"><pre>var europe;
+
+function prepareNovel()
+{
+    europe= new Character("",
+        { position: new Position(0.5, 0.2, 0.5, 0.5) }
+    );
+    script = [
+    label, "start",
+    //...
+    europe, {image: "empty_map2.png"},
+    //...
+    imagemap, { mapId: "euroMap", character: europe },
+}</pre></div>
+
+<p>
+As soon as the script engine encounters the <code>imagemap</code>
+command, it will attach the <code>&lt;map&gt;</code> with the 
+<code>mapId</code> that you specify to the image currently displayed
+by the <code>character</code> that you name. The novel then pauses and
+waits for user interaction.
+</p>
+
+<p><span class="warning">Important: </span> 
+In order to jump to a label in the script as the result of a click on
+the mapped image, you <emphasis>must</emphasis> use the
+<code>novel_mapjump()</code> function rather than <code>jump()</code>. The
+<code>novel_mapjump()</code> function also clears the imagemap connection.
+</p>
+
+<p>
+Because you have the full capabilities of an image map, you may use
+the <code>onmouseover</code> and <code>onmouseout</code> attributes in
+your HTML, as shown in <a href="imageMapExample/imageMapExample2.html"/>this
+example</a>.
+</p>
+
+<h3>Modal and Non-modal Image Maps</h3>
+<p>
+In the examples, the novel will only accept clicks on the image map; if
+you click outside the image map or in the dialog area, the novel will not
+proceed. This is called a <dfn>modal</dfn> image map, and it is usually what
+you want.
+</p>
+
+<p>
+If you would like a non-modal image map that allows the novel to detect clicks
+both inside and outside the image map, add the
+<code>screenActive:&nbsp;true</code> property inside the braces. You can
+see <a href="imageMapExample/imageMapExample3.html">an example of a
+non-modal image map here</a>. Try clicking outside the shapes when the novel
+asks you to select one.
+</p>
+
+<h2><a id="avatars">Dialog Avatars</a></h2>
+<p>
+When you have two characters on screen at the same time, it can be
+confusing as to who&rsquo;s actually speaking. You can make things
+easier by displaying a smaller version of the character in the dialog area.
+I am calling this a &ldquo;dialog avatar.&rdquo; You create a separate
+image for the avatar image. Here is an example, presuming that a character
+named Francine has already been created.
+</p>
+
+<div class="inset bordered"><pre>francine, {image: "francine.jpg", avatar: "francine_avatar.jpg"},
+francine, "My avatar and I both appear in the scene.,
+
+francine, {image: ""},
+francine, "Now only my avatar shows up. I could have re-specified the avatar, but I don't have to."
+
+francine, {image: "francine.jpg", avatar: ""},
+francine, "Now my image shows up, but not my avatar.</pre></div>
+
+<p>
+Avatars are also useful when you have a complicated background and
+you don&rsquo;t want the full-sized characters obscuring it.
+</p>
+
+<p>
+In order to make the dialog text wrap around the avatar, you must add
+this to your HTML file&#8217;s stylesheet:
+</p>
+
+<div class="inset bordered"><pre>.avatar {float: left;}</pre></div>
+
+<p>
+You can
+<a href="avatarExample/avatarExample.html">see
+avatars at work in this example</a>.
 </p>
 
 <h2><a id="jscall">Calling JavaScript from your Novel</a></h2>

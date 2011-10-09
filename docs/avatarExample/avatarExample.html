@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html;
        charset=utf-8" />
-<title>Non-Modal Image Maps</title>
+<title>Example: Avatars</title>
 <style type="text/css">
 body {
     text-align: center;
@@ -52,10 +52,11 @@ div.menuItem:hover {
     background-color: #00a0ff;
 }
 
+.avatar {float: left;}
 </style>
 
 <script type="text/javascript" src="../../js-vine.js"></script>
-<script type="text/javascript" src="imageMapExample3.js"></script>
+<script type="text/javascript" src="avatarExample.js"></script>
 </head>
 
 <body onload="initNovel(800, 600);">
@@ -74,16 +75,10 @@ div.menuItem:hover {
     <input type="button" value="Restart the Novel"
         onclick="initNovel(800, 600)"/>
 </p>
-<p>
-Smiling face by Nicu Buculei, at the <a href="http://openclipart.org/">Open Clip Art Library</a>.
-</p>
-<map name="geometryMap" id="geometryMap">
-    <area shape="rect" coords="4,1,55,52" href="#"
-        onclick="return novel_mapJump('red');"/>
-    <area shape="circle" coords="102,22,29" href="#"
-        onclick="return novel_mapJump('green');"/>
-    <area shape="poly" coords="150,1,170,51,221,51,222,1" href="#"
-        onclick="return novel_mapJump('blue');"/>
-</map>
+<!--
+    sapphire picture credit: TomR (Wikimedia Commons)
+    ruby picture credit: Bkell (Wikimedia Commons)
+    emerald picture credit: Jorfer (Wikimedia Commons)
+-->
 </body>
 </html>
