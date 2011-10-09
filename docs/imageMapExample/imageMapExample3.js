@@ -56,7 +56,7 @@ function prepareNovel()
         jump, "ask",
         
         label, "red",
-        joe, {image: "similing1.png", say: "You chose the red square.<br />Click to start over."},
+        joe, {image: "smiling1.png", say: "You chose the red square.<br />Click to start over."},
         jump, "ask",
         
         label, "green",
