@@ -38,7 +38,8 @@ function prepareNovel()
         label, "choices",
         menu, [
             "Choose an option (loop is {{novel.audioLoop}})",
-            "Start audio", [audio, {src: "scale.ogg", action: "play"}],
+            "Start audio", [audio, {src: "scale", format: ["ogg", "wav"],
+                action: "play"}],
             "Stop audio", [audio, {action: "stop"}],
             "Pause audio", [audio, {action: "pause"}],
             "Resume audio", [audio, {action: "play"}],

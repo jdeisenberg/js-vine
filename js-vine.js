@@ -1068,8 +1068,6 @@ function stopAudio()
 {
     if (novel.audio && novel.audio.src)
     {
-//        novel.audio.currentTime = 0;
-//        novel.audio.pause();
         novel.audio.src = null;
     }
 }
@@ -1405,19 +1403,15 @@ function sub(str)
     
     If the parameter is null, sound is stopped.
 */
-/*
-if (myAudio.canPlayType) {
-      
-       // Currently canPlayType(type) returns: "", "maybe" or "probably" 
 
-       var canPlayMp3 = !!myAudio.canPlayType && "" != myAudio.canPlayType('audio/mpeg');
-       var canPlayOgg = !!myAudio.canPlayType && "" != myAudio.canPlayType('audio/ogg; codecs="vorbis"');
-    }
-*/
 function audio(param)
 {
     var audioSource;
     var action = null;
+    var mimeType = {"wav": "audio/wav",
+        "ogg": 'audio/ogg;codecs="vorbis"',
+        "mp3": "audio/mpeg"};
+    var suffix = "";
     
     if (novel.audio)
     {
@@ -1427,7 +1421,7 @@ function audio(param)
             if (param.constructor == String)
             {
                 audioSource = param;
-                novel.audio.src = novel.audioPath + audioSource;
+                novel.audio.src = novel.audioPath + audioSource;                
                 novel.audioLoop = false;
             }
             else if (param.constructor == Object)
@@ -1435,6 +1429,21 @@ function audio(param)
                 if (param.src)
                 {
                     audioSource = param.src;
+                    // look for a playable format
+                    if (param.format)
+                    {
+                        for (var i = 0; i < param.format.length && suffix == ""; i++)
+                        {
+                            if (novel.audio.canPlayType(mimeType[param.format[i]]) != "")
+                            {
+                                suffix = param.format[i];
+                            }
+                        }
+                    }
+                    if (suffix != "")
+                    {
+                        audioSource = audioSource + "." + suffix;
+                    }
                     novel.audio.src = novel.audioPath + audioSource;
                     novel.audioLoop = false;
                 }
