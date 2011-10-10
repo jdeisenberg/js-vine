@@ -1479,6 +1479,7 @@ function audio(param)
                     novel.audio.detachEvent('onended', novel_audioLoop);
                 }
             }
+            action = action.replace(/{{(.*?)}}/g, novel_interpolator);
             if (action == "stop")
             {
                 novel.audio.src = null;
