@@ -169,9 +169,14 @@ Character.prototype.finishDisplay = function(param, displayImage)
             el.style.left = xPos + "px";
             el.style.top = yPos + "px";
             el.style.visibility = this.visibility;
-            novel_setAlpha(this.domRef, this.alpha);
             this.prevPosition = this.position.clone();
         }
+
+		if (displayImage)
+		{
+            novel_setAlpha(this.domRef, this.alpha);
+		}
+			
         
         if (param && param.say)
         {
@@ -1443,9 +1448,13 @@ function audio(param)
                     if (suffix != "")
                     {
                         audioSource = audioSource + "." + suffix;
+						novel.audio.src = novel.audioPath + audioSource;
+						novel.audioLoop = false;
                     }
-                    novel.audio.src = novel.audioPath + audioSource;
-                    novel.audioLoop = false;
+					else
+					{
+						novel.audio.src = "";
+					}
                 }
                 if (param.loop != null)
                 {
