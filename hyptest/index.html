@@ -319,7 +319,7 @@ function prepareNovel()
     female, {position: new Position(0.6, 0.5)},
     r, "Or you might claim that both groups will score the same.",
     
-    scene, null,
+    scene, "wheat.png",
     r, {image: "roberta.png"},
     diagram, {image: "nickel_heads.png", position: center},
     r, "But just as you tested your results of the coin flip against what you expect from a <b>fair</b> coin...",
@@ -549,7 +549,6 @@ function prepareNovel()
     f, "If men and women did own the same number of shoes, you would get this result only 1% of the time, so the result is <i>significantly</i> different than what the null hypothesis tells you to expect.",
 
     label, "reject",
-    scene, "wheat.png",
     call, "setscene_rf",
     diagram, {image: "null_mf_hypothesis.png", position: nearTop},
     textArea, {text: "<i>p</i> = .01", font: bigFont,
@@ -719,7 +718,6 @@ function prepareNovel()
     r, "Not as much as Type I error, but you definitely should keep it in mind.",
 
     label, "the_end",
-    scene, "wheat.png",
     call, "setscene_rf",
     r, {image: "roberta.png"},
     r, "There is a lot more to hypothesis testing (like knowing which statistics   to use), but this should be enough to get you started.",
