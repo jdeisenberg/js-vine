@@ -710,6 +710,7 @@ Position.prototype.clone = function()
         debugging)
     pauseTimer: a timer for the pause command
     mappedImage: which image (if any) has an imageMap attached to it
+    lastClick: used to ensure at least 1/4 second between clicks
 */
 
 function Novel() {
@@ -738,6 +739,7 @@ function Novel() {
     this.waitCount = 0;
     this.pauseTimer = null;
     this.mappedImage = null;
+    this.lastClick = new Date().getTime();
 }
 
 /*
@@ -964,6 +966,8 @@ function novel_setAlpha(domRef, alpha)
 
 function novel_handleClick(evt)
 {
+    var now = new Date().getTime();
+    var ok;
     if (!evt)
     {
         evt = window.event;
@@ -973,9 +977,33 @@ function novel_handleClick(evt)
     {
         evt.stopPropagation();
     }
-    playNovel();
+    /*
+        Don't allow two clicks within 1/4 second of each other
+    */
+    ok = (now - novel.lastClick > 250);
+    novel.lastClick = now;
+    if (ok)
+    {
+        playNovel();
+    }
 }
 
+function novel_disableSelection(target)
+{
+    if (target.onselectstart)
+    {
+        target.onselectstart = function() {return false;}; // IE
+    }
+    else if (target.style.MozUserSelect)
+    {
+        target.style.MozUserSelect = "none"; // firefox
+    }
+    else
+    {
+        target.onmousedown = function() {return false}; // everyone else
+    }
+    target.style.cursor = "default"
+}
 /*
     Take all actors off the tableau, and set their
     DOM references to null
@@ -1582,6 +1610,7 @@ function initNovel(w, h)
         }
         stopAudio();
     }
+    novel_disableSelection(document.body);
     novel = new Novel();
     novel.tableau = document.getElementById("novelDiv");
     novel.dialog = document.getElementById("dialogDiv");
